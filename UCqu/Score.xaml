@@ -29,7 +29,7 @@
             </AppBarButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Name="LogoutBtn" Icon="Permissions" Label="注销登录" Click="LogoutBtn_Click"/>
-                <AppBarButton x:Name="AboutBtn" Icon="Emoji2" Label="关于"/>
+                <AppBarButton x:Name="AboutBtn" Icon="Emoji2" Label="关于" Click="AboutBtn_Click"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
