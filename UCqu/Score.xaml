@@ -383,6 +383,6 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </contract6NotPresent:ListView>
-
+        <controls:InAppNotification x:Name="RefreshFailedNotification" AnimationDuration="00:00:00.1" HorizontalOffset="0" VerticalOffset="100" ShowDismissButton="True"/>
     </Grid>
 </Page>

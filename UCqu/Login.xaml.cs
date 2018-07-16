@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using CquScoreLib;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using System.Net;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -37,15 +38,34 @@ namespace UCqu
             string pwdHash = Watcher.GetPasswordHash(IdBox.Text, PswBox.Password);
             string host = (HostBox.SelectedItem as ComboBoxItem).Content as string;
             Watcher watcher = new Watcher(host, IdBox.Text, pwdHash, 0);
-            await watcher.LoginAsync();
-            bool isCorrect = await watcher.ValidateLoginAsync();
+            bool isCorrect = false;
+            try
+            {
+                await watcher.LoginAsync();
+                isCorrect = await watcher.ValidateLoginAsync();
+            }
+            catch (WebException)
+            {
+                LoginFailedNotification.Show("登录失败, 请检查网络连接", 5000);
+            }
             if (isCorrect)
             {
                 watcher.Workload = new SingleWorkload(IdBox.Text);
-                await watcher.Perform();
-                if(SavePwdBox.IsChecked == true)
+                try
+                {
+                    await watcher.Perform();
+                }
+                catch (WebException)
+                {
+                    LoginFailedNotification.Show("数据获取失败, 请检查网络连接", 5000);
+                }
+                if (SavePwdBox.IsChecked == true)
                 {
                     SaveCredentials(IdBox.Text, pwdHash, host);
+                }
+                else
+                {
+                    SaveCredentials("", "", "", true);
                 }
                 LoadingRing.IsActive = false;
                 LoadingRingGrid.Visibility = Visibility.Collapsed;
@@ -53,7 +73,7 @@ namespace UCqu
             }
             else
             {
-                PwdIncorrectHint.Visibility = Visibility.Visible;
+                LoginFailedNotification.Show("用户名与密码不匹配, 请重试", 5000);
                 LoadingRing.IsActive = false;
                 LoadingRingGrid.Visibility = Visibility.Collapsed;
             }
@@ -117,12 +137,27 @@ namespace UCqu
                 LoadingRingGrid.Visibility = Visibility.Visible;
                 LoadingRing.IsActive = true;
                 Watcher watcher = new Watcher(host, id, pwdHash, 0);
-                await watcher.LoginAsync();
-                bool isCorrect = await watcher.ValidateLoginAsync();
+                bool isCorrect = false;
+                try
+                {
+                    await watcher.LoginAsync();
+                    isCorrect = await watcher.ValidateLoginAsync();
+                }
+                catch(WebException)
+                {
+                    LoginFailedNotification.Show("登录失败, 请检查网络连接", 5000);
+                }
                 if (isCorrect)
                 {
                     watcher.Workload = new SingleWorkload(id);
-                    await watcher.Perform();
+                    try
+                    {
+                        await watcher.Perform();
+                    }
+                    catch (WebException)
+                    {
+                        LoginFailedNotification.Show("数据获取失败, 请检查网络连接", 5000);
+                    }
                     LoadingRing.IsActive = false;
                     LoadingRingGrid.Visibility = Visibility.Collapsed;
                     (Window.Current.Content as Frame).Navigate(typeof(Score), watcher);
@@ -131,7 +166,7 @@ namespace UCqu
                 {
                     IdBox.Text = id;
                     SavePwdBox.IsChecked = false;
-                    PwdIncorrectHint.Visibility = Visibility.Visible;
+                    LoginFailedNotification.Show("用户名与密码不匹配, 请重试", 5000);
                     LoadingRing.IsActive = false;
                     LoadingRingGrid.Visibility = Visibility.Collapsed;
                 }

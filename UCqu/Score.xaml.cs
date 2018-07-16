@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CquScoreLib;
 using Windows.Foundation.Metadata;
+using System.Net;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -68,7 +69,14 @@ namespace UCqu
             RefreshIconRotation.Begin();
             watcher.Reset();
             ScoreSet set = null;
-            await watcher.Perform();
+            try
+            {
+                await watcher.Perform();
+            }
+            catch (WebException)
+            {
+                RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
+            }
             set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
             PopulateList(set);
             RefreshIconRotation.Stop();
@@ -123,7 +131,14 @@ namespace UCqu
             {
                 watcher.Reset();
                 ScoreSet set = null;
-                await watcher.Perform();
+                try
+                {
+                    await watcher.Perform();
+                }
+                catch (WebException)
+                {
+                    RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
+                }
                 set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
                 PopulateList(set);
             }
