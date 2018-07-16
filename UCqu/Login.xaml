@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="UCqu.Login"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UCqu"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    mc:Ignorable="d">
+
+
+    <Grid Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Padding="20">
+        <controls:DropShadowPanel HorizontalAlignment="Center" VerticalAlignment="Center" OffsetX="5" OffsetY="5" ShadowOpacity="0.3" BlurRadius="20" >
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="400" MinWidth="500">
+                <ScrollViewer>
+                    <StackPanel VerticalAlignment="Center" Margin="50">
+                        <TextBlock Text="登录" Style="{ThemeResource HeaderTextBlockStyle}" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                        <TextBox x:Name="IdBox" PlaceholderText="账户" Margin="0,0,0,20" KeyDown="IdBox_KeyDown"/>
+                        <PasswordBox x:Name="PswBox" PlaceholderText="密码" KeyDown="PswBox_KeyDown" />
+                        <TextBlock x:Name="PwdIncorrectHint" Text="用户名与密码不匹配, 请重试" Foreground="Red" Visibility="Collapsed" Margin="0,5,0,0"/>
+                        <CheckBox x:Name="SavePwdBox" Content="保持登录状态" Margin="0,20,0,0"/>
+                        <Button x:Name="LoginBtn" Content="登录" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}" HorizontalAlignment="Center" MinWidth="100" Margin="0,20,0,20" Click="LoginBtn_Click"/>
+                        <controls:Expander Header="更多设置" Margin="0,0,0,20" HorizontalContentAlignment="Stretch">
+                            <Grid Padding="20,10,20,20" HorizontalAlignment="Stretch">
+                                <StackPanel HorizontalAlignment="Stretch">
+                                    <TextBlock Text="服务器" Margin="0,0,0,10"/>
+                                    <ComboBox x:Name="HostBox" SelectedIndex="0" HorizontalAlignment="Stretch">
+                                        <ComboBoxItem Content="jxgl.cqu.edu.cn"/>
+                                        <ComboBoxItem Content="202.202.1.41"/>
+                                        <ComboBoxItem Content="202.202.1.176:8080"/>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+                        </controls:Expander>
+                    </StackPanel>
+                </ScrollViewer>
+                
+                <Grid x:Name="LoadingRingGrid" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlAltLowAcrylicElementBrush}">
+                    <ProgressRing x:Name="LoadingRing" IsActive="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="50"/>
+                </Grid>
+                
+                <animations:Implicit.ShowAnimations>
+                    <animations:TranslationAnimation Duration="0:0:1" From="0, -20, 0" To="0" ></animations:TranslationAnimation>
+                    <animations:OpacityAnimation Duration="0:0:1" From="0" To="1.0"></animations:OpacityAnimation>
+                </animations:Implicit.ShowAnimations>
+            </Grid>
+        </controls:DropShadowPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,138 @@
+﻿<Page
+    x:Class="UCqu.Score"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UCqu"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:scoreLib="using:CquScoreLib"
+    mc:Ignorable="d">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+            <AppBarToggleButton Icon="PostUpdate" Label="订阅通知"/>
+            <AppBarSeparator/>
+            <AppBarToggleButton x:Name="SecondSwitchBtn" Icon="Switch" Label="辅修成绩" Click="SecondSwitchBtn_Click"/>
+            <AppBarButton x:Name="RefreshBtn" Label="刷新" Click="RefreshBtn_Click">
+                <AppBarButton.Icon>
+                    <SymbolIcon x:Name="RefreshIcon" Symbol="Refresh" RenderTransformOrigin="0.5, 0.5">
+                        <SymbolIcon.RenderTransform>
+                            <CompositeTransform/>
+                        </SymbolIcon.RenderTransform>
+                    </SymbolIcon>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="LogoutBtn" Icon="Permissions" Label="注销登录" Click="LogoutBtn_Click"/>
+                <AppBarButton x:Name="AboutBtn" Icon="Emoji2" Label="关于"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Page.Resources>
+        <Storyboard x:Name="RefreshIconRotation" AutoReverse="False" RepeatBehavior="Forever">
+            <DoubleAnimation Duration="0:0:1" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="RefreshIcon" />
+        </Storyboard>
+    </Page.Resources>
+
+    <Grid>
+        <!--{ThemeResource ApplicationPageBackgroundThemeBrush}-->
+        <ListView x:Name="MainList" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SelectionMode="None" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <ListView.Header>
+                <controls:ScrollHeader IsTabStop="True" Mode="QuickReturn">
+                    <Grid Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" MinHeight="250">
+                        <StackPanel Padding="50,0,0,0" VerticalAlignment="Center">
+                            <TextBlock x:Name="NameBox" Style="{ThemeResource HeaderTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}" Margin="0,0,0,5">David Lee</TextBlock>
+                            <TextBlock x:Name="UserIdBox" Style="{ThemeResource SubheaderTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}" Margin="0,0,0,20">20171717</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="GrandGPABox" Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}">GPA: 1.65</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </controls:ScrollHeader>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="scoreLib:Term">
+                    <Grid HorizontalAlignment="Stretch">
+                        <StackPanel Margin="50,20,50,20" HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch"  Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition MinWidth="200" Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" Text="{x:Bind}" VerticalAlignment="Bottom" Margin="0,0,30,0"/>
+                                <TextBlock Text="{x:Bind SimplifiedGPA}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Margin="0,0,0,2" />
+                            </Grid>
+                            <ListView SelectionMode="None" IsItemClickEnabled="False" VerticalAlignment="Top" HorizontalAlignment="Stretch" ItemsSource="{x:Bind}" HorizontalContentAlignment="Stretch">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <!--<Setter Property="Margin" Value="0"/>-->
+                                        <Setter Property="Padding" Value="0"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.Header>
+                                    <Grid HorizontalAlignment="Stretch" Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/> <!--Name-->
+                                            <ColumnDefinition Width="1*"/> <!--Credit-->
+                                            <ColumnDefinition Width="1*"/> <!--Comment (Optional)-->
+                                            <ColumnDefinition Width="1*"/> <!--Score-->
+                                            <ColumnDefinition Width="1*"/> <!--GPA-->
+                                            <ColumnDefinition Width="3*"/> <!--Lecturer (Optional)-->
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock FontWeight="SemiBold" Text="课程" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="0" Margin="0,0,30,0"/>
+                                        <TextBlock Text="学分" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0"/>
+                                        <TextBlock FontWeight="SemiBold" Text="成绩" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="3" Margin="0,0,10,0"/>
+                                        <TextBlock FontWeight="SemiBold" Text="绩点" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="4" Margin="0,0,10,0"/>
+                                        <TextBlock Text="教师" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="5" Margin="0,0,0,0"/>
+                                    </Grid>
+                                </ListView.Header>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="scoreLib:Course">
+                                        <StackPanel HorizontalAlignment="Stretch">
+                                            <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="1" Fill="{ThemeResource SystemControlForegroundChromeGrayBrush}"/>-->
+                                            <Grid HorizontalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"/>
+                                                    <!--Name-->
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <!--Credit-->
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <!--Comment (Optional)-->
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <!--Score-->
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <!--GPA-->
+                                                    <ColumnDefinition Width="3*"/>
+                                                    <!--Lecturer (Optional)-->
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock FontWeight="SemiBold" Text="{x:Bind SimplifiedName}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="0" Margin="0,0,30,0" TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{x:Bind Credit}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0"/>
+                                                <TextBlock Text="{x:Bind Comment}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="2" Margin="0,0,10,0"/>
+                                                <TextBlock FontWeight="SemiBold" Text="{x:Bind Score}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="3" Margin="0,0,10,0"/>
+                                                <TextBlock FontWeight="SemiBold" Text="{x:Bind GPA}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="4" Margin="0,0,10,0"/>
+                                                <TextBlock Text="{x:Bind SimplifiedLecturer}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="5" Margin="0,0,0,0" TextTrimming="CharacterEllipsis"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <!--<Setter Property="Margin" Value="0"/>-->
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+    </Grid>
+</Page>
