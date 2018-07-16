@@ -105,9 +105,6 @@
     <Compile Include="Score.xaml.cs">
       <DependentUpon>Score.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -143,10 +140,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Score.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TestPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

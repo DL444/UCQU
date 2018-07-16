@@ -34,12 +34,13 @@ namespace UCqu
         {
             base.OnNavigatedTo(e);
 
-            if(e.Parameter as Watcher != null)
+            if (e.Parameter as Watcher != null)
             {
                 watcher = e.Parameter as Watcher;
                 ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
                 NameBox.Text = set.Name;
                 UserIdBox.Text = watcher.UserName;
+                MajorBox.Text = set.Major;
                 GrandGPABox.Text = $"总 GPA: {set.GPA:0.00}";
                 MainList.ItemsSource = set;
             }
@@ -59,6 +60,7 @@ namespace UCqu
             set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
             NameBox.Text = set.Name;
             UserIdBox.Text = watcher.UserName;
+            MajorBox.Text = set.Major;
             GrandGPABox.Text = $"总 GPA: {set.GPA:0.00}";
             MainList.ItemsSource = set;
             RefreshIconRotation.Stop();
@@ -66,7 +68,7 @@ namespace UCqu
 
         private async void SecondSwitchBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(SecondSwitchBtn.IsChecked == true)
+            if (SecondSwitchBtn.IsChecked == true)
             {
                 ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_1");
                 if (set == null)
@@ -83,6 +85,7 @@ namespace UCqu
                     MainList.ItemsSource = set;
                     NameBox.Text = set.Name;
                     UserIdBox.Text = watcher.UserName;
+                    MajorBox.Text = set.Major;
                     GrandGPABox.Text = $"总 GPA: {set.GPA:0.00}";
                 }
             }
@@ -95,9 +98,23 @@ namespace UCqu
                     MainList.ItemsSource = set;
                     NameBox.Text = set.Name;
                     UserIdBox.Text = watcher.UserName;
+                    MajorBox.Text = set.Major;
                     GrandGPABox.Text = $"总 GPA: {set.GPA:0.00}";
                 }
             }
+        }
+    }
+
+    public class GPAStarConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return (double)value + 1;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return (double)value - 1;
         }
     }
 }

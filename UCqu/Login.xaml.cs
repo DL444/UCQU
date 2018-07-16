@@ -59,15 +59,7 @@ namespace UCqu
             }
         }
 
-        private void PswBox_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if(e.Key == Windows.System.VirtualKey.Enter)
-            {
-                LoginBtn_Click(this, null);
-            }
-        }
-
-        private void IdBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void Enter_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
