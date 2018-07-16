@@ -8,5 +8,8 @@
     <Application.Resources>
         <SolidColorBrush x:Key="AlternateRowBackgroundBrush" Color="{ThemeResource SystemBaseLowColor}" Opacity="0.5"/>
         <local:GPAStarConverter x:Key="GPAStarConverter"/>
+        <local:GrandGPAConverter x:Key="GrandGPAConverter"/>
+        <local:TermGPAConverter x:Key="TermGPAConverter"/>
+        <local:CourseGPAConverter x:Key="CourseGPAConverter"/>
     </Application.Resources>
 </Application>
