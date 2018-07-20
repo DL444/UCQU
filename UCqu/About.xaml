@@ -1,0 +1,76 @@
+﻿<!--
+Windows Community Toolkit
+Copyright (c) .NET Foundation and Contributors
+All rights reserved.
+MIT License (MIT)
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+    
+<Page
+    x:Class="UCqu.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UCqu"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel MaxWidth="640" Padding="20,0,20,20">
+                <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" Text="关于" Margin="0,20,0,0"/>
+                <RichTextBlock FontWeight="Bold" Style="{ThemeResource BodyRichTextBlockStyle}" FontSize="25" Margin="0,10,0,0">
+                    <Paragraph>
+                        <Span Foreground="{ThemeResource SystemControlForegroundAccentBrush}">U</Span>niversal
+                        <Span Foreground="{ThemeResource SystemControlForegroundAccentBrush}">CQU</Span>
+                        <Span FontSize="15" FontWeight="Normal" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">Beta 1</Span>
+                    </Paragraph>
+                </RichTextBlock>
+                <!--<TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">BETA</TextBlock>-->
+                <TextBlock FontWeight="Bold">David Lee</TextBlock>
+                <TextBlock Margin="0,5,0,0" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">重庆大学软件学院学生</TextBlock>
+                <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">重庆大学微软学生俱乐部成员</TextBlock>
+
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">联系作者</TextBlock>
+                <HyperlinkButton Content="DLPServ@outlook.com" NavigateUri="mailto:DLPServ@outlook.com?subject=UCQU"/>
+                
+                <!--<TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">友情链接</TextBlock>
+                <HyperlinkButton Content="重庆大学微软学生俱乐部" NavigateUri="http://microsoftstudent.club"/>
+                <TextBlock>欢迎加入重庆大学微软学生俱乐部</TextBlock>-->
+
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">开源许可协议</TextBlock>
+                <TextBlock TextWrapping="Wrap" Text="本软件使用了 Windows Communuty Toolkit 组件. 根据 MIT 许可协议, 使用该组件的应用程序分发中须包含以下文本:" Margin="0,10,0,0" FontFamily="Segoe UI"/>
+                <RichTextBlock Margin="0,10,0,0" TextWrapping="Wrap" FontFamily="Segoe UI">
+                    <Paragraph FontWeight="Bold" FontFamily="Segoe UI">
+                        Windows Community Toolkit
+                    </Paragraph>
+                    <Paragraph Margin="0,10,0,0">
+                        Copyright (c) .NET Foundation and Contributors
+                    </Paragraph>
+                    <Paragraph>
+                        All rights reserved.
+                    </Paragraph>
+                    <Paragraph FontWeight="Bold" Margin="0,10,0,0">
+                        MIT License (MIT)
+                    </Paragraph>
+                    <Paragraph Margin="0,10,0,0">
+                        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+                    </Paragraph>
+                    <Paragraph Margin="0,10,0,0">
+                        THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+                    </Paragraph>
+                </RichTextBlock>
+
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">作者免责声明</TextBlock>
+                <TextBlock TextWrapping="Wrap" Text="本应用程序与重庆大学官方无任何关联，亦未经重庆大学官方认可；应用程序作者与重庆大学官方无商业或技术联系。本应用程序按 &quot;原样&quot; 提供。应用程序的缺陷若为用户带来任何损失，应用程序作者不负任何直接，间接或连带责任，用户应自行权衡，决定是否使用任何应用程序功能。" Margin="0,10,0,0" FontFamily="Segoe UI"/>
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">隐私声明</TextBlock>
+                <TextBlock TextWrapping="Wrap" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="最后更新时间 2018/7/20" Margin="0,10,0,0" FontFamily="Segoe UI"/>
+                <TextBlock TextWrapping="Wrap" Text="默认设置下，本应用程序不对任何用户数据执行永久化存储。若用户登录时选择保持登录状态，则应用程序将在设备本地存储用户的 a) 教务网登录用户名; b) 以教务平台规范方法加密的密码哈希; c) 用户所选择的登录服务器. 用户可以随时通过退出登录来清除这些数据。" Margin="0,10,0,0" FontFamily="Segoe UI"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

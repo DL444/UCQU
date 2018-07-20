@@ -5,9 +5,26 @@
     xmlns:local="using:UCqu"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xamlLib="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <xamlLib:NavigationView x:Name="NavPane" HorizontalAlignment="Stretch" IsBackButtonVisible="Collapsed" SelectionFollowsFocus="Enabled" VerticalAlignment="Stretch" IsSettingsVisible="False" PaneDisplayMode="Top" SelectionChanged="NavPane_SelectionChanged">
+            <Frame x:Name="ContentFrame"/>
+            <xamlLib:NavigationView.MenuItems>
+                <xamlLib:NavigationViewItem Content="主页" Icon="Home" Tag="Home"/>
+                <xamlLib:NavigationViewItem Content="课表" Icon="Calendar" Tag="Schedule"/>
+                <xamlLib:NavigationViewItem Content="成绩" Icon="OutlineStar" Tag="Score"/>
+            </xamlLib:NavigationView.MenuItems>
+            <xamlLib:NavigationView.PaneFooter>
+                <CommandBar Background="Transparent">
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton x:Name="LogoutBtn" Icon="Permissions" Label="注销登录" Click="LogoutBtn_Click"/>
+                        <!--<AppBarButton x:Name="SettingsBtn" Icon="Setting" Label="设置"/>-->
+                        <AppBarButton x:Name="AboutBtn" Icon="Emoji2" Label="关于" Click="AboutBtn_Click"/>
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
+            </xamlLib:NavigationView.PaneFooter>
+        </xamlLib:NavigationView>
     </Grid>
 </Page>

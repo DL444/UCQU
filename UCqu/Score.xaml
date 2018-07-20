@@ -29,11 +29,6 @@
                     </SymbolIcon>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton x:Name="LogoutBtn" Icon="Permissions" Label="注销登录" Click="LogoutBtn_Click"/>
-                <AppBarButton x:Name="SettingsBtn" Icon="Setting" Label="设置"/>
-                <AppBarButton x:Name="AboutBtn" Icon="Emoji2" Label="关于" Click="AboutBtn_Click"/>
-            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -47,7 +42,7 @@
         <!--{ThemeResource ApplicationPageBackgroundThemeBrush}-->
         <contract6Present:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
             <ListView x:Name="MainList" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                <ListView.HeaderTemplate>
+                <!--<ListView.HeaderTemplate>
                     <DataTemplate x:DataType="scoreLib:ScoreSet">
                         <controls:ScrollHeader IsTabStop="True" Mode="None">
                             <Grid Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" MinHeight="250">
@@ -64,7 +59,7 @@
                             </Grid>
                         </controls:ScrollHeader>
                     </DataTemplate>
-                </ListView.HeaderTemplate>
+                </ListView.HeaderTemplate>-->
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="scoreLib:Term">
                         <UserControl>
@@ -216,24 +211,6 @@
             </ListView>
         </contract6Present:RefreshContainer>
         <contract6NotPresent:ListView x:Name="MainListFallback" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-            <ListView.HeaderTemplate>
-                <DataTemplate x:DataType="scoreLib:ScoreSet">
-                    <controls:ScrollHeader IsTabStop="True" Mode="None">
-                        <Grid Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" MinHeight="250">
-                            <StackPanel Padding="50,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="{x:Bind Name}"  Style="{ThemeResource HeaderTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}" Margin="0,0,0,5"/>
-                                <TextBlock Text="{x:Bind Id}"  Style="{ThemeResource SubheaderTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}" Margin="0,0,0,20"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Library" Margin="0,0,10,0"/>
-                                    <TextBlock Text="{x:Bind Major}" Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}" Margin="0,0,50,0"/>
-                                    <SymbolIcon Symbol="OutlineStar" Margin="0,0,10,0"/>
-                                    <TextBlock Text="{x:Bind GPA, Converter={StaticResource GrandGPAConverter}}"  Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Grid>
-                    </controls:ScrollHeader>
-                </DataTemplate>
-            </ListView.HeaderTemplate>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="scoreLib:Term">
                     <UserControl>

@@ -50,18 +50,11 @@ namespace UCqu
             if (uiFallback)
             {
                 MainListFallback.ItemsSource = set;
-                MainListFallback.Header = set;
             }
             else
             {
                 MainList.ItemsSource = set;
-                MainList.Header = set;
             }
-        }
-
-        private void LogoutBtn_Click(object sender, RoutedEventArgs e)
-        {
-            (Window.Current.Content as Frame).Navigate(typeof(Login), "logout");
         }
 
         private async void RefreshBtn_Click(object sender, RoutedEventArgs e)
@@ -110,19 +103,6 @@ namespace UCqu
                     PopulateList(set);
                 }
             }
-        }
-
-        private async void AboutBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ContentDialog dialog = new ContentDialog();
-            dialog.Title = "UCQU Alpha 1 by David Lee";
-            dialog.Content = "这是该应用程序的早期预览版。\n未经作者授权，您不得对该应用程序进行任何形式的再发行或逆向工程。\n\n" +
-                "免责声明: \n本应用程序与重庆大学官方无任何关联，亦未经重庆大学官方认可；应用程序作者与重庆大学官方无商业或技术联系。" +
-                "本应用程序按 \"原样\" 提供。应用程序的缺陷若为用户带来任何损失，应用程序作者不负任何直接，间接或连带责任，用户应自行权衡，决定是否使用任何应用程序功能。\n\n" +
-                "隐私声明 (最后更新时间 2018/7/16):\n默认设置下，本应用程序不对任何用户数据执行永久化存储。若用户登录时选择保持登录状态，则应用程序将在设备本地存储用户的\n" +
-                "a) 教务网登录用户名; b) 以教务平台规范方法加密的密码哈希; c) 用户所选择的登录服务器.\n用户可以随时通过退出登录来清除这些数据。";
-            dialog.CloseButtonText = "确定";
-            await dialog.ShowAsync();
         }
 
         private async void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)

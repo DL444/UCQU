@@ -22,7 +22,6 @@ namespace UCqu
     {
         private int _week = 1;
         private CquScoreLib.Schedule _schedule;
-        Grid mainGrid;
 
         public ScheduleFrame()
         {

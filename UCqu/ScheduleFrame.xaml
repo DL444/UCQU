@@ -11,7 +11,7 @@
 
     <Grid>
         <ScrollViewer>
-            <Grid MinHeight="600">
+            <Grid MinHeight="600" Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -29,7 +29,7 @@
                     <RowDefinition x:Name="Night4H" Height="0"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
