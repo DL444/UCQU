@@ -39,7 +39,7 @@
                 </ContentControl.ContentTemplate>
             </ContentControl>
         </Grid>
-        <ScrollViewer Grid.Row="1" Margin="40,0,40,0">
+        <ScrollViewer Grid.Row="1" Padding="40,0,40,0">
             <StackPanel Margin="0,20,0,0">
                 <ListView x:Name="TodayScheduleList" Visibility="Collapsed" ScrollViewer.VerticalScrollMode="Disabled" extensions:ListViewExtensions.AlternateColor="{StaticResource AlternateRowBackgroundBrush}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" IsItemClickEnabled="False" SelectionMode="None">
                     <ListView.Header>
@@ -48,7 +48,7 @@
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="Margin" Value="0,10,0,10"/>
+                            <Setter Property="Margin" Value="0,1,0,1"/>
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
@@ -108,7 +108,7 @@
                     </controls:AdaptiveGridView.Header>
                     <controls:AdaptiveGridView.ItemContainerStyle>
                         <Style TargetType="GridViewItem">
-                            <Setter Property="Margin" Value="5,10,5,10"/>
+                            <Setter Property="Margin" Value="5,15,5,15"/>
                         </Style>
                     </controls:AdaptiveGridView.ItemContainerStyle>
                     <controls:AdaptiveGridView.ItemTemplate>
