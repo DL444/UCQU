@@ -13,8 +13,9 @@
             <local:TermGPAConverter x:Key="TermGPAConverter"/>
             <local:CourseGPAConverter x:Key="CourseGPAConverter"/>
 
-            <AcrylicBrush x:Key="NavigationViewTopPaneBackground" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorLight1}" TintOpacity=".7" FallbackColor="{ThemeResource SystemAccentColorLight1}"/>
-
+            <!--<AcrylicBrush x:Key="NavigationViewTopPaneBackground" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorLight1}" TintOpacity=".7" FallbackColor="{ThemeResource SystemAccentColorLight1}"/>-->
+            <AcrylicBrush x:Key="NavigationViewTopPaneBackground" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColor}" TintOpacity=".7" FallbackColor="{ThemeResource SystemAccentColor}"/>
+            
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
             </ResourceDictionary.MergedDictionaries>

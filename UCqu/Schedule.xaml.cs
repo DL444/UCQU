@@ -37,7 +37,7 @@ namespace UCqu
             if (e.Parameter as Watcher != null)
             {
                 watcher = e.Parameter as Watcher;
-                CquScoreLib.Schedule schedule = await watcher.PerformSchedule("20180");
+                CquScoreLib.Schedule schedule = watcher.Schedule;
 
                 for(int i = 1; i <= schedule.Count; i++)
                 {
@@ -48,11 +48,6 @@ namespace UCqu
                 }
             }
 
-        }
-
-        private void WeekFlip_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //frame.Week = WeekFlip.SelectedIndex + 1;
         }
     }
 }

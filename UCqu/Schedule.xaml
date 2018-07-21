@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <FlipView x:Name="WeekFlip" SelectionChanged="WeekFlip_SelectionChanged" Margin="0,25,0,25" Background="Transparent">
+        <FlipView x:Name="WeekFlip" Margin="0,25,0,25" Background="Transparent">
         </FlipView>
     </Grid>
 </Page>

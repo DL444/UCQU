@@ -24,12 +24,19 @@ namespace UCqu
     public sealed partial class Home : Page
     {
         Watcher watcher = null;
+        List<ScheduleEntry> dayEntries = null;
+        List<HuxiImgEntry> huxiImgEntries = null;
+        Random randomizer = new Random(DateTime.Now.Millisecond);
+
+        DateTime startDate = new DateTime(2018, 9, 3);
+        DateTime testDate = new DateTime(2018, 9, 3);
+
         public Home()
         {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -38,8 +45,22 @@ namespace UCqu
                 watcher = e.Parameter as Watcher;
                 ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
                 HeaderControl.Content = set;
-            }
-        }
 
+                dayEntries = watcher.Schedule.GetDaySchedule((DateTime.Today - startDate).Days);
+                if (dayEntries.Count != 0)
+                {
+                    dayEntries.Sort();
+                    TodayScheduleList.Visibility = Visibility.Visible;
+                    TodayScheduleList.ItemsSource = dayEntries;
+                }
+            }
+
+            if (huxiImgEntries == null)
+            {
+                huxiImgEntries = await HuxiImg.GetEntries();
+            }
+
+            HuxiImgGrid.ItemsSource = huxiImgEntries;
+        }
     }
 }

@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:scoreLib="using:CquScoreLib"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -37,5 +39,94 @@
                 </ContentControl.ContentTemplate>
             </ContentControl>
         </Grid>
+        <ScrollViewer Grid.Row="1" Margin="40,0,40,0">
+            <StackPanel Margin="0,20,0,0">
+                <ListView x:Name="TodayScheduleList" Visibility="Collapsed" ScrollViewer.VerticalScrollMode="Disabled" extensions:ListViewExtensions.AlternateColor="{StaticResource AlternateRowBackgroundBrush}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" IsItemClickEnabled="False" SelectionMode="None">
+                    <ListView.Header>
+                        <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" Text="今日课程" Margin="0,0,0,10"/>
+                    </ListView.Header>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Margin" Value="0,10,0,10"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="scoreLib:ScheduleEntry">
+                            <UserControl HorizontalAlignment="Stretch">
+                                <Grid HorizontalAlignment="Stretch">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState x:Name="Compact">
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="0"/>
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters>
+                                                    <Setter Target="NameBox.(Grid.Row)" Value="1"/>
+                                                    <Setter Target="RoomBox.(Grid.Row)" Value="2"/>
+                                                    <Setter Target="NameBox.(Grid.Column)" Value="0"/>
+                                                    <Setter Target="RoomBox.(Grid.Column)" Value="0"/>
+
+                                                    <Setter Target="SessionBox.Margin" Value="0,3,0,3"/>
+                                                    <Setter Target="NameBox.Margin" Value="0,3,0,3"/>
+                                                    <Setter Target="RoomBox.Margin" Value="0,3,0,3"/>
+
+                                                    <Setter Target="Col1.Width" Value="0"/>
+                                                    <Setter Target="Col2.Width" Value="0"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="641"/>
+                                                </VisualState.StateTriggers>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition x:Name="Row1" Height="Auto"/>
+                                        <RowDefinition x:Name="Row2" Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition x:Name="Col1" Width="3*"/>
+                                        <ColumnDefinition x:Name="Col2" Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock x:Name="SessionBox" Grid.Row="0" Grid.Column="0" Text="{x:Bind SessionSpan}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock x:Name="NameBox" Grid.Row="0" Grid.Column="1" FontWeight="Bold" Text="{x:Bind Name}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock x:Name="RoomBox" Grid.Row="0" Grid.Column="2" Text="{x:Bind Room}" TextTrimming="CharacterEllipsis"/>
+                                </Grid>
+                            </UserControl>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <controls:AdaptiveGridView x:Name="HuxiImgGrid" DesiredWidth="400" Margin="0,20,0,0" SelectionMode="None" IsItemClickEnabled="False">
+                    <controls:AdaptiveGridView.Header>
+                        <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" Text="图说虎溪" Margin="0,0,0,10"/>
+                    </controls:AdaptiveGridView.Header>
+                    <controls:AdaptiveGridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="5,10,5,10"/>
+                        </Style>
+                    </controls:AdaptiveGridView.ItemContainerStyle>
+                    <controls:AdaptiveGridView.ItemTemplate>
+                        <DataTemplate x:DataType="local:HuxiImgEntry">
+                            <StackPanel>
+                                <TextBlock FontWeight="Bold" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind Title}" Margin="0,0,0,10"/>
+                                <Viewbox  Margin="0,0,0,10">
+                                    <Image Source="{x:Bind Uri}" Width="298" Height="246" Stretch="UniformToFill"/>
+                                </Viewbox>
+                                <TextBlock Text="{x:Bind Content}" Margin="0,0,0,10" TextWrapping="Wrap" MaxLines="2" Height="40" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="摄影"/>
+                                <TextBlock Text="{x:Bind Author}"/>
+                                <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="图片版权归作者所有"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </controls:AdaptiveGridView.ItemTemplate>
+                </controls:AdaptiveGridView>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
