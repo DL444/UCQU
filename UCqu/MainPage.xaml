@@ -5,11 +5,131 @@
     xmlns:local="using:UCqu"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xamlLib="using:Microsoft.UI.Xaml.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style x:Key="MakeShiftNavPaneItem" TargetType="RadioButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="Padding" Value="12,0,12,0" />
+            <Setter Property="Margin" Value="2,0,2,0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="MinWidth" Value="0"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentPresenter.Opacity" Value="0.8"/>
+                                            <Setter Target="BackgroundGrid.Visibility" Value="Visible"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentPresenter.Opacity" Value="1.0"/>
+                                            <Setter Target="BackgroundGrid.Visibility" Value="Visible"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentPresenter.Foreground" Value="Gray"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <VisualState.Setters>
+                                            <Setter Target="CheckMark.Opacity" Value="1"/>
+                                            <Setter Target="ContentPresenter.FontWeight" Value="Bold"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Indeterminate"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Grid VerticalAlignment="Center">
+                                <Grid x:Name="BackgroundGrid" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Visibility="Collapsed" Opacity="0.1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <StackPanel Margin="10,5,10,5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <ContentPresenter x:Name="ContentPresenter" Opacity="1" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw"/>
+                                    <Rectangle x:Name="CheckMark" Fill="{ThemeResource SystemControlForegroundBaseHighBrush}" Opacity="0" Margin="0,5,0,0" Width="{Binding Width, Source={RelativeSource Mode=Self}}" Height="3">
+                                        <animations:Implicit.Animations>
+                                            <animations:OpacityAnimation Duration="0:0:0.4"/>
+                                        </animations:Implicit.Animations>
+                                        <!--<animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.5"/>
+                                    </animations:Implicit.HideAnimations>
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.5"/>
+                                    </animations:Implicit.ShowAnimations>-->
+                                    </Rectangle>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <xamlLib:NavigationView x:Name="NavPane" HorizontalAlignment="Stretch" IsBackButtonVisible="Collapsed" SelectionFollowsFocus="Enabled" VerticalAlignment="Stretch" IsSettingsVisible="False" PaneDisplayMode="Top" SelectionChanged="NavPane_SelectionChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{ThemeResource NavigationViewTopPaneBackground}">
+            <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" xmlns:appmodel="using:Windows.ApplicationModel" Text="{x:Bind appmodel:Package.Current.DisplayName}" Style="{StaticResource CaptionTextBlockStyle}" IsHitTestVisible="False" Canvas.ZIndex="1"/>
+        </Grid>
+        <CommandBar Grid.Row="1" Background="{ThemeResource NavigationViewTopPaneBackground}" VerticalContentAlignment="Stretch">
+            <CommandBar.Content>
+                <StackPanel Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Stretch">
+                    <RadioButton x:Name="HomeBtn" Style="{StaticResource MakeShiftNavPaneItem}" VerticalAlignment="Stretch" Width="Auto" Tag="Home" Click="NavBtn_Click">
+                        <RadioButton.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Home" Margin="0,0,8,0"/>
+                                <TextBlock Text="主页"/>
+                            </StackPanel>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton x:Name="ScheduleBtn" Style="{StaticResource MakeShiftNavPaneItem}" VerticalAlignment="Stretch" Width="Auto" Tag="Schedule" Click="NavBtn_Click">
+                        <RadioButton.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Calendar" Margin="0,0,8,0"/>
+                                <TextBlock Text="课表"/>
+                            </StackPanel>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton x:Name="ScoreBtn" Style="{StaticResource MakeShiftNavPaneItem}" VerticalAlignment="Stretch" Width="Auto" Tag="Score" Click="NavBtn_Click">
+                        <RadioButton.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="OutlineStar" Margin="0,0,8,0"/>
+                                <TextBlock Text="成绩"/>
+                            </StackPanel>
+                        </RadioButton.Content>
+                    </RadioButton>
+                </StackPanel>
+            </CommandBar.Content>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="LogoutBtn" Icon="Permissions" Label="注销登录" Click="LogoutBtn_Click"/>
+                <!--<AppBarButton x:Name="SettingsBtn" Icon="Setting" Label="设置"/>-->
+                <AppBarButton x:Name="AboutBtn" Icon="Emoji2" Label="关于" Click="AboutBtn_Click"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+        <Frame x:Name="ContentFrame" Grid.Row="2"/>
+        <!--<xamlLib:NavigationView x:Name="NavPane" HorizontalAlignment="Stretch" IsBackButtonVisible="Collapsed" SelectionFollowsFocus="Enabled" VerticalAlignment="Stretch" IsSettingsVisible="False" PaneDisplayMode="Top" SelectionChanged="NavPane_SelectionChanged">
             <Frame x:Name="ContentFrame"/>
             <xamlLib:NavigationView.MenuItems>
                 <xamlLib:NavigationViewItem Content="主页" Icon="Home" Tag="Home"/>
@@ -20,11 +140,11 @@
                 <CommandBar Background="Transparent">
                     <CommandBar.SecondaryCommands>
                         <AppBarButton x:Name="LogoutBtn" Icon="Permissions" Label="注销登录" Click="LogoutBtn_Click"/>
-                        <!--<AppBarButton x:Name="SettingsBtn" Icon="Setting" Label="设置"/>-->
+                        --><!--<AppBarButton x:Name="SettingsBtn" Icon="Setting" Label="设置"/>--><!--
                         <AppBarButton x:Name="AboutBtn" Icon="Emoji2" Label="关于" Click="AboutBtn_Click"/>
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
             </xamlLib:NavigationView.PaneFooter>
-        </xamlLib:NavigationView>
+        </xamlLib:NavigationView>-->
     </Grid>
 </Page>

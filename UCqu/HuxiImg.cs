@@ -20,7 +20,15 @@ namespace UCqu
             request.Accept = "application/json, text/javascript, */*; q=0.01";
             request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134";
 
-            HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse;
+            HttpWebResponse response = null;
+            try
+            {
+                response = await request.GetResponseAsync() as HttpWebResponse;
+            }
+            catch(WebException)
+            {
+                return new List<HuxiImgEntry>();
+            }
             StreamReader reader = new StreamReader(response.GetResponseStream());
             string responseStr = reader.ReadToEnd();
 

@@ -60,7 +60,15 @@ namespace UCqu
                 huxiImgEntries = await HuxiImg.GetEntries();
             }
 
-            HuxiImgGrid.ItemsSource = huxiImgEntries;
+            if(huxiImgEntries.Count == 0)
+            {
+                HuxiImgGrid.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                HuxiImgGrid.ItemsSource = huxiImgEntries;
+            }
+
         }
     }
 }
