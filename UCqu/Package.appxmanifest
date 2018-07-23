@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="68416a19-0789-4f6e-9c84-73ffbea7d0a2" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>UCQU</DisplayName>
-    <PublisherDisplayName>DL444</PublisherDisplayName>
+    <PublisherDisplayName>David Lee</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>

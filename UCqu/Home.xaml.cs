@@ -28,7 +28,7 @@ namespace UCqu
         List<HuxiImgEntry> huxiImgEntries = null;
         Random randomizer = new Random(DateTime.Now.Millisecond);
 
-        DateTime startDate = new DateTime(2018, 9, 3);
+        DateTime startDate = ConstantResources.StartDate;
         DateTime testDate = new DateTime(2018, 9, 3);
 
         public Home()

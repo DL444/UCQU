@@ -54,7 +54,7 @@ namespace UCqu
                 try
                 {
                     await watcher.Perform();
-                    await watcher.PerformSchedule("20180");
+                    await watcher.PerformSchedule(ConstantResources.CurrentTerm);
                 }
                 catch (WebException)
                 {
@@ -147,6 +147,10 @@ namespace UCqu
                 catch(WebException)
                 {
                     LoginFailedNotification.Show("登录失败, 请检查网络连接", 5000);
+                    IdBox.Text = id;
+                    LoadingRing.IsActive = false;
+                    LoadingRingGrid.Visibility = Visibility.Collapsed;
+                    return;
                 }
                 if (isCorrect)
                 {
@@ -154,7 +158,7 @@ namespace UCqu
                     try
                     {
                         await watcher.Perform();
-                        await watcher.PerformSchedule("20180");
+                        await watcher.PerformSchedule(ConstantResources.CurrentTerm);
                     }
                     catch (WebException)
                     {
@@ -167,7 +171,7 @@ namespace UCqu
                 else
                 {
                     IdBox.Text = id;
-                    SavePwdBox.IsChecked = false;
+                    //SavePwdBox.IsChecked = false;
                     LoginFailedNotification.Show("用户名与密码不匹配, 请重试", 5000);
                     LoadingRing.IsActive = false;
                     LoadingRingGrid.Visibility = Visibility.Collapsed;

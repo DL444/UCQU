@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CquScoreLib;
+using Windows.ApplicationModel.Background;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -80,7 +81,7 @@ namespace UCqu
         //    }
         //}
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -90,11 +91,30 @@ namespace UCqu
                 HomeBtn.IsChecked = true;
                 ContentFrame.Navigate(typeof(Home), watcher);
             }
+
+            await ScheduleTileUpdateTask.UpdateTile();
+
+            BackgroundExecutionManager.RemoveAccess();
+            var backgroundStatus = await BackgroundExecutionManager.RequestAccessAsync();
+            if(backgroundStatus == BackgroundAccessStatus.DeniedBySystemPolicy || 
+                backgroundStatus == BackgroundAccessStatus.DeniedByUser || 
+                backgroundStatus == BackgroundAccessStatus.Unspecified)
+            {
+                return;
+            }
+
+            var builder = new BackgroundTaskBuilder();
+            builder.Name = "Tile Update Task";
+            builder.SetTrigger(new TimeTrigger(60, false));
+            builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+            builder.IsNetworkRequested = true;
+            BackgroundTaskRegistration task = builder.Register();
         }
 
-        private void LogoutBtn_Click(object sender, RoutedEventArgs e)
+        private async void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(Login), "logout");
+            await ScheduleTileUpdateTask.UpdateTile();
         }
 
         private void NavBtn_Click(object sender, RoutedEventArgs e)
