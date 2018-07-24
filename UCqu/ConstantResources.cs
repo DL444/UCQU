@@ -10,5 +10,6 @@ namespace UCqu
     {
         public const string CurrentTerm = "20180";
         public static DateTime StartDate => new DateTime(2018, 9, 3);
+        public static DateTime TestDate => new DateTime(2018, 9, 3);
     }
 }

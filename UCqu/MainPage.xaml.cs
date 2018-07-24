@@ -104,11 +104,14 @@ namespace UCqu
             }
 
             var builder = new BackgroundTaskBuilder();
-            builder.Name = "Tile Update Task";
+            builder.Name = "Hourly Tile Update Task";
             builder.SetTrigger(new TimeTrigger(60, false));
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
             builder.IsNetworkRequested = true;
-            BackgroundTaskRegistration task = builder.Register();
+            builder.Register();
+            builder.Name = "Login Tile Update Task";
+            builder.SetTrigger(new SystemTrigger(SystemTriggerType.UserPresent, false));
+            builder.Register();
         }
 
         private async void LogoutBtn_Click(object sender, RoutedEventArgs e)

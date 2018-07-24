@@ -88,6 +88,19 @@ namespace UCqu
             }
         }
 
+        void SaveSetting(string key, string value)
+        {
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            localSettings.Values[key] = value;
+        }
+        bool LoadSetting(string key, out string value)
+        {
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            string val = localSettings.Values[key] as string;
+            if(val == null) { value = ""; return false; }
+            else { value = val; return true; }
+        }
+
         void SaveCredentials(string id, string pwdHash, string host)
         {
             SaveCredentials(id, pwdHash, host, false);

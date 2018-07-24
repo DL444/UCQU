@@ -37,14 +37,62 @@ namespace UCqu
             if (isCorrect)
             {
                 await watcher.PerformSchedule(ConstantResources.CurrentTerm);
-                List<ScheduleEntry> entries = watcher.Schedule.GetDaySchedule((DateTime.Today - ConstantResources.StartDate).Days);
-                TileBindingContentAdaptive tileContent = new TileBindingContentAdaptive();
+                List<ScheduleEntry> entries = watcher.Schedule.GetDaySchedule((DateTime.Today/*ConstantResources.TestDate*/ - ConstantResources.StartDate).Days);
+
+                TileBindingContentAdaptive midTileContent = new TileBindingContentAdaptive();
+                TileBindingContentAdaptive wideTileContent = new TileBindingContentAdaptive();
+                TileBindingContentAdaptive largeTileContent = new TileBindingContentAdaptive();
 
                 if (entries.Count > 0)
                 {
                     foreach (ScheduleEntry e in entries)
                     {
-                        AdaptiveGroup group = new AdaptiveGroup()
+                        AdaptiveGroup midGroup = new AdaptiveGroup()
+                        {
+                            Children =
+                            {
+                                new AdaptiveSubgroup()
+                                {
+                                    Children =
+                                    {
+                                        new AdaptiveText()
+                                        {
+                                            Text = e.Name,
+                                            HintStyle = AdaptiveTextStyle.Caption,
+                                            HintWrap = true
+                                        },
+                                        new AdaptiveText()
+                                        {
+                                            Text = e.SessionSpan + "  " + e.Room,
+                                            HintStyle = AdaptiveTextStyle.CaptionSubtle
+                                        },
+                                    }
+                                }
+                            }
+                        };
+                        AdaptiveGroup wideGroup = new AdaptiveGroup()
+                        {
+                            Children =
+                            {
+                                new AdaptiveSubgroup()
+                                {
+                                    Children =
+                                    {
+                                        new AdaptiveText()
+                                        {
+                                            Text = e.Name,
+                                            HintStyle = AdaptiveTextStyle.Caption,
+                                        },
+                                        new AdaptiveText()
+                                        {
+                                            Text = e.SessionSpan + "  " + e.Room,
+                                            HintStyle = AdaptiveTextStyle.CaptionSubtle
+                                        },
+                                    }
+                                }
+                            }
+                        };
+                        AdaptiveGroup largeGroup = new AdaptiveGroup()
                         {
                             Children =
                             {
@@ -56,6 +104,7 @@ namespace UCqu
                                         {
                                             Text = e.Name,
                                             HintStyle = AdaptiveTextStyle.Base,
+                                            HintWrap = true
                                         },
                                         new AdaptiveText()
                                         {
@@ -63,11 +112,37 @@ namespace UCqu
                                             HintStyle = AdaptiveTextStyle.CaptionSubtle
                                         },
                                         new AdaptiveText()
+                                        {
+                                            HintStyle = AdaptiveTextStyle.Caption
+                                        }
                                     }
                                 }
                             }
                         };
-                        tileContent.Children.Add(group);
+                        midTileContent.Children.Add(midGroup);
+                        wideTileContent.Children.Add(wideGroup);
+                        largeTileContent.Children.Add(largeGroup);
+
+                        content = new TileContent()
+                        {
+                            Visual = new TileVisual()
+                            {
+                                Branding = TileBranding.Name,
+                                TileLarge = new TileBinding()
+                                {
+                                    Content = largeTileContent
+                                },
+                                TileMedium = new TileBinding()
+                                {
+                                    Content = midTileContent
+                                },
+                                TileWide = new TileBinding()
+                                {
+                                    Content = wideTileContent
+                                },
+                            }
+                        };
+
                     }
                 }
                 else
@@ -75,12 +150,12 @@ namespace UCqu
                     List<HuxiImgEntry> huxiImgEntries = await HuxiImg.GetEntries();
                     Random randomizer = new Random((int)DateTime.Now.Ticks);
                     int index = randomizer.Next(0, huxiImgEntries.Count);
-                    tileContent.BackgroundImage = new TileBackgroundImage()
+                    largeTileContent.BackgroundImage = new TileBackgroundImage()
                     {
                         Source = huxiImgEntries[index].Uri,
                         HintOverlay = 40
                     };
-                    tileContent.Children.Add
+                    largeTileContent.Children.Add
                     (
                         new AdaptiveText()
                         {
@@ -88,7 +163,7 @@ namespace UCqu
                             HintStyle = AdaptiveTextStyle.Base
                         }
                     );
-                    tileContent.Children.Add
+                    largeTileContent.Children.Add
                     (
                         new AdaptiveText()
                         {
@@ -96,28 +171,27 @@ namespace UCqu
                             HintStyle = AdaptiveTextStyle.CaptionSubtle
                         }
                     );
-                }
 
-
-                content = new TileContent()
-                {
-                    Visual = new TileVisual()
+                    content = new TileContent()
                     {
-                        Branding = TileBranding.Name,
-                        TileLarge = new TileBinding()
+                        Visual = new TileVisual()
                         {
-                            Content = tileContent
-                        },
-                        TileMedium = new TileBinding()
-                        {
-                            Content = tileContent
-                        },
-                        TileWide = new TileBinding()
-                        {
-                            Content = tileContent
-                        },
-                    }
-                };
+                            Branding = TileBranding.Name,
+                            TileLarge = new TileBinding()
+                            {
+                                Content = largeTileContent
+                            },
+                            TileMedium = new TileBinding()
+                            {
+                                Content = largeTileContent
+                            },
+                            TileWide = new TileBinding()
+                            {
+                                Content = largeTileContent
+                            },
+                        }
+                    };
+                }
             }
             else
             {
