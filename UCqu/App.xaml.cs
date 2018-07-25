@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Background;
+using Windows.Foundation.Diagnostics;
 
 namespace UCqu
 {
@@ -114,9 +115,26 @@ namespace UCqu
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
+            //LoggingChannel lc = new LoggingChannel("UCQU_BackgroundTask", null, new Guid("4bd2826e-54a1-4ba9-bf63-92b73ea1ac4a"));
+            //lc.LogMessage("Background Task Activated.");
             base.OnBackgroundActivated(args);
+            //lc.LogMessage("Base Handler Called.");
             IBackgroundTaskInstance taskInstance = args.TaskInstance;
-            await ScheduleTileUpdateTask.UpdateTile();
+            //lc.LogMessage("Task Instance Set.");
+            BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
+            //lc.LogMessage("Task Deferral Obtained.");
+            //lc.LogMessage("Executing Payload Method.");
+            try
+            {
+                await ScheduleTileUpdateTask.UpdateTile();
+            }
+            catch(Exception e)
+            {
+                //lc.LogMessage($"Unhandled exception thrown when executing task payload.\n\n{e.Message}\n\n{e.StackTrace}");
+            }
+            //lc.LogMessage("Completing Deferral.");
+            deferral.Complete();
+            //lc.LogMessage("Task Completed.");
         }
     }
 }
