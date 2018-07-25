@@ -27,6 +27,7 @@ namespace UCqu
     {
         Watcher watcher = null;
         bool firstNavigate = true;
+        bool isCampusD = false;
         public MainPage()
         {
             this.InitializeComponent();
@@ -95,6 +96,20 @@ namespace UCqu
 
             if(firstNavigate)
             {
+                string campus = "";
+                if(CommonResources.LoadSetting("campus", out campus) == false)
+                {
+                    CampusSelect campusSelect = new CampusSelect();
+                    await campusSelect.ShowAsync();
+                }
+                else
+                {
+                    if(campus == "D")
+                    {
+                        isCampusD = true;
+                    }
+                }
+
                 var tasks = BackgroundTaskRegistration.AllTasks;
                 foreach (var task in tasks)
                 {
@@ -132,32 +147,32 @@ namespace UCqu
             await ScheduleTileUpdateTask.UpdateTile();
         }
 
-        private void NavBtn_Click(object sender, RoutedEventArgs e)
-        {
-            string selectionTag = (sender as RadioButton).Tag.ToString();
-            if (watcher == null) { return; }
-            switch (selectionTag)
-            {
-                case "Home":
-                    if (!(ContentFrame.Content is Home))
-                    {
-                        ContentFrame.Navigate(typeof(Home), watcher);
-                    }
-                    break;
-                case "Schedule":
-                    if (!(ContentFrame.Content is Schedule))
-                    {
-                        ContentFrame.Navigate(typeof(Schedule), watcher);
-                    }
-                    break;
-                case "Score":
-                    if (!(ContentFrame.Content is Score))
-                    {
-                        ContentFrame.Navigate(typeof(Score), watcher);
-                    }
-                    break;
-            }
+        //private void NavBtn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    string selectionTag = (sender as RadioButton).Tag.ToString();
+        //    if (watcher == null) { return; }
+        //    switch (selectionTag)
+        //    {
+        //        case "Home":
+        //            if (!(ContentFrame.Content is Home))
+        //            {
+        //                ContentFrame.Navigate(typeof(Home), watcher);
+        //            }
+        //            break;
+        //        case "Schedule":
+        //            if (!(ContentFrame.Content is Schedule))
+        //            {
+        //                ContentFrame.Navigate(typeof(Schedule), watcher);
+        //            }
+        //            break;
+        //        case "Score":
+        //            if (!(ContentFrame.Content is Score))
+        //            {
+        //                ContentFrame.Navigate(typeof(Score), watcher);
+        //            }
+        //            break;
+        //    }
 
-        }
+        //}
     }
 }

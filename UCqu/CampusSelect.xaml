@@ -1,0 +1,18 @@
+﻿<ContentDialog
+    x:Class="UCqu.CampusSelect"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UCqu"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="选择校区"
+    PrimaryButtonText="ABC - 沙坪坝"
+    SecondaryButtonText="D - 虎溪"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <TextBlock>我们将据此调整课表作息时间，<LineBreak/>您可以随时在设置中更改这一选项。</TextBlock>
+    </Grid>
+</ContentDialog>

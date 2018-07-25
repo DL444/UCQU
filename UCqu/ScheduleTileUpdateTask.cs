@@ -36,8 +36,8 @@ namespace UCqu
             TileContent content = null;
             if (isCorrect)
             {
-                await watcher.PerformSchedule(ConstantResources.CurrentTerm);
-                List<ScheduleEntry> entries = watcher.Schedule.GetDaySchedule((DateTime.Today/*ConstantResources.TestDate*/ - ConstantResources.StartDate).Days);
+                await watcher.PerformSchedule(CommonResources.CurrentTerm);
+                List<ScheduleEntry> entries = watcher.Schedule.GetDaySchedule((DateTime.Today/*ConstantResources.TestDate*/ - CommonResources.StartDate).Days);
 
                 TileBindingContentAdaptive midTileContent = new TileBindingContentAdaptive();
                 TileBindingContentAdaptive wideTileContent = new TileBindingContentAdaptive();

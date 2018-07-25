@@ -54,7 +54,7 @@ namespace UCqu
                 try
                 {
                     await watcher.Perform();
-                    await watcher.PerformSchedule(ConstantResources.CurrentTerm);
+                    await watcher.PerformSchedule(CommonResources.CurrentTerm);
                 }
                 catch (WebException)
                 {
@@ -86,19 +86,6 @@ namespace UCqu
             {
                 LoginBtn_Click(this, null);
             }
-        }
-
-        void SaveSetting(string key, string value)
-        {
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            localSettings.Values[key] = value;
-        }
-        bool LoadSetting(string key, out string value)
-        {
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            string val = localSettings.Values[key] as string;
-            if(val == null) { value = ""; return false; }
-            else { value = val; return true; }
         }
 
         void SaveCredentials(string id, string pwdHash, string host)
@@ -171,7 +158,7 @@ namespace UCqu
                     try
                     {
                         await watcher.Perform();
-                        await watcher.PerformSchedule(ConstantResources.CurrentTerm);
+                        await watcher.PerformSchedule(CommonResources.CurrentTerm);
                     }
                     catch (WebException)
                     {

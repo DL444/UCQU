@@ -94,7 +94,7 @@
                                         <ColumnDefinition x:Name="Col2" Width="1*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock x:Name="SessionBox" Grid.Row="0" Grid.Column="0" Text="{x:Bind SessionSpan}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock x:Name="SessionBox" Grid.Row="0" Grid.Column="0" Text="{x:Bind SessionSpan, Converter={StaticResource SessionTimeConverter}}" TextTrimming="CharacterEllipsis"/>
                                     <TextBlock x:Name="NameBox" Grid.Row="0" Grid.Column="1" FontWeight="Bold" Text="{x:Bind Name}" TextTrimming="CharacterEllipsis"/>
                                     <TextBlock x:Name="RoomBox" Grid.Row="0" Grid.Column="2" Text="{x:Bind Room}" TextTrimming="CharacterEllipsis"/>
                                 </Grid>
