@@ -147,6 +147,19 @@ namespace UCqu
             await ScheduleTileUpdateTask.UpdateTile();
         }
 
+        private void SettingsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavPane.SelectedItem = null;
+            //HomeBtn.IsChecked = false;
+            //ScheduleBtn.IsChecked = false;
+            //ScoreBtn.IsChecked = false;
+
+            if (!(ContentFrame.Content is Settings))
+            {
+                ContentFrame.Navigate(typeof(Settings));
+            }
+        }
+
         //private void NavBtn_Click(object sender, RoutedEventArgs e)
         //{
         //    string selectionTag = (sender as RadioButton).Tag.ToString();

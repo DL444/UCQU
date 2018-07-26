@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="UCqu.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UCqu"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <ScrollViewer>
+            <Border>
+                <StackPanel MaxWidth="640" Padding="20,0,20,20">
+                    <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" Text="设置" Margin="0,20,0,0"/>
+                    <ComboBox x:Name="CampusCombo" SelectedIndex="-1" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="160" Margin="0,20,0,0" SelectionChanged="CampusCombo_SelectionChanged">
+                        <ComboBoxItem Content="ABC - 沙坪坝"/>
+                        <ComboBoxItem Content="D - 虎溪"/>
+                        <ComboBox.Header>
+                            <StackPanel>
+                                <TextBlock Text="校区" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                <TextBlock Text="我们将据此调整课表作息时间" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </ComboBox.Header>
+                    </ComboBox>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -160,7 +160,7 @@
                 <CommandBar Background="Transparent">
                     <CommandBar.SecondaryCommands>
                         <AppBarButton x:Name="LogoutBtn" Icon="Permissions" Label="注销登录" Click="LogoutBtn_Click"/>
-                        <!--<AppBarButton x:Name="SettingsBtn" Icon="Setting" Label="设置"/>-->
+                        <AppBarButton x:Name="SettingsBtn" Icon="Setting" Label="设置" Click="SettingsBtn_Click"/>
                         <AppBarButton x:Name="AboutBtn" Icon="Emoji2" Label="关于" Click="AboutBtn_Click"/>
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
