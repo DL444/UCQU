@@ -137,14 +137,14 @@ namespace UCqu
                 firstNavigate = false;
             }
 
-            await ScheduleTileUpdateTask.UpdateTile();
+            await ScheduleNotificationUpdateTasks.UpdateTile();
 
         }
 
         private async void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(Login), "logout");
-            await ScheduleTileUpdateTask.UpdateTile();
+            await ScheduleNotificationUpdateTasks.UpdateTile();
         }
 
         private void SettingsBtn_Click(object sender, RoutedEventArgs e)

@@ -45,34 +45,7 @@ namespace UCqu
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-
-            var viewTitleBar = ApplicationView.GetForCurrentView().TitleBar;
-            viewTitleBar.ButtonBackgroundColor = Colors.Transparent;
-            viewTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            viewTitleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
-
-
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
-
+            Frame rootFrame = InitializeWindow(e);
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
@@ -124,17 +97,69 @@ namespace UCqu
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
             //lc.LogMessage("Task Deferral Obtained.");
             //lc.LogMessage("Executing Payload Method.");
-            try
+            switch(args.TaskInstance.Task.Name)
             {
-                await ScheduleTileUpdateTask.UpdateTile();
-            }
-            catch(Exception e)
-            {
-                //lc.LogMessage($"Unhandled exception thrown when executing task payload.\n\n{e.Message}\n\n{e.StackTrace}");
+                case "Hourly Tile Update Task":
+                case "Login Tile Update Task":
+                    try
+                    {
+                        await ScheduleNotificationUpdateTasks.UpdateTile();
+                    }
+                    catch (Exception e)
+                    {
+                        //lc.LogMessage($"Unhandled exception thrown when executing task payload.\n\n{e.Message}\n\n{e.StackTrace}");
+                    }
+                    break;
             }
             //lc.LogMessage("Completing Deferral.");
             deferral.Complete();
             //lc.LogMessage("Task Completed.");
+        }
+
+        protected override void OnActivated(IActivatedEventArgs e)
+        {
+            base.OnActivated(e);
+            if (e is ToastNotificationActivatedEventArgs)
+            {
+                Frame rootFrame = InitializeWindow(e);
+                if(rootFrame.Content == null)
+                {
+                    rootFrame.Navigate(typeof(Login), "");
+                }
+                Window.Current.Activate();
+            }
+        }
+
+        Frame InitializeWindow(IActivatedEventArgs e)
+        {
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+
+            var viewTitleBar = ApplicationView.GetForCurrentView().TitleBar;
+            viewTitleBar.ButtonBackgroundColor = Colors.Transparent;
+            viewTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            viewTitleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
+
+
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+            return rootFrame;
         }
     }
 }

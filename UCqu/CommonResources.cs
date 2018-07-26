@@ -197,6 +197,46 @@ namespace UCqu
         {
             throw new NotImplementedException();
         }
+
+        public static (DateTime start, DateTime end) Convert(string value)
+        {
+            string[] segements = value.Split('-');
+            CommonResources.LoadSetting("campus", out string campus);
+            bool isCampusD = campus == "D" ? true : false;
+
+            if (segements.Length == 2)
+            {
+                int start = int.Parse(segements[0]);
+                int end = int.Parse(segements[1]);
+                if (start > 11) { start = 11; }
+                if (end > 11) { end = 11; }
+                if (isCampusD)
+                {
+                    return (CommonResources.StartTimeD[start - 1].GetDateTime(), CommonResources.EndTimeD[start - 1].GetDateTime());
+                }
+                else
+                {
+                    return (CommonResources.StartTimeABC[start - 1].GetDateTime(), CommonResources.EndTimeABC[start - 1].GetDateTime());
+                }
+            }
+            else if (segements.Length == 1)
+            {
+                int session = int.Parse(segements[0]);
+                if (session > 11) { session = 11; }
+                if (isCampusD)
+                {
+                    return (CommonResources.StartTimeD[session - 1].GetDateTime(), CommonResources.EndTimeD[session - 1].GetDateTime());
+                }
+                else
+                {
+                    return (CommonResources.StartTimeABC[session - 1].GetDateTime(), CommonResources.EndTimeABC[session - 1].GetDateTime());
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Argument Format Not Valid. Argument: {value}");
+            }
+        }
     }
 
 

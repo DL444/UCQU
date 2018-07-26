@@ -126,7 +126,7 @@ namespace UCqu
 
             if(e.Parameter != null)
             {
-                if(e.Parameter as string != "")
+                if(e.Parameter as string == "logout")
                 {
                     SaveCredentials("", "", "",true);
                     return;

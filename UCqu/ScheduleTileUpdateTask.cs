@@ -9,7 +9,7 @@ using CquScoreLib;
 
 namespace UCqu
 {
-    static class ScheduleTileUpdateTask
+    static class ScheduleNotificationUpdateTasks
     {
         public static async Task UpdateTile()
         {
@@ -44,7 +44,14 @@ namespace UCqu
                 //lc.LogMessage("Obtaining Schedule.");
                 await watcher.PerformSchedule(CommonResources.CurrentTerm);
                 //lc.LogMessage("Getting Schedule of Today.");
-                List<ScheduleEntry> entries = watcher.Schedule.GetDaySchedule((DateTime.Today/*ConstantResources.TestDate*/ - CommonResources.StartDate).Days);
+                List<ScheduleEntry> entries = watcher.Schedule.GetDaySchedule((DateTime.Today /*CommonResources.TestDate*/ - CommonResources.StartDate).Days);
+
+                entries.RemoveAll((ScheduleEntry x) =>
+                {
+                    (DateTime startTime, _) = SessionTimeConverter.Convert(x.SessionSpan);
+                    DateTime now = DateTime.Now; /* new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year, )*/
+                    return (startTime.Hour < now.Hour || (startTime.Hour == now.Hour && startTime.Minute < now.Minute));
+                });
 
                 //lc.LogMessage("Constructing Tile Content.");
                 TileBindingContentAdaptive midTileContent = new TileBindingContentAdaptive();
@@ -53,6 +60,16 @@ namespace UCqu
 
                 if (entries.Count > 0)
                 {
+                    if (!IsToastScheduled)
+                    {
+                        try
+                        {
+                            ScheduleToast(entries);
+                        }
+                        catch (Exception ex) { }
+                        IsToastScheduled = true;
+                    }
+
                     //lc.LogMessage("Course Detected. Creating daily schedule tile.");
                     foreach (ScheduleEntry e in entries)
                     {
@@ -161,6 +178,16 @@ namespace UCqu
                     //lc.LogMessage("Creating Randomizer.");
                     Random randomizer = new Random((int)DateTime.Now.Ticks);
                     int index = randomizer.Next(0, huxiImgEntries.Count);
+
+                    if(!IsToastScheduled)
+                    {
+                        try
+                        {
+                            ScheduleToast(huxiImgEntries[index]);
+                        }
+                        catch(Exception ex) { }
+                        IsToastScheduled = true;
+                    }
                     //lc.LogMessage("Randomly Selected Index: " + index);
                     //lc.LogMessage("Constructing Image Tile.");
                     largeTileContent.BackgroundImage = new TileBackgroundImage()
@@ -223,6 +250,121 @@ namespace UCqu
             //lc.LogMessage("Payload Method Complete.");
         }
 
+        public static void ScheduleToast(List<ScheduleEntry> entries)
+        {
+            if (entries.Count == 0) { return; }
+
+            ToastContent dailyGlance = new ToastContent()
+            {
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText() { Text = "今日课程", HintStyle = AdaptiveTextStyle.Subtitle } 
+                        }
+                    }
+                }
+            };
+
+            for (int i = 0; i < entries.Count; i++)
+            {
+                (DateTime startTime, _) = SessionTimeConverter.Convert(entries[i].SessionSpan);
+                ToastContent courseNotification = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
+                            {
+                                new AdaptiveText() { Text = entries[i].Name },
+                                new AdaptiveText() { Text = $"{new SessionTimeConverter().Convert(entries[i].SessionSpan, typeof(string), null, null)}  {entries[i].Room}" },
+                            }
+                        }
+                    },
+                    Scenario = ToastScenario.Reminder
+                };
+
+                dailyGlance.Visual.BindingGeneric.Children.Add
+                (
+                    new AdaptiveGroup()
+                    {
+                        Children =
+                        {
+                            new AdaptiveSubgroup()
+                            {
+                                Children =
+                                {
+                                    new AdaptiveText() { Text = entries[i].Name, HintStyle = AdaptiveTextStyle.Base },
+                                    new AdaptiveText() { Text = $"{new SessionTimeConverter().Convert(entries[i].SessionSpan, typeof(string), null, null)}  {entries[i].Room}", HintStyle = AdaptiveTextStyle.BodySubtle },
+                                }
+                            }
+                        }
+                    }
+                );
+                try
+                {
+                    ScheduledToastNotification toast = new ScheduledToastNotification(courseNotification.GetXml(), new DateTimeOffset(startTime.AddMinutes(-15), new TimeSpan(8, 0, 0)));
+                    toast.ExpirationTime = new DateTimeOffset(startTime.AddMinutes(15), new TimeSpan(8, 0, 0));
+                    ToastNotificationManager.CreateToastNotifier().AddToSchedule(toast);
+                }
+                catch (ArgumentException) { }
+            }
+
+            if (DateTime.Now.Hour > 7 || (DateTime.Now.Hour == 7 && DateTime.Now.Minute > 25))
+            {
+                ToastNotification dailyGlanceToast = new ToastNotification(dailyGlance.GetXml());
+                dailyGlanceToast.ExpirationTime = DateTime.Now.AddDays(1);
+                ToastNotificationManager.CreateToastNotifier().Show(dailyGlanceToast);
+            }
+            else
+            {
+                ScheduledToastNotification dailyGlanceToast = new ScheduledToastNotification(dailyGlance.GetXml(), 
+                    new DateTimeOffset(new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 7, 30, 0), new TimeSpan(8, 0, 0)));
+                dailyGlanceToast.ExpirationTime = DateTime.Now.AddDays(1);
+                ToastNotificationManager.CreateToastNotifier().AddToSchedule(dailyGlanceToast);
+            }
+        }
+        public static void ScheduleToast(HuxiImgEntry entry)
+        {
+            ToastContent imageToast = new ToastContent()
+            {
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        //HeroImage = new ToastGenericHeroImage()
+                        //{
+                        //    Source = entry.Uri,
+                        //    AlternateText = "图说虎溪"
+                        //},
+
+                        Children =
+                        {
+                            new AdaptiveImage()
+                            {
+                                Source = entry.Uri,
+                                AlternateText = "图说虎溪",
+                                HintAlign = AdaptiveImageAlign.Stretch,
+                                HintRemoveMargin = true
+                            },
+                            new AdaptiveText() { Text = entry.Title },
+                            new AdaptiveText() { Text = entry.Content, HintWrap = true, HintMaxLines = 3 },
+                            new AdaptiveText() { Text = $"摄影  {entry.Author}" }
+                        },
+                        Attribution = new ToastGenericAttributionText() { Text = "图说虎溪" }
+                    }
+                }
+            };
+
+            var toast = new ToastNotification(imageToast.GetXml());
+            toast.SuppressPopup = true;
+            toast.ExpirationTime = DateTime.Now.AddDays(1);
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
+        }
+
         static bool LoadCredentials(out string id, out string pwdHash, out string host)
         {
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -232,6 +374,34 @@ namespace UCqu
             {
                 id = uid; pwdHash = localSettings.Values["pwdHash"] as string; host = localSettings.Values["host"] as string;
                 return true;
+            }
+        }
+
+        static bool IsToastScheduled
+        {
+            get
+            {
+                bool valid = CommonResources.LoadSetting("toastLastSchedule", out string dateStr);
+                if(dateStr == "") { return false; }
+                string[] segments = dateStr.Split('.');
+                DateTime lastScheduled = new DateTime(int.Parse(segments[0]), int.Parse(segments[1]), int.Parse(segments[2]));
+                if(lastScheduled == DateTime.Today)
+                {
+                    return true;
+                }
+                return false;
+            }
+            set
+            {
+                if(value == true)
+                {
+                    DateTime today = DateTime.Today;
+                    CommonResources.SaveSetting("toastLastSchedule", $"{today.Year}.{today.Month}.{today.Day}");
+                }
+                else
+                {
+                    CommonResources.SaveSetting("toastLastSchedule", $"1.1.1");
+                }
             }
         }
 
