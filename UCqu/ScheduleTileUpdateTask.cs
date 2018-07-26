@@ -73,6 +73,8 @@ namespace UCqu
                     //lc.LogMessage("Course Detected. Creating daily schedule tile.");
                     foreach (ScheduleEntry e in entries)
                     {
+                        (var start, var end) = SessionTimeConverter.ConvertShort(e.SessionSpan);
+
                         AdaptiveGroup midGroup = new AdaptiveGroup()
                         {
                             Children =
@@ -89,7 +91,7 @@ namespace UCqu
                                         },
                                         new AdaptiveText()
                                         {
-                                            Text = e.SessionSpan + "  " + e.Room,
+                                            Text = $"{start}-{end}  {e.Room}",
                                             HintStyle = AdaptiveTextStyle.CaptionSubtle
                                         },
                                     }
@@ -111,7 +113,7 @@ namespace UCqu
                                         },
                                         new AdaptiveText()
                                         {
-                                            Text = e.SessionSpan + "  " + e.Room,
+                                            Text = $"{start}-{end}  {e.Room}",
                                             HintStyle = AdaptiveTextStyle.CaptionSubtle
                                         },
                                     }
@@ -134,7 +136,7 @@ namespace UCqu
                                         },
                                         new AdaptiveText()
                                         {
-                                            Text = e.SessionSpan + "  " + e.Room,
+                                            Text = $"{start}-{end}  {e.Room}",
                                             HintStyle = AdaptiveTextStyle.CaptionSubtle
                                         },
                                         new AdaptiveText()

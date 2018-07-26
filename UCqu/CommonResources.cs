@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Data;
 
 namespace UCqu
 {
-    class CommonResources
+    public class CommonResources
     {
         public const string CurrentTerm = "20180";
         public static DateTime StartDate => new DateTime(2018, 9, 3);
@@ -200,6 +200,11 @@ namespace UCqu
 
         public static (DateTime start, DateTime end) Convert(string value)
         {
+            (var start, var end) = ConvertShort(value);
+            return (start.GetDateTime(), end.GetDateTime());
+        }
+        public static (CommonResources.ScheduleTime start, CommonResources.ScheduleTime end) ConvertShort(string value)
+        {
             string[] segements = value.Split('-');
             CommonResources.LoadSetting("campus", out string campus);
             bool isCampusD = campus == "D" ? true : false;
@@ -212,11 +217,11 @@ namespace UCqu
                 if (end > 11) { end = 11; }
                 if (isCampusD)
                 {
-                    return (CommonResources.StartTimeD[start - 1].GetDateTime(), CommonResources.EndTimeD[start - 1].GetDateTime());
+                    return (CommonResources.StartTimeD[start - 1], CommonResources.EndTimeD[start - 1]);
                 }
                 else
                 {
-                    return (CommonResources.StartTimeABC[start - 1].GetDateTime(), CommonResources.EndTimeABC[start - 1].GetDateTime());
+                    return (CommonResources.StartTimeABC[start - 1], CommonResources.EndTimeABC[start - 1]);
                 }
             }
             else if (segements.Length == 1)
@@ -225,11 +230,11 @@ namespace UCqu
                 if (session > 11) { session = 11; }
                 if (isCampusD)
                 {
-                    return (CommonResources.StartTimeD[session - 1].GetDateTime(), CommonResources.EndTimeD[session - 1].GetDateTime());
+                    return (CommonResources.StartTimeD[session - 1], CommonResources.EndTimeD[session - 1]);
                 }
                 else
                 {
-                    return (CommonResources.StartTimeABC[session - 1].GetDateTime(), CommonResources.EndTimeABC[session - 1].GetDateTime());
+                    return (CommonResources.StartTimeABC[session - 1], CommonResources.EndTimeABC[session - 1]);
                 }
             }
             else
