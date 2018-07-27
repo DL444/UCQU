@@ -319,7 +319,7 @@ namespace UCqu
                     if(courseSwitch)
                     {
                         ScheduledToastNotification toast = new ScheduledToastNotification(courseNotification.GetXml(), new DateTimeOffset(startTime.AddMinutes(-15), new TimeSpan(8, 0, 0)));
-                        toast.ExpirationTime = new DateTimeOffset(startTime.AddMinutes(15), new TimeSpan(8, 0, 0));
+                        toast.ExpirationTime = new DateTimeOffset(startTime.AddMinutes(15), TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
                         ToastNotificationManager.CreateToastNotifier().AddToSchedule(toast);
                     }
                 }
@@ -337,7 +337,7 @@ namespace UCqu
                 else
                 {
                     ScheduledToastNotification dailyGlanceToast = new ScheduledToastNotification(dailyGlance.GetXml(),
-                        new DateTimeOffset(new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 7, 30, 0), new TimeSpan(8, 0, 0)));
+                        new DateTimeOffset(new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 7, 30, 0), TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)));
                     dailyGlanceToast.ExpirationTime = DateTime.Now.AddDays(1);
                     ToastNotificationManager.CreateToastNotifier().AddToSchedule(dailyGlanceToast);
                 }

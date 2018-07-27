@@ -42,7 +42,7 @@ THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED
                 <TextBlock>欢迎加入重庆大学微软学生俱乐部</TextBlock>-->
 
                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">开源许可协议</TextBlock>
-                <TextBlock TextWrapping="Wrap" Text="本软件使用了 Windows Communuty Toolkit 组件. 根据 MIT 许可协议, 使用该组件的应用程序分发中须包含以下文本:" Margin="0,10,0,0" FontFamily="Segoe UI"/>
+                <TextBlock TextWrapping="Wrap" Text="本软件使用了 Windows Communuty Toolkit 与 iCal.NET 组件. 根据 MIT 许可协议, 使用这些组件的应用程序分发中须包含以下文本:" Margin="0,10,0,0" FontFamily="Segoe UI"/>
                 <RichTextBlock Margin="0,10,0,0" TextWrapping="Wrap" FontFamily="Segoe UI">
                     <Paragraph FontWeight="Bold" FontFamily="Segoe UI">
                         Windows Community Toolkit
@@ -53,6 +53,14 @@ THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED
                     <Paragraph>
                         All rights reserved.
                     </Paragraph>
+
+                    <Paragraph FontWeight="Bold" FontFamily="Segoe UI" Margin="0,10,0,0">
+                        iCal.NET
+                    </Paragraph>
+                    <Paragraph Margin="0,10,0,0">
+                        Copyright © 2016 Douglas Day, Rian Stockbower
+                    </Paragraph>
+
                     <Paragraph FontWeight="Bold" Margin="0,10,0,0">
                         MIT License (MIT)
                     </Paragraph>

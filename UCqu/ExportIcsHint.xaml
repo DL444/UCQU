@@ -1,0 +1,35 @@
+﻿<ContentDialog
+    x:Class="UCqu.ExportIcsHint"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UCqu"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="导出到日历"
+    PrimaryButtonText="继续"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+
+    <Grid>
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="1" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+                <TextBlock Text="导出文件" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,0,7" Grid.Column="1"/>
+            </Grid>
+            <TextBlock Text="单击 继续，保存日历文件"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="2" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+                <TextBlock Text="导入日历" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,0,7" Grid.Column="1"/>
+            </Grid>
+            <TextBlock Text="打开保存的文件，将课程导入至日历"/>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

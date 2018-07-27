@@ -217,11 +217,11 @@ namespace UCqu
                 if (end > 11) { end = 11; }
                 if (isCampusD)
                 {
-                    return (CommonResources.StartTimeD[start - 1], CommonResources.EndTimeD[start - 1]);
+                    return (CommonResources.StartTimeD[start - 1], CommonResources.EndTimeD[end - 1]);
                 }
                 else
                 {
-                    return (CommonResources.StartTimeABC[start - 1], CommonResources.EndTimeABC[start - 1]);
+                    return (CommonResources.StartTimeABC[start - 1], CommonResources.EndTimeABC[end - 1]);
                 }
             }
             else if (segements.Length == 1)

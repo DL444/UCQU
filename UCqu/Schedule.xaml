@@ -7,7 +7,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="ExportCalendarBtn" Label="导出到日历" Icon="CalendarReply" Click="ExportCalendarBtn_Click">
+                <!--<AppBarButton.Flyout>
+                    <MenuFlyout>
+                        --><!--<MenuFlyout.MenuFlyoutPresenterStyle>
+                            <Style TargetType="MenuFlyoutPresenter">
+                                <Setter Property="Background" Value="{ThemeResource ChromeAcrylicBrush}"/>
+                            </Style>
+                        </MenuFlyout.MenuFlyoutPresenterStyle>--><!--
+                        <MenuFlyoutItem Text="当前系统日历"/>
+                        <MenuFlyoutItem Text="日历文件"/>--><!--ICS--><!--
+                    </MenuFlyout>
+                </AppBarButton.Flyout>-->
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
     <Grid>
         <FlipView x:Name="WeekFlip" Margin="0,25,0,25" Background="Transparent">
         </FlipView>

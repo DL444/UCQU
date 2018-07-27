@@ -10,43 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListView>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
-            <ListViewItem Content="ABCDHFKJDH"/>
+        <CalendarView HorizontalAlignment="Left" VerticalAlignment="Top" DisplayMode="Month"/>
 
-        </ListView>
     </Grid>
 </Page>

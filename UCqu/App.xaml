@@ -16,7 +16,9 @@
 
             <!--<AcrylicBrush x:Key="NavigationViewTopPaneBackground" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorLight1}" TintOpacity=".7" FallbackColor="{ThemeResource SystemAccentColorLight1}"/>-->
             <AcrylicBrush x:Key="NavigationViewTopPaneBackground" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColor}" TintOpacity=".7" FallbackColor="{ThemeResource SystemAccentColor}"/>
-            
+
+            <!--<AcrylicBrush x:Key="ChromeAcrylicBrush" BackgroundSource="Backdrop" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity=".5" FallbackColor="{ThemeResource SystemAltHighColor}"/>-->
+
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
             </ResourceDictionary.MergedDictionaries>

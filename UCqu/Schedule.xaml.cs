@@ -49,5 +49,21 @@ namespace UCqu
             }
 
         }
+
+        private async void ExportCalendarBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string icsString = IcsHelper.GenerateIcs(watcher.Schedule);
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+            savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            savePicker.FileTypeChoices.Add("ICS 文件", new List<string>() { ".ics" });
+            savePicker.SuggestedFileName = "课表";
+            Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+            if(file != null)
+            {
+                Windows.Storage.CachedFileManager.DeferUpdates(file);
+                await Windows.Storage.FileIO.WriteTextAsync(file, icsString);
+                await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(file);
+            }
+        }
     }
 }

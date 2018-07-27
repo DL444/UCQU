@@ -16,7 +16,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="176"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -26,7 +26,7 @@
                         <Grid Background="{ThemeResource NavigationViewTopPaneBackground}" >
                             <StackPanel Padding="40,0,0,20" VerticalAlignment="Center">
                                 <TextBlock Text="{x:Bind Name}"  Style="{ThemeResource HeaderTextBlockStyle}" Margin="0,0,0,5"/>
-                                <TextBlock Text="{x:Bind Id}"  Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,0,20"/>
+                                <TextBlock Text="{x:Bind Id}"  Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,20"/>
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Library" Margin="0,0,10,0"/>
                                     <TextBlock Text="{x:Bind Major}" Margin="0,0,50,0"/>
