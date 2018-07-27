@@ -254,6 +254,14 @@ namespace UCqu
 
         public static void ScheduleToast(List<ScheduleEntry> entries)
         {
+            bool courseSwitch = true;
+            bool dailySwitch = true;
+            if (CommonResources.LoadSetting("courseToastSwitch", out string _cSwitch) == false) { CommonResources.SaveSetting("courseToastSwitch", "on"); }
+            else { if (_cSwitch == "off") { courseSwitch = false; } }
+            if (CommonResources.LoadSetting("dailyToastSwitch", out string _dSwitch) == false) { CommonResources.SaveSetting("dailyToastSwitch", "on"); }
+            else { if (_cSwitch == "off") { dailySwitch = false; } }
+
+
             if (entries.Count == 0) { return; }
 
             ToastContent dailyGlance = new ToastContent()
@@ -308,29 +316,38 @@ namespace UCqu
                 );
                 try
                 {
-                    ScheduledToastNotification toast = new ScheduledToastNotification(courseNotification.GetXml(), new DateTimeOffset(startTime.AddMinutes(-15), new TimeSpan(8, 0, 0)));
-                    toast.ExpirationTime = new DateTimeOffset(startTime.AddMinutes(15), new TimeSpan(8, 0, 0));
-                    ToastNotificationManager.CreateToastNotifier().AddToSchedule(toast);
+                    if(courseSwitch)
+                    {
+                        ScheduledToastNotification toast = new ScheduledToastNotification(courseNotification.GetXml(), new DateTimeOffset(startTime.AddMinutes(-15), new TimeSpan(8, 0, 0)));
+                        toast.ExpirationTime = new DateTimeOffset(startTime.AddMinutes(15), new TimeSpan(8, 0, 0));
+                        ToastNotificationManager.CreateToastNotifier().AddToSchedule(toast);
+                    }
                 }
                 catch (ArgumentException) { }
             }
 
-            if (DateTime.Now.Hour > 7 || (DateTime.Now.Hour == 7 && DateTime.Now.Minute > 25))
+            if(dailySwitch)
             {
-                ToastNotification dailyGlanceToast = new ToastNotification(dailyGlance.GetXml());
-                dailyGlanceToast.ExpirationTime = DateTime.Now.AddDays(1);
-                ToastNotificationManager.CreateToastNotifier().Show(dailyGlanceToast);
-            }
-            else
-            {
-                ScheduledToastNotification dailyGlanceToast = new ScheduledToastNotification(dailyGlance.GetXml(), 
-                    new DateTimeOffset(new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 7, 30, 0), new TimeSpan(8, 0, 0)));
-                dailyGlanceToast.ExpirationTime = DateTime.Now.AddDays(1);
-                ToastNotificationManager.CreateToastNotifier().AddToSchedule(dailyGlanceToast);
+                if (DateTime.Now.Hour > 7 || (DateTime.Now.Hour == 7 && DateTime.Now.Minute > 25))
+                {
+                    ToastNotification dailyGlanceToast = new ToastNotification(dailyGlance.GetXml());
+                    dailyGlanceToast.ExpirationTime = DateTime.Now.AddDays(1);
+                    ToastNotificationManager.CreateToastNotifier().Show(dailyGlanceToast);
+                }
+                else
+                {
+                    ScheduledToastNotification dailyGlanceToast = new ScheduledToastNotification(dailyGlance.GetXml(),
+                        new DateTimeOffset(new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 7, 30, 0), new TimeSpan(8, 0, 0)));
+                    dailyGlanceToast.ExpirationTime = DateTime.Now.AddDays(1);
+                    ToastNotificationManager.CreateToastNotifier().AddToSchedule(dailyGlanceToast);
+                }
             }
         }
         public static void ScheduleToast(HuxiImgEntry entry)
         {
+            if(CommonResources.LoadSetting("imgToastSwitch", out string _switch) == false) { CommonResources.SaveSetting("imgToastSwitch", "on"); }
+            else { if(_switch == "off") { return; } }
+
             ToastContent imageToast = new ToastContent()
             {
                 Visual = new ToastVisual()

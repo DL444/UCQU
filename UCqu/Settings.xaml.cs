@@ -50,6 +50,27 @@ namespace UCqu
                 if(campus == "ABC") { CampusCombo.SelectedIndex = 0; }
                 else if(campus == "D") { CampusCombo.SelectedIndex = 1; }
             }
+
+            if(CommonResources.LoadSetting("courseToastSwitch", out string courseSwitch) == true)
+            {
+                CourseToastToggle.IsOn = courseSwitch == "on" ? true : false;
+            }
+            if (CommonResources.LoadSetting("dailyToastSwitch", out string dailySwitch) == true)
+            {
+                DailyToastToggle.IsOn = dailySwitch == "on" ? true : false;
+            }
+            if (CommonResources.LoadSetting("imgToastSwitch", out string imgSwitch) == true)
+            {
+                HuxiImgToastToggle.IsOn = imgSwitch == "on" ? true : false;
+            }
+
+        }
+
+        private void ToastToggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            ToggleSwitch _switch = sender as ToggleSwitch;
+            string str = _switch.IsOn ? "on" : "off";
+            CommonResources.SaveSetting(_switch.Tag as string, str);
         }
     }
 }

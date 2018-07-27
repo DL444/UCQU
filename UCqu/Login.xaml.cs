@@ -50,6 +50,10 @@ namespace UCqu
             }
             if (isCorrect)
             {
+                if (CommonResources.LoadSetting("courseToastSwitch", out string _cSwitch) == false) { CommonResources.SaveSetting("courseToastSwitch", "on"); }
+                if (CommonResources.LoadSetting("dailyToastSwitch", out string _dSwitch) == false) { CommonResources.SaveSetting("dailyToastSwitch", "on"); }
+                if (CommonResources.LoadSetting("imgToastSwitch", out string _switch) == false) { CommonResources.SaveSetting("imgToastSwitch", "on"); }
+
                 watcher.Workload = new SingleWorkload(IdBox.Text);
                 try
                 {
