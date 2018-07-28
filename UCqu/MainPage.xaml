@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:xamlLib="using:Microsoft.UI.Xaml.Controls"
+    xmlns:scoreLib="using:CquScoreLib"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -150,7 +151,43 @@
     </Grid>-->
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <xamlLib:NavigationView x:Name="NavPane" HorizontalAlignment="Stretch" IsBackButtonVisible="Collapsed" SelectionFollowsFocus="Enabled" VerticalAlignment="Stretch" IsSettingsVisible="False" PaneDisplayMode="Top" SelectionChanged="NavPane_SelectionChanged">
-            <Frame x:Name="ContentFrame"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <ContentControl x:Name="HeaderControl" Height="176" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <animations:Implicit.HideAnimations>
+                        <animations:ScalarAnimation Target="Translation.Y" To="-176" Duration="0:0:0.75"/>
+                        <animations:OpacityAnimation From="2" To="0" Duration="0:0:0.75"/>
+                    </animations:Implicit.HideAnimations>
+                    <animations:Implicit.ShowAnimations>
+                        <animations:ScalarAnimation Target="Translation.Y" To="0" Duration="0:0:0.75"/>
+                        <animations:OpacityAnimation From="0" To="2" Duration="0:0:0.75"/>
+                    </animations:Implicit.ShowAnimations>
+                    <ContentControl.ContentTemplate>
+                        <DataTemplate x:DataType="scoreLib:ScoreSet">
+                            <Grid Background="{ThemeResource NavigationViewTopPaneBackground}" >
+                                <StackPanel Padding="40,0,0,20" VerticalAlignment="Center">
+                                    <TextBlock Text="{x:Bind Name}"  Style="{ThemeResource HeaderTextBlockStyle}" Margin="0,0,0,5"/>
+                                    <TextBlock Text="{x:Bind Id}"  Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,20"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Library" Margin="0,0,10,0"/>
+                                        <TextBlock Text="{x:Bind Major}" Margin="0,0,50,0"/>
+                                        <SymbolIcon Symbol="OutlineStar" Margin="0,0,10,0"/>
+                                        <TextBlock Text="{x:Bind GPA, Converter={StaticResource GrandGPAConverter}}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ContentControl.ContentTemplate>
+                </ContentControl>
+                <Frame x:Name="ContentFrame" Grid.Row="1">
+                    <animations:Implicit.Animations>
+                        <animations:OffsetAnimation Duration="0:0:0.75"/>
+                    </animations:Implicit.Animations>
+                </Frame>
+            </Grid>
             <xamlLib:NavigationView.MenuItems>
                 <xamlLib:NavigationViewItem Content="主页" Icon="Home" Tag="Home"/>
                 <xamlLib:NavigationViewItem Content="课表" Icon="Calendar" Tag="Schedule"/>

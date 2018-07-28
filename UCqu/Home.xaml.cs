@@ -34,6 +34,7 @@ namespace UCqu
         public Home()
         {
             this.InitializeComponent();
+            //NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -44,7 +45,7 @@ namespace UCqu
             {
                 watcher = e.Parameter as Watcher;
                 ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
-                HeaderControl.Content = set;
+                //HeaderControl.Content = set;
 
                 dayEntries = watcher.Schedule.GetDaySchedule((/*DateTime.Today*/testDate - startDate).Days);
                 if (dayEntries.Count != 0)

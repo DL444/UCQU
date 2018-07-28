@@ -16,10 +16,10 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="176"/>
+            <!--<RowDefinition Height="176"/>-->
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <!--<Grid Grid.Row="0">
             <ContentControl x:Name="HeaderControl" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                 <ContentControl.ContentTemplate>
                     <DataTemplate x:DataType="scoreLib:ScoreSet">
@@ -38,7 +38,7 @@
                     </DataTemplate>
                 </ContentControl.ContentTemplate>
             </ContentControl>
-        </Grid>
+        </Grid>-->
         <ScrollViewer Grid.Row="1" Padding="40,0,40,0">
             <StackPanel Margin="0,20,0,0">
                 <ListView x:Name="TodayScheduleList" Visibility="Collapsed" ScrollViewer.VerticalScrollMode="Disabled" extensions:ListViewExtensions.AlternateColor="{StaticResource AlternateRowBackgroundBrush}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" IsItemClickEnabled="False" SelectionMode="None">

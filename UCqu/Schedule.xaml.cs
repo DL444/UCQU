@@ -30,7 +30,7 @@ namespace UCqu
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -39,7 +39,23 @@ namespace UCqu
                 watcher = e.Parameter as Watcher;
                 CquScoreLib.Schedule schedule = watcher.Schedule;
 
-                for(int i = 1; i <= schedule.Count; i++)
+
+
+                //await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                //    () =>
+                //    {
+                //        for (int i = 1; i <= schedule.Count; i++)
+                //        {
+                //            ScheduleFrame frame = new ScheduleFrame();
+                //            frame.Schedule = schedule;
+                //            frame.Week = i;
+                //            WeekFlip.Items.Add(frame);
+                //        }
+                //    }
+                //    );
+
+
+                for (int i = 1; i <= schedule.Count; i++)
                 {
                     ScheduleFrame frame = new ScheduleFrame();
                     frame.Schedule = schedule;

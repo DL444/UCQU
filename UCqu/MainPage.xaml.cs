@@ -60,6 +60,14 @@ namespace UCqu
             if (args.SelectedItem == null) { return; }
             string selectionTag = (args.SelectedItem as NewControls.NavigationViewItem).Tag.ToString();
             if (watcher == null) { return; }
+            if (selectionTag == "Home")
+            {
+                HeaderControl.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                HeaderControl.Visibility = Visibility.Collapsed;
+            }
             switch (selectionTag)
             {
                 case "Home":
@@ -91,6 +99,7 @@ namespace UCqu
             {
                 watcher = e.Parameter as Watcher;
                 //HomeBtn.IsChecked = true;
+                HeaderControl.Content = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
                 ContentFrame.Navigate(typeof(Home), watcher);
             }
 
