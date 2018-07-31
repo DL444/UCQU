@@ -84,6 +84,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Page.Resources>
     
     <!--<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -156,7 +157,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ContentControl x:Name="HeaderControl" Height="176" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <ContentControl x:Name="HeaderControl" Height="176" Foreground="White" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <animations:Implicit.HideAnimations>
                         <animations:ScalarAnimation Target="Translation.Y" To="-176" Duration="0:0:0.75"/>
                         <animations:OpacityAnimation From="2" To="0" Duration="0:0:0.75"/>
@@ -189,12 +190,35 @@
                 </Frame>
             </Grid>
             <xamlLib:NavigationView.MenuItems>
-                <xamlLib:NavigationViewItem Content="主页" Icon="Home" Tag="Home"/>
-                <xamlLib:NavigationViewItem Content="课表" Icon="Calendar" Tag="Schedule"/>
-                <xamlLib:NavigationViewItem Content="成绩" Icon="OutlineStar" Tag="Score"/>
+                <xamlLib:NavigationViewItem Tag="Home">
+                    <xamlLib:NavigationViewItem.Content>
+                        <TextBlock Text="主页" Foreground="White"/>
+                    </xamlLib:NavigationViewItem.Content>
+                    <xamlLib:NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="Home" Foreground="White"/>
+                    </xamlLib:NavigationViewItem.Icon>
+                </xamlLib:NavigationViewItem>
+                <xamlLib:NavigationViewItem Tag="Schedule">
+                    <xamlLib:NavigationViewItem.Content>
+                        <TextBlock Text="课表" Foreground="White"/>
+                    </xamlLib:NavigationViewItem.Content>
+                    <xamlLib:NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="Calendar" Foreground="White"/>
+                    </xamlLib:NavigationViewItem.Icon>
+                </xamlLib:NavigationViewItem>
+                <xamlLib:NavigationViewItem Tag="Score">
+                    <xamlLib:NavigationViewItem.Content>
+                        <TextBlock Text="成绩" Foreground="White"/>
+                    </xamlLib:NavigationViewItem.Content>
+                    <xamlLib:NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="OutlineStar" Foreground="White"/>
+                    </xamlLib:NavigationViewItem.Icon>
+                </xamlLib:NavigationViewItem>
+                <!--<xamlLib:NavigationViewItem Content="课表" Icon="Calendar" Tag="Schedule"/>
+                <xamlLib:NavigationViewItem Content="成绩" Icon="OutlineStar" Tag="Score"/>-->
             </xamlLib:NavigationView.MenuItems>
             <xamlLib:NavigationView.PaneFooter>
-                <CommandBar Background="Transparent">
+                <CommandBar Background="Transparent" Foreground="White">
                     <CommandBar.SecondaryCommands>
                         <AppBarButton x:Name="LogoutBtn" Icon="Permissions" Label="注销登录" Click="LogoutBtn_Click"/>
                         <AppBarButton x:Name="SettingsBtn" Icon="Setting" Label="设置" Click="SettingsBtn_Click"/>

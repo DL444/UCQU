@@ -57,7 +57,11 @@ namespace UCqu
 
         private void NavPane_SelectionChanged(NewControls.NavigationView sender, NewControls.NavigationViewSelectionChangedEventArgs args)
         {
-            if (args.SelectedItem == null) { return; }
+            if (args.SelectedItem == null)
+            {
+                HeaderControl.Visibility = Visibility.Collapsed;
+                return;
+            }
             string selectionTag = (args.SelectedItem as NewControls.NavigationViewItem).Tag.ToString();
             if (watcher == null) { return; }
             if (selectionTag == "Home")

@@ -47,7 +47,7 @@ namespace UCqu
                 ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
                 //HeaderControl.Content = set;
 
-                dayEntries = watcher.Schedule.GetDaySchedule((/*DateTime.Today*/testDate - startDate).Days);
+                dayEntries = watcher.Schedule.GetDaySchedule((DateTime.Today/*testDate*/ - startDate).Days);
                 if (dayEntries.Count != 0)
                 {
                     dayEntries.Sort();
