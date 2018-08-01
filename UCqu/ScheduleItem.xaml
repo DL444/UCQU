@@ -7,9 +7,22 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="200">
+    d:DesignWidth="200"
+    xmlns:contract5Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
+    xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
+    >
 
     <Control.Resources>
+        <ResourceDictionary>
+            <contract5Present:AcrylicBrush x:Key="ScheduleTile0" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorLight1}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorLight1}"/>
+            <contract5Present:AcrylicBrush x:Key="ScheduleTile1" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColor}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColor}"/>
+            <contract5Present:AcrylicBrush x:Key="ScheduleTile2" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorDark1}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorDark1}"/>
+            <contract5Present:AcrylicBrush x:Key="ScheduleTile3" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorDark2}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorDark2}"/>
+            <contract5NotPresent:SolidColorBrush x:Key="ScheduleTile0" Color="{ThemeResource SystemAccentColorLight1}"/>
+            <contract5NotPresent:SolidColorBrush x:Key="ScheduleTile1" Color="{ThemeResource SystemAccentColor}"/>
+            <contract5NotPresent:SolidColorBrush x:Key="ScheduleTile2" Color="{ThemeResource SystemAccentColorDark1}"/>
+            <contract5NotPresent:SolidColorBrush x:Key="ScheduleTile3" Color="{ThemeResource SystemAccentColorDark2}"/>
+        </ResourceDictionary>
             <!--<AcrylicBrush x:Key="ScheduleTile0" BackgroundSource="HostBackdrop" TintColor="DarkBlue" TintOpacity="0.7" FallbackColor="DarkBlue"/>
             <AcrylicBrush x:Key="ScheduleTile1" BackgroundSource="HostBackdrop" TintColor="ForestGreen" TintOpacity="0.7" FallbackColor="ForestGreen"/>
             <AcrylicBrush x:Key="ScheduleTile2" BackgroundSource="HostBackdrop" TintColor="Orange" TintOpacity="0.7" FallbackColor="Orange"/>
@@ -17,10 +30,6 @@
             <AcrylicBrush x:Key="ScheduleTile4" BackgroundSource="HostBackdrop" TintColor="Teal" TintOpacity="0.7" FallbackColor="Teal"/>
             <AcrylicBrush x:Key="ScheduleTile5" BackgroundSource="HostBackdrop" TintColor="Violet" TintOpacity="0.7" FallbackColor="Violet"/>
             <AcrylicBrush x:Key="ScheduleTile6" BackgroundSource="HostBackdrop" TintColor="Indigo" TintOpacity="0.7" FallbackColor="Indigo"/>-->
-        <AcrylicBrush x:Key="ScheduleTile0" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorLight1}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorLight1}"/>
-        <AcrylicBrush x:Key="ScheduleTile1" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColor}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColor}"/>
-        <AcrylicBrush x:Key="ScheduleTile2" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorDark1}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorDark1}"/>
-        <AcrylicBrush x:Key="ScheduleTile3" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorDark2}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorDark2}"/>
     </Control.Resources>
     
     <Grid>

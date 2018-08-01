@@ -16,9 +16,11 @@ namespace UCqu
             List<HuxiImgEntry> entries = new List<HuxiImgEntry>(24);
 
             HttpWebRequest request = HttpWebRequest.CreateHttp("http://huxi.cqu.edu.cn/tsnewjson/1");
-            request.Referer = "http://huxi.cqu.edu.cn/newsclass/7f0e208b91d235fd";
+            //request.Referer = "http://huxi.cqu.edu.cn/newsclass/7f0e208b91d235fd";
+            request.Headers[HttpRequestHeader.Referer] = "http://huxi.cqu.edu.cn/newsclass/7f0e208b91d235fd";
             request.Accept = "application/json, text/javascript, */*; q=0.01";
-            request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134";
+            //request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134";
+            request.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134";
 
             HttpWebResponse response = null;
             try
