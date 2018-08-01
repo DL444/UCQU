@@ -285,8 +285,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="CQUScoreLib">
-      <HintPath>..\..\ScoreScraper\CQUScoreLib\bin\Release\netcoreapp2.0\CQUScoreLib.dll</HintPath>
+    <Reference Include="CQUScoreLib11, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ScoreScraper\CQUScoreLib11\bin\Release\netcoreapp1.1\CQUScoreLib11.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
