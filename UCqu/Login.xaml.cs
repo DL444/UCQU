@@ -133,6 +133,7 @@ namespace UCqu
                 if(e.Parameter as string == "logout")
                 {
                     SaveCredentials("", "", "",true);
+                    CommonResources.SaveSetting("campus", null);
                     return;
                 }
             }

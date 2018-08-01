@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CquScoreLib;
+using Windows.Foundation.Metadata;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -37,9 +38,22 @@ namespace UCqu
         }
         void Draw()
         {
+            bool uiFallback = !ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5);
             int hash = entry.Name.GetHashCode() % 4;
             if(hash < 0) { hash = -hash; }
-            BackgroundGrid.Background = (AcrylicBrush)this.Resources["ScheduleTile" + hash.ToString()];
+            string backgroundKey = "ScheduleTile" + hash.ToString();
+            if(uiFallback)
+            {
+                backgroundKey = backgroundKey + "Fallback";
+            }
+            if(uiFallback)
+            {
+                BackgroundGrid.Background = (SolidColorBrush)this.Resources[backgroundKey];
+            }
+            else
+            {
+                BackgroundGrid.Background = (AcrylicBrush)this.Resources[backgroundKey];
+            }
             CourseNameBox.Text = entry.Name;
             RoomBox.Text = entry.Room;
         }

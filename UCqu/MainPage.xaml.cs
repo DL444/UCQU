@@ -26,7 +26,7 @@ namespace UCqu
     public sealed partial class MainPage : Page
     {
         Watcher watcher = null;
-        bool firstNavigate = true;
+        //bool firstNavigate = true;
         bool isCampusD = false;
         public MainPage()
         {
@@ -107,13 +107,16 @@ namespace UCqu
                 ContentFrame.Navigate(typeof(Home), watcher);
             }
 
-            if(firstNavigate)
+            if(CommonResources.LaunchState)
             {
+                CommonResources.LaunchState = false;
                 string campus = "";
                 if(CommonResources.LoadSetting("campus", out campus) == false)
                 {
                     CampusSelect campusSelect = new CampusSelect();
                     await campusSelect.ShowAsync();
+                    CommonResources.LoadSetting("campus", out campus);
+                    if (campus == "D") { isCampusD = true; }
                 }
                 else
                 {
@@ -147,7 +150,6 @@ namespace UCqu
                 builder.Name = "Login Tile Update Task";
                 builder.SetTrigger(new SystemTrigger(SystemTriggerType.UserPresent, false));
                 builder.Register();
-                firstNavigate = false;
             }
 
             await ScheduleNotificationUpdateTasks.UpdateTile();
