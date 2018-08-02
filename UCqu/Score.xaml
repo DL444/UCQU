@@ -235,7 +235,7 @@
                                     </VisualState>
                                     <VisualState x:Name="Minimal">
                                         <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="0"/>
+                                            <AdaptiveTrigger MinWindowWidth="450"/>
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="HeaderPanel.Orientation" Value="Vertical"/>
@@ -244,11 +244,24 @@
                                             <Setter Target="StarHeader.Width" Value="0"/>
                                         </VisualState.Setters>
                                     </VisualState>
+                                    <VisualState x:Name="Phone">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="0"/>
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="TermHeader.FontSize" Value="24"/>
+                                            <Setter Target="HeaderPanel.Orientation" Value="Vertical"/>
+                                            <Setter Target="CommentHeader.Width" Value="0"/>
+                                            <Setter Target="LecturerHeader.Width" Value="0"/>
+                                            <Setter Target="StarHeader.Width" Value="0"/>
+                                            <Setter Target="ItemBody.Margin" Value="30,20,30,20"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <StackPanel Margin="50,20,50,20" HorizontalAlignment="Stretch">
+                            <StackPanel x:Name="ItemBody" Margin="50,20,50,20" HorizontalAlignment="Stretch">
                                 <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Stretch" Orientation="Horizontal"  Margin="0,0,0,20">
-                                    <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" Text="{x:Bind}" VerticalAlignment="Bottom" Margin="0,0,30,0" MinWidth="200"/>
+                                    <TextBlock x:Name="TermHeader" Style="{ThemeResource SubheaderTextBlockStyle}" Text="{x:Bind}" VerticalAlignment="Bottom" Margin="0,0,30,0" MinWidth="200"/>
                                     <TextBlock Text="{x:Bind GPA, Converter={StaticResource TermGPAConverter}}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,2">
                                         <animation:Implicit.Animations>
                                             <animation:OffsetAnimation Duration="0:0:0.3"/>

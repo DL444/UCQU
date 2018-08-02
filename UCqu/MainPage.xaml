@@ -151,13 +151,14 @@
         </xamlLib:NavigationView>--><!--
     </Grid>-->
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
         <xamlLib:NavigationView x:Name="NavPane" HorizontalAlignment="Stretch" IsBackButtonVisible="Collapsed" SelectionFollowsFocus="Enabled" VerticalAlignment="Stretch" IsSettingsVisible="False" PaneDisplayMode="Top" SelectionChanged="NavPane_SelectionChanged">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ContentControl x:Name="HeaderControl" Height="176" Foreground="White" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <ContentControl x:Name="HeaderControl" Height="Auto" Foreground="White" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <animations:Implicit.HideAnimations>
                         <animations:ScalarAnimation Target="Translation.Y" To="-176" Duration="0:0:0.75"/>
                         <animations:OpacityAnimation From="2" To="0" Duration="0:0:0.75"/>
@@ -168,18 +169,53 @@
                     </animations:Implicit.ShowAnimations>
                     <ContentControl.ContentTemplate>
                         <DataTemplate x:DataType="scoreLib:ScoreSet">
-                            <Grid Background="{ThemeResource NavigationViewTopPaneBackground}" >
-                                <StackPanel Padding="40,0,0,20" VerticalAlignment="Center">
-                                    <TextBlock Text="{x:Bind Name}"  Style="{ThemeResource HeaderTextBlockStyle}" Margin="0,0,0,5"/>
-                                    <TextBlock Text="{x:Bind Id}"  Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,20"/>
-                                    <StackPanel Orientation="Horizontal">
-                                        <SymbolIcon Symbol="Library" Margin="0,0,10,0"/>
-                                        <TextBlock Text="{x:Bind Major}" Margin="0,0,50,0"/>
-                                        <SymbolIcon Symbol="OutlineStar" Margin="0,0,10,0"/>
-                                        <TextBlock Text="{x:Bind GPA, Converter={StaticResource GrandGPAConverter}}" />
+                            <UserControl>
+                                <Grid Background="{ThemeResource NavigationViewTopPaneBackground}" >
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowHeight="500"/>
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters/>
+                                            </VisualState>
+                                            <VisualState x:Name="Compact">
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowHeight="0"/>
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters>
+                                                    <Setter Target="NamePanel.Orientation" Value="Horizontal"/>
+                                                    <Setter Target="NameHeaderBox.FontSize" Value="32"/>
+                                                    <Setter Target="IdHeaderBox.Margin" Value="10,0,0,15"/>
+                                                    <Setter Target="NameHeaderBox.Margin" Value="0,0,0,15"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <StackPanel Padding="40,10,0,30" VerticalAlignment="Center">
+                                        <StackPanel x:Name="NamePanel" Orientation="Vertical">
+                                            <animations:Implicit.Animations>
+                                                <animations:OffsetAnimation Duration="0:0:0.3"/>
+                                            </animations:Implicit.Animations>
+                                            <TextBlock x:Name="NameHeaderBox" Text="{x:Bind Name}"  Style="{ThemeResource HeaderTextBlockStyle}" Margin="0,0,0,5" VerticalAlignment="Bottom"/>
+                                            <TextBlock x:Name="IdHeaderBox" Text="{x:Bind Id}"  Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,20" VerticalAlignment="Bottom">
+                                                <animations:Implicit.Animations>
+                                                    <animations:OffsetAnimation Duration="0:0:0.3"/>
+                                                </animations:Implicit.Animations>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <animations:Implicit.Animations>
+                                                <animations:OffsetAnimation Duration="0:0:0.3"/>
+                                            </animations:Implicit.Animations>
+                                            <SymbolIcon Symbol="Library" Margin="0,0,10,0"/>
+                                            <TextBlock Text="{x:Bind Major}" Margin="0,0,50,0"/>
+                                            <SymbolIcon Symbol="OutlineStar" Margin="0,0,10,0"/>
+                                            <TextBlock Text="{x:Bind GPA, Converter={StaticResource GrandGPAConverter}}" />
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </Grid>
+                                </Grid>
+                            </UserControl>
                         </DataTemplate>
                     </ContentControl.ContentTemplate>
                 </ContentControl>
