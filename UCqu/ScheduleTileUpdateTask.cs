@@ -259,7 +259,7 @@ namespace UCqu
             if (CommonResources.LoadSetting("courseToastSwitch", out string _cSwitch) == false) { CommonResources.SaveSetting("courseToastSwitch", "on"); }
             else { if (_cSwitch == "off") { courseSwitch = false; } }
             if (CommonResources.LoadSetting("dailyToastSwitch", out string _dSwitch) == false) { CommonResources.SaveSetting("dailyToastSwitch", "on"); }
-            else { if (_cSwitch == "off") { dailySwitch = false; } }
+            else { if (_dSwitch == "off") { dailySwitch = false; } }
 
 
             if (entries.Count == 0) { return; }
