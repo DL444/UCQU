@@ -22,7 +22,7 @@ THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED
         <ScrollViewer>
             <StackPanel MaxWidth="640" Padding="20,0,20,20">
                 <TextBlock Style="{ThemeResource HeaderTextBlockStyle}" Text="关于" Margin="0,20,0,0"/>
-                <RichTextBlock FontWeight="Bold" Style="{ThemeResource BodyRichTextBlockStyle}" FontSize="25" Margin="0,10,0,0">
+                <RichTextBlock FontWeight="Bold" Style="{ThemeResource BodyRichTextBlockStyle}" IsTextSelectionEnabled="False" FontSize="25" Margin="0,10,0,0">
                     <Paragraph>
                         <Span Foreground="{ThemeResource SystemControlForegroundAccentBrush}">U</Span>niversal
                         <Span Foreground="{ThemeResource SystemControlForegroundAccentBrush}">CQU</Span>
@@ -44,7 +44,7 @@ THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED
 
                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">开源许可协议</TextBlock>
                 <TextBlock TextWrapping="Wrap" Text="本软件使用了 Windows Communuty Toolkit 与 iCal.NET 组件. 根据 MIT 许可协议, 使用这些组件的应用程序分发中须包含以下文本:" Margin="0,10,0,0" FontFamily="Segoe UI"/>
-                <RichTextBlock Margin="0,10,0,0" TextWrapping="Wrap" FontFamily="Segoe UI">
+                <RichTextBlock Margin="0,10,0,0" TextWrapping="Wrap" FontFamily="Segoe UI" IsTextSelectionEnabled="False">
                     <Paragraph FontWeight="Bold" FontFamily="Segoe UI">
                         Windows Community Toolkit
                     </Paragraph>
