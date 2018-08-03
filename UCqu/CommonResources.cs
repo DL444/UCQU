@@ -30,68 +30,80 @@ namespace UCqu
         }
 
         public static ImmutableArray<ScheduleTime> StartTimeABC { get; } =
-            new ImmutableArray<ScheduleTime>
-        {
-            new ScheduleTime(08, 00),
-            new ScheduleTime(08, 55),
-            new ScheduleTime(10, 10),
-            new ScheduleTime(11, 05),
-            new ScheduleTime(14, 30),
-            new ScheduleTime(15, 25),
-            new ScheduleTime(16, 40),
-            new ScheduleTime(17, 35),
-            new ScheduleTime(19, 30),
-            new ScheduleTime(20, 25),
-            new ScheduleTime(21, 20),
-        };
+            ImmutableArray.Create
+            (
+                new ScheduleTime[]
+                {
+                    new ScheduleTime(08, 00),
+                    new ScheduleTime(08, 55),
+                    new ScheduleTime(10, 10),
+                    new ScheduleTime(11, 05),
+                    new ScheduleTime(14, 30),
+                    new ScheduleTime(15, 25),
+                    new ScheduleTime(16, 40),
+                    new ScheduleTime(17, 35),
+                    new ScheduleTime(19, 30),
+                    new ScheduleTime(20, 25),
+                    new ScheduleTime(21, 20),
+                }
+            );
 
         public static ImmutableArray<ScheduleTime> EndTimeABC { get; } =
-            new ImmutableArray<ScheduleTime>
-        {
-            new ScheduleTime(08, 45),
-            new ScheduleTime(09, 40),
-            new ScheduleTime(10, 55),
-            new ScheduleTime(11, 50),
-            new ScheduleTime(15, 15),
-            new ScheduleTime(16, 10),
-            new ScheduleTime(17, 25),
-            new ScheduleTime(18, 20),
-            new ScheduleTime(20, 15),
-            new ScheduleTime(21, 10),
-            new ScheduleTime(22, 05),
-        };
+            ImmutableArray.Create
+            (
+                new ScheduleTime[]
+                {
+                    new ScheduleTime(08, 45),
+                    new ScheduleTime(09, 40),
+                    new ScheduleTime(10, 55),
+                    new ScheduleTime(11, 50),
+                    new ScheduleTime(15, 15),
+                    new ScheduleTime(16, 10),
+                    new ScheduleTime(17, 25),
+                    new ScheduleTime(18, 20),
+                    new ScheduleTime(20, 15),
+                    new ScheduleTime(21, 10),
+                    new ScheduleTime(22, 05),
+                }
+            );
 
         public static ImmutableArray<ScheduleTime> StartTimeD { get; } =
-            new ImmutableArray<ScheduleTime>
-        {
-            new ScheduleTime(08, 30),
-            new ScheduleTime(09, 25),
-            new ScheduleTime(10, 30),
-            new ScheduleTime(11, 25),
-            new ScheduleTime(14, 00),
-            new ScheduleTime(14, 55),
-            new ScheduleTime(16, 00),
-            new ScheduleTime(16, 55),
-            new ScheduleTime(19, 00),
-            new ScheduleTime(19, 55),
-            new ScheduleTime(20, 50),
-        };
+            ImmutableArray.Create
+            (
+                new ScheduleTime[]
+                {
+                    new ScheduleTime(08, 30),
+                    new ScheduleTime(09, 25),
+                    new ScheduleTime(10, 30),
+                    new ScheduleTime(11, 25),
+                    new ScheduleTime(14, 00),
+                    new ScheduleTime(14, 55),
+                    new ScheduleTime(16, 00),
+                    new ScheduleTime(16, 55),
+                    new ScheduleTime(19, 00),
+                    new ScheduleTime(19, 55),
+                    new ScheduleTime(20, 50),
+                }
+            );
 
         public static ImmutableArray<ScheduleTime> EndTimeD { get; } =
-            new ImmutableArray<ScheduleTime>
-        {
-            new ScheduleTime(09, 15),
-            new ScheduleTime(10, 10),
-            new ScheduleTime(11, 15),
-            new ScheduleTime(12, 10),
-            new ScheduleTime(14, 45),
-            new ScheduleTime(15, 40),
-            new ScheduleTime(16, 45),
-            new ScheduleTime(17, 40),
-            new ScheduleTime(19, 45),
-            new ScheduleTime(20, 40),
-            new ScheduleTime(21, 35),
-        };
+            ImmutableArray.Create
+            (
+                new ScheduleTime[]
+                {
+                    new ScheduleTime(09, 15),
+                    new ScheduleTime(10, 10),
+                    new ScheduleTime(11, 15),
+                    new ScheduleTime(12, 10),
+                    new ScheduleTime(14, 45),
+                    new ScheduleTime(15, 40),
+                    new ScheduleTime(16, 45),
+                    new ScheduleTime(17, 40),
+                    new ScheduleTime(19, 45),
+                    new ScheduleTime(20, 40),
+                    new ScheduleTime(21, 35),
+                }
+            );
 
         public struct ScheduleTime
         {
