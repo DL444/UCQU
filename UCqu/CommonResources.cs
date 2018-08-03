@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,125 +29,87 @@ namespace UCqu
             else { value = val; return true; }
         }
 
-        public static ScheduleTime[] StartTimeABC
+        public static ImmutableArray<ScheduleTime> StartTimeABC { get; } =
+            new ImmutableArray<ScheduleTime>
         {
-            get
-            {
-                return new ScheduleTime[]
-                {
-                    new ScheduleTime(08, 00),
-                    new ScheduleTime(08, 55),
-                    new ScheduleTime(10, 10),
-                    new ScheduleTime(11, 05),
-                    new ScheduleTime(14, 30),
-                    new ScheduleTime(15, 25),
-                    new ScheduleTime(16, 40),
-                    new ScheduleTime(17, 35),
-                    new ScheduleTime(19, 30),
-                    new ScheduleTime(20, 25),
-                    new ScheduleTime(21, 20),
-                };
-            }
-        }
-        public static ScheduleTime[] EndTimeABC
-        {
-            get
-            {
-                return new ScheduleTime[]
-                {
-                    new ScheduleTime(08, 45),
-                    new ScheduleTime(09, 40),
-                    new ScheduleTime(10, 55),
-                    new ScheduleTime(11, 50),
-                    new ScheduleTime(15, 15),
-                    new ScheduleTime(16, 10),
-                    new ScheduleTime(17, 25),
-                    new ScheduleTime(18, 20),
-                    new ScheduleTime(20, 15),
-                    new ScheduleTime(21, 10),
-                    new ScheduleTime(22, 05),
-                };
-            }
-        }
+            new ScheduleTime(08, 00),
+            new ScheduleTime(08, 55),
+            new ScheduleTime(10, 10),
+            new ScheduleTime(11, 05),
+            new ScheduleTime(14, 30),
+            new ScheduleTime(15, 25),
+            new ScheduleTime(16, 40),
+            new ScheduleTime(17, 35),
+            new ScheduleTime(19, 30),
+            new ScheduleTime(20, 25),
+            new ScheduleTime(21, 20),
+        };
 
-        public static ScheduleTime[] StartTimeD
+        public static ImmutableArray<ScheduleTime> EndTimeABC { get; } =
+            new ImmutableArray<ScheduleTime>
         {
-            get
-            {
-                return new ScheduleTime[]
-                {
-                    new ScheduleTime(08, 30),
-                    new ScheduleTime(09, 25),
-                    new ScheduleTime(10, 30),
-                    new ScheduleTime(11, 25),
-                    new ScheduleTime(14, 00),
-                    new ScheduleTime(14, 55),
-                    new ScheduleTime(16, 00),
-                    new ScheduleTime(16, 55),
-                    new ScheduleTime(19, 00),
-                    new ScheduleTime(19, 55),
-                    new ScheduleTime(20, 50),
-                };
-            }
-        }
-        public static ScheduleTime[] EndTimeD
+            new ScheduleTime(08, 45),
+            new ScheduleTime(09, 40),
+            new ScheduleTime(10, 55),
+            new ScheduleTime(11, 50),
+            new ScheduleTime(15, 15),
+            new ScheduleTime(16, 10),
+            new ScheduleTime(17, 25),
+            new ScheduleTime(18, 20),
+            new ScheduleTime(20, 15),
+            new ScheduleTime(21, 10),
+            new ScheduleTime(22, 05),
+        };
+
+        public static ImmutableArray<ScheduleTime> StartTimeD { get; } =
+            new ImmutableArray<ScheduleTime>
         {
-            get
-            {
-                return new ScheduleTime[]
-                {
-                    new ScheduleTime(09, 15),
-                    new ScheduleTime(10, 10),
-                    new ScheduleTime(11, 15),
-                    new ScheduleTime(12, 10),
-                    new ScheduleTime(14, 45),
-                    new ScheduleTime(15, 40),
-                    new ScheduleTime(16, 45),
-                    new ScheduleTime(17, 40),
-                    new ScheduleTime(19, 45),
-                    new ScheduleTime(20, 40),
-                    new ScheduleTime(21, 35),
-                };
-            }
-        }
+            new ScheduleTime(08, 30),
+            new ScheduleTime(09, 25),
+            new ScheduleTime(10, 30),
+            new ScheduleTime(11, 25),
+            new ScheduleTime(14, 00),
+            new ScheduleTime(14, 55),
+            new ScheduleTime(16, 00),
+            new ScheduleTime(16, 55),
+            new ScheduleTime(19, 00),
+            new ScheduleTime(19, 55),
+            new ScheduleTime(20, 50),
+        };
 
-
-        public class ScheduleTime
+        public static ImmutableArray<ScheduleTime> EndTimeD { get; } =
+            new ImmutableArray<ScheduleTime>
         {
-            private int _hour;
-            private int _minute;
+            new ScheduleTime(09, 15),
+            new ScheduleTime(10, 10),
+            new ScheduleTime(11, 15),
+            new ScheduleTime(12, 10),
+            new ScheduleTime(14, 45),
+            new ScheduleTime(15, 40),
+            new ScheduleTime(16, 45),
+            new ScheduleTime(17, 40),
+            new ScheduleTime(19, 45),
+            new ScheduleTime(20, 40),
+            new ScheduleTime(21, 35),
+        };
 
-            public int Hour
-            {
-                get => _hour;
-                set
-                {
-                    if(value > 23) { _hour = 0; }
-                    else if (value < 0) { _hour = 0; }
-                    else { _hour = value; }
-                }
-            }
-            public int Minute
-            {
-                get => _minute;
-                set
-                {
-                    if (value > 59) { _minute = 0; }
-                    else if(value < 0) { _minute = 0; }
-                    else { _minute = value; }
-                }
-            }
+        public struct ScheduleTime
+        {
+            private TimeSpan ts;
+
+            public int Hour => ts.Hours;
+            public int Minute => ts.Minutes;
 
             public ScheduleTime(int hour, int minute)
             {
-                Hour = hour; Minute = minute;
+                ts = new TimeSpan(hour, minute, 0);
             }
 
             public DateTime GetDateTime()
             {
-                DateTime today = DateTime.Today;
-                return new DateTime(today.Year, today.Month, today.Day, Hour, Minute, 0);
+                return DateTime.Now + ts;
             }
+
             public override string ToString()
             {
                 return $"{Hour}:{Minute:00}";
