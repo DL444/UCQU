@@ -14,10 +14,10 @@
 
     <Control.Resources>
         <ResourceDictionary>
-            <contract5Present:AcrylicBrush x:Key="ScheduleTile0" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorLight1}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorLight1}"/>
+            <!--<contract5Present:AcrylicBrush x:Key="ScheduleTile0" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorLight1}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorLight1}"/>
             <contract5Present:AcrylicBrush x:Key="ScheduleTile1" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColor}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColor}"/>
             <contract5Present:AcrylicBrush x:Key="ScheduleTile2" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorDark1}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorDark1}"/>
-            <contract5Present:AcrylicBrush x:Key="ScheduleTile3" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorDark2}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorDark2}"/>
+            <contract5Present:AcrylicBrush x:Key="ScheduleTile3" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorDark2}" TintOpacity="0.8" FallbackColor="{ThemeResource SystemAccentColorDark2}"/>-->
             <SolidColorBrush x:Key="ScheduleTile0Fallback" Color="{ThemeResource SystemAccentColorLight1}"/>
             <SolidColorBrush x:Key="ScheduleTile1Fallback" Color="{ThemeResource SystemAccentColor}"/>
             <SolidColorBrush x:Key="ScheduleTile2Fallback" Color="{ThemeResource SystemAccentColorDark1}"/>

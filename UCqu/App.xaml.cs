@@ -19,6 +19,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation.Diagnostics;
+using Windows.Foundation.Metadata;
+
 
 namespace UCqu
 {
@@ -35,7 +37,31 @@ namespace UCqu
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            EnvironmentApiCheck();
+        }
 
+        private static void EnvironmentApiCheck()
+        {
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6))
+            {
+                CommonResources.ApiContract = 6;
+                // RS4 - RefreshContainer
+            }
+            else if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5))
+            {
+                CommonResources.ApiContract = 5;
+                // RS3 - AcrylicBrush
+            }
+            else if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4))
+            {
+                CommonResources.ApiContract = 4;
+                // RS2 - Conditional XAML
+            }
+            else
+            {
+                CommonResources.ApiContract = 3;
+                // RS1 - Windows Phone
+            }
         }
 
         /// <summary>
@@ -132,6 +158,19 @@ namespace UCqu
 
         Frame InitializeWindow(IActivatedEventArgs e)
         {
+            if (CommonResources.ApiContract > 4)
+            {
+                AcrylicBrush navViewTopPaneBackgroundBrush = new AcrylicBrush
+                {
+                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+                    TintColor = (Color)Resources["SystemAccentColor"],
+                    TintOpacity = 0.7,
+                    FallbackColor = (Color)this.Resources["SystemAccentColor"]
+                };
+                this.Resources["NavigationViewTopPaneBackground"] = navViewTopPaneBackgroundBrush;
+            }
+
+
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
             var viewTitleBar = ApplicationView.GetForCurrentView().TitleBar;
