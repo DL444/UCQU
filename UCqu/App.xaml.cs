@@ -158,17 +158,17 @@ namespace UCqu
 
         Frame InitializeWindow(IActivatedEventArgs e)
         {
-            if (CommonResources.ApiContract > 4)
-            {
-                AcrylicBrush navViewTopPaneBackgroundBrush = new AcrylicBrush
-                {
-                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
-                    TintColor = (Color)Resources["SystemAccentColor"],
-                    TintOpacity = 0.7,
-                    FallbackColor = (Color)this.Resources["SystemAccentColor"]
-                };
-                this.Resources["NavigationViewTopPaneBackground"] = navViewTopPaneBackgroundBrush;
-            }
+            //if (CommonResources.ApiContract > 4)
+            //{
+            //    AcrylicBrush navViewTopPaneBackgroundBrush = new AcrylicBrush
+            //    {
+            //        BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+            //        TintColor = (Color)Resources["SystemAccentColor"],
+            //        TintOpacity = 0.7,
+            //        FallbackColor = (Color)this.Resources["SystemAccentColor"]
+            //    };
+            //    this.Resources["NavigationViewTopPaneBackground"] = navViewTopPaneBackgroundBrush;
+            //}
 
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;

@@ -27,7 +27,7 @@ namespace UCqu
     {
         Watcher watcher = null;
         //bool firstNavigate = true;
-        bool isCampusD = false;
+        //bool isCampusD = false;
         public MainPage()
         {
             this.InitializeComponent();
@@ -64,14 +64,7 @@ namespace UCqu
             }
             string selectionTag = (args.SelectedItem as NewControls.NavigationViewItem).Tag.ToString();
             if (watcher == null) { return; }
-            if (selectionTag == "Home")
-            {
-                HeaderControl.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                HeaderControl.Visibility = Visibility.Collapsed;
-            }
+            HeaderControl.Visibility = selectionTag == "Home" ? Visibility.Visible : Visibility.Collapsed;
             switch (selectionTag)
             {
                 case "Home":
@@ -99,9 +92,9 @@ namespace UCqu
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter as Watcher != null)
+            if (e.Parameter is Watcher w)
             {
-                watcher = e.Parameter as Watcher;
+                watcher = w;
                 //HomeBtn.IsChecked = true;
                 HeaderControl.Content = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
                 ContentFrame.Navigate(typeof(Home), watcher);
@@ -110,21 +103,21 @@ namespace UCqu
             if(CommonResources.LaunchState)
             {
                 CommonResources.LaunchState = false;
-                string campus = "";
-                if(CommonResources.LoadSetting("campus", out campus) == false)
+                //string campus = "";
+                if(CommonResources.LoadSetting("campus", out _) == false)
                 {
                     CampusSelect campusSelect = new CampusSelect();
                     await campusSelect.ShowAsync();
-                    CommonResources.LoadSetting("campus", out campus);
-                    if (campus == "D") { isCampusD = true; }
+                    CommonResources.LoadSetting("campus", out _);
+                    //if (campus == "D") { isCampusD = true; }
                 }
-                else
-                {
-                    if(campus == "D")
-                    {
-                        isCampusD = true;
-                    }
-                }
+                //else
+                //{
+                //    if(campus == "D")
+                //    {
+                //        isCampusD = true;
+                //    }
+                //}
 
                 var tasks = BackgroundTaskRegistration.AllTasks;
                 foreach (var task in tasks)

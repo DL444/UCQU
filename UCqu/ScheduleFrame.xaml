@@ -11,7 +11,7 @@
 
     <Grid>
         <ScrollViewer>
-            <Grid MinHeight="600" Margin="10">
+            <Grid x:Name="SchedGrid" MinHeight="600" Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -38,32 +38,32 @@
                     <ColumnDefinition x:Name="SatH"/>
                     <ColumnDefinition x:Name="SunH"/>
                 </Grid.ColumnDefinitions>
-                <Grid x:Name="SchedGrid" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="7" Grid.RowSpan="12">
+                <!--<Grid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="7" Grid.RowSpan="12">
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition x:Name="Night1"/>
-                        <RowDefinition x:Name="Night2"/>
-                        <RowDefinition x:Name="Night3"/>
-                        <RowDefinition x:Name="Night4"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*" x:Name="Night1"/>
+                        <RowDefinition Height="1*" x:Name="Night2"/>
+                        <RowDefinition Height="1*" x:Name="Night3"/>
+                        <RowDefinition Height="1*" x:Name="Night4"/>
 
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition x:Name="Sat"/>
-                        <ColumnDefinition x:Name="Sun"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*" x:Name="Sat"/>
+                        <ColumnDefinition Width="1*" x:Name="Sun"/>
                     </Grid.ColumnDefinitions>
-                </Grid>
+                </Grid>-->
                 <TextBlock x:Name="WeekText" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Bottom" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="周一" VerticalAlignment="Bottom" Margin="2,5,0,0"/>
                 <TextBlock Grid.Row="1" Grid.Column="2" Text="周二" VerticalAlignment="Bottom" Margin="2,5,0,0"/>

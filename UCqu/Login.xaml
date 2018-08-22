@@ -12,7 +12,7 @@
 
     <Grid Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Padding="20">
         <controls:DropShadowPanel HorizontalAlignment="Center" VerticalAlignment="Center" OffsetX="5" OffsetY="5" ShadowOpacity="0.3" BlurRadius="20" >
-            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="400" MinWidth="350">
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="400" MinWidth="350" Width="450">
                 <ScrollViewer>
                     <StackPanel VerticalAlignment="Center" Margin="50">
                         <TextBlock Text="登录" Style="{ThemeResource HeaderTextBlockStyle}" HorizontalAlignment="Center" Margin="0,0,0,20"/>

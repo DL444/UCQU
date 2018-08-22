@@ -147,7 +147,7 @@ namespace UCqu
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
     public class TermGPAConverter : IValueConverter
@@ -159,7 +159,7 @@ namespace UCqu
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
     public class CourseGPAConverter : IValueConverter
@@ -171,7 +171,7 @@ namespace UCqu
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 

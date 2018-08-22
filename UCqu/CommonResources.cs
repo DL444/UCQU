@@ -16,7 +16,9 @@ namespace UCqu
 
         public const string CurrentTerm = "20180";
         public static DateTime StartDate => new DateTime(2018, 9, 3);
+#if DEBUG
         public static DateTime TestDate => new DateTime(2018, 9, 3);
+#endif
 
         public static void SaveSetting(string key, string value)
         {
@@ -135,8 +137,7 @@ namespace UCqu
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            string valueStr = value as string;
-            if (valueStr == null) { return ""; }
+            if (!(value is string valueStr)) { return ""; }
             string[] segements = valueStr.Split('-');
             CommonResources.LoadSetting("campus", out string campus);
             bool isCampusD = campus == "D" ? true : false;
@@ -174,7 +175,7 @@ namespace UCqu
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public static (DateTime start, DateTime end) Convert(string value)

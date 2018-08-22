@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Style x:Key="MakeShiftNavPaneItem" TargetType="RadioButton">
+        <!--<Style x:Key="MakeShiftNavPaneItem" TargetType="RadioButton">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
             <Setter Property="Padding" Value="12,0,12,0" />
@@ -70,12 +70,12 @@
                                         <animations:Implicit.Animations>
                                             <animations:OpacityAnimation Duration="0:0:0.4"/>
                                         </animations:Implicit.Animations>
-                                        <!--<animations:Implicit.HideAnimations>
+                                        --><!--<animations:Implicit.HideAnimations>
                                         <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.5"/>
                                     </animations:Implicit.HideAnimations>
                                     <animations:Implicit.ShowAnimations>
                                         <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.5"/>
-                                    </animations:Implicit.ShowAnimations>-->
+                                    </animations:Implicit.ShowAnimations>--><!--
                                     </Rectangle>
                                 </StackPanel>
                             </Grid>
@@ -83,7 +83,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
 
     </Page.Resources>
     
@@ -177,7 +177,6 @@
                                                 <VisualState.StateTriggers>
                                                     <AdaptiveTrigger MinWindowHeight="500"/>
                                                 </VisualState.StateTriggers>
-                                                <VisualState.Setters/>
                                             </VisualState>
                                             <VisualState x:Name="Compact">
                                                 <VisualState.StateTriggers>

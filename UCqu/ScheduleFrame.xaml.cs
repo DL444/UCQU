@@ -53,7 +53,7 @@ namespace UCqu
         void Draw()
         {
             WeekText.Text = $"第{Week}周";
-            SchedGrid.Children.Clear();
+            //SchedGrid.Children.Clear();
             List<ScheduleEntry> entries = Schedule[Week];
             bool showWeekend = false;
             bool showNightSession = false;
@@ -63,9 +63,9 @@ namespace UCqu
                 item.Entry = entry;
                 showNightSession = showNightSession || (entry.StartSlot > 8);
                 showWeekend = showWeekend || (entry.DayOfWeek > 5);
-                Grid.SetRow(item, entry.StartSlot - 1);
+                Grid.SetRow(item, entry.StartSlot/* - 1*/ + 1);
                 Grid.SetRowSpan(item, entry.EndSlot - entry.StartSlot + 1);
-                Grid.SetColumn(item, entry.DayOfWeek - 1);
+                Grid.SetColumn(item, entry.DayOfWeek/* - 1*/);
                 SchedGrid.Children.Add(item);
             }
             ShowAdditional(showWeekend, showNightSession);
@@ -77,44 +77,44 @@ namespace UCqu
             GridLength l1 = new GridLength(1, GridUnitType.Star);
             if (showWeekend)
             {
-                Sat.Width = l1;
+                //Sat.Width = l1;
                 SatH.Width = l1;
-                Sun.Width = l1;
+                //Sun.Width = l1;
                 SunH.Width = l1;
-                Grid.SetColumnSpan(SchedGrid, 7);
+                //Grid.SetColumnSpan(SchedGrid, 7);
             }
             else
             {
-                Sat.Width = l0;
-                Sun.Width = l0;
+                //Sat.Width = l0;
+                //Sun.Width = l0;
                 SatH.Width = l0;
                 SunH.Width = l0;
-                Grid.SetColumnSpan(SchedGrid, 5);
+                //Grid.SetColumnSpan(SchedGrid, 5);
             }
 
             if (showNightSession)
             {
-                Night1.Height = l1;
-                Night2.Height = l1;
-                Night3.Height = l1;
-                Night4.Height = l1;
+                //Night1.Height = l1;
+                //Night2.Height = l1;
+                //Night3.Height = l1;
+                //Night4.Height = l1;
                 Night1H.Height = l1;
                 Night2H.Height = l1;
                 Night3H.Height = l1;
                 Night4H.Height = l1;
-                Grid.SetRowSpan(SchedGrid, 12);
+                //Grid.SetRowSpan(SchedGrid, 12);
             }
             else
             {
-                Night1.Height = l0;
-                Night2.Height = l0;
-                Night3.Height = l0;
-                Night4.Height = l0;
+                //Night1.Height = l0;
+                //Night2.Height = l0;
+                //Night3.Height = l0;
+                //Night4.Height = l0;
                 Night1H.Height = l0;
                 Night2H.Height = l0;
                 Night3H.Height = l0;
                 Night4H.Height = l0;
-                Grid.SetRowSpan(SchedGrid, 8);
+                //Grid.SetRowSpan(SchedGrid, 8);
             }
         }
 
