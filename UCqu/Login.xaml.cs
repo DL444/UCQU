@@ -41,12 +41,22 @@ namespace UCqu
             bool isCorrect = false;
             try
             {
-                await watcher.LoginAsync();
+                string sid = await watcher.LoginAsync();
+                if(sid == "")
+                {
+                    LoginFailedNotification.Show("教务系统维护中或内部状态错误，请联系教务办公室", 5000);
+                    LoadingRing.IsActive = false;
+                    LoadingRingGrid.Visibility = Visibility.Collapsed;
+                    return;
+                }
                 isCorrect = await watcher.ValidateLoginAsync();
             }
             catch (WebException)
             {
                 LoginFailedNotification.Show("登录失败, 请检查网络连接", 5000);
+                LoadingRing.IsActive = false;
+                LoadingRingGrid.Visibility = Visibility.Collapsed;
+                return;
             }
             if (isCorrect)
             {
@@ -146,7 +156,15 @@ namespace UCqu
                 bool isCorrect = false;
                 try
                 {
-                    await watcher.LoginAsync();
+                    string sid = await watcher.LoginAsync();
+                    if (sid == "")
+                    {
+                        LoginFailedNotification.Show("教务系统维护中或内部状态错误，请联系教务处", 5000);
+                        IdBox.Text = id;
+                        LoadingRing.IsActive = false;
+                        LoadingRingGrid.Visibility = Visibility.Collapsed;
+                        return;
+                    }
                     isCorrect = await watcher.ValidateLoginAsync();
                 }
                 catch(WebException)

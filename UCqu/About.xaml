@@ -38,6 +38,9 @@ THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED
                 <HyperlinkButton Content="DLPServ@outlook.com" NavigateUri="mailto:DLPServ@outlook.com?subject=UCQU"/>
                 <HyperlinkButton Content="GitHub" NavigateUri="https://github.com/DL444/UCQU"/>
 
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">开源贡献者</TextBlock>
+                <HyperlinkButton Content="fghzxm" NavigateUri="https://github.com/fghzxm"/>
+
                 <!--<TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">友情链接</TextBlock>
                 <HyperlinkButton Content="重庆大学微软学生俱乐部" NavigateUri="http://microsoftstudent.club"/>
                 <TextBlock>欢迎加入重庆大学微软学生俱乐部</TextBlock>-->
