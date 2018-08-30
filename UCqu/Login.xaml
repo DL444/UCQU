@@ -11,7 +11,7 @@
 
 
     <Grid Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" Padding="20">
-        <controls:DropShadowPanel HorizontalAlignment="Center" VerticalAlignment="Center" OffsetX="5" OffsetY="5" ShadowOpacity="0.3" BlurRadius="20" >
+        <controls:DropShadowPanel HorizontalAlignment="Center" VerticalAlignment="Center" OffsetX="5" OffsetY="5" ShadowOpacity="0.3" BlurRadius="20" Grid.RowSpan="1">
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="400" MinWidth="350" Width="450">
                 <ScrollViewer>
                     <StackPanel VerticalAlignment="Center" Margin="50">
@@ -32,6 +32,17 @@
                                 </StackPanel>
                             </Grid>
                         </controls:Expander>
+
+                        <HyperlinkButton Grid.Row="1" HorizontalAlignment="Center">
+                            <HyperlinkButton.Foreground>
+                                <SolidColorBrush Color="{ThemeResource SystemBaseMediumColor}"/>
+                            </HyperlinkButton.Foreground>
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Emoji2" VerticalAlignment="Center" Margin="4,6,4,4"/>
+                                <TextBlock Text="反馈" FontSize="14" VerticalAlignment="Center" Margin="4"/>
+                            </StackPanel>
+                        </HyperlinkButton>
+
                     </StackPanel>
                 </ScrollViewer>
                 
@@ -47,5 +58,6 @@
         </controls:DropShadowPanel>
 
         <controls:InAppNotification x:Name="LoginFailedNotification" AnimationDuration="00:00:00.1" HorizontalOffset="0" VerticalOffset="100" ShowDismissButton="True"/>
+
     </Grid>
 </Page>

@@ -34,7 +34,8 @@ THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED
                 <TextBlock Margin="0,5,0,0" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">重庆大学软件学院学生</TextBlock>
                 <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">重庆大学微软学生俱乐部成员</TextBlock>
 
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">联系作者</TextBlock>
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,2">联系作者</TextBlock>
+                <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">提交反馈, 咨询讨论</TextBlock>
                 <HyperlinkButton Content="DLPServ@outlook.com" NavigateUri="mailto:DLPServ@outlook.com?subject=UCQU"/>
                 <HyperlinkButton Content="GitHub" NavigateUri="https://github.com/DL444/UCQU"/>
 

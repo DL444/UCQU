@@ -42,9 +42,16 @@ namespace UCqu
             try
             {
                 string sid = await watcher.LoginAsync();
-                if(sid == "")
+                if(sid == "PRE_REG")
                 {
-                    LoginFailedNotification.Show("教务系统维护中或内部状态错误，请联系教务办公室", 5000);
+                    LoginFailedNotification.Show("教务系统尚未开放，请确认已缴纳学费后等待教务系统开放", 5000);
+                    LoadingRing.IsActive = false;
+                    LoadingRingGrid.Visibility = Visibility.Collapsed;
+                    return;
+                }
+                if (sid == "UNKNOWN_ERROR")
+                {
+                    LoginFailedNotification.Show("未知错误，请您提交反馈，以便我们排除故障", 5000);
                     LoadingRing.IsActive = false;
                     LoadingRingGrid.Visibility = Visibility.Collapsed;
                     return;
@@ -157,9 +164,17 @@ namespace UCqu
                 try
                 {
                     string sid = await watcher.LoginAsync();
-                    if (sid == "")
+                    if (sid == "PRE_REG")
                     {
-                        LoginFailedNotification.Show("教务系统维护中或内部状态错误，请联系教务处", 5000);
+                        LoginFailedNotification.Show("教务系统尚未开放，请确认已缴纳学费后等待教务系统开放", 5000);
+                        IdBox.Text = id;
+                        LoadingRing.IsActive = false;
+                        LoadingRingGrid.Visibility = Visibility.Collapsed;
+                        return;
+                    }
+                    if(sid == "UNKNOWN_ERROR")
+                    {
+                        LoginFailedNotification.Show("未知错误，请您提交反馈，以便我们排除故障", 5000);
                         IdBox.Text = id;
                         LoadingRing.IsActive = false;
                         LoadingRingGrid.Visibility = Visibility.Collapsed;
