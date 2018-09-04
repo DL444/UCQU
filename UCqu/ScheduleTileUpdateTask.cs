@@ -25,7 +25,9 @@ namespace UCqu
                 return;
             }
             //lc.LogMessage("Constructing Watcher...");
-            Watcher watcher = new Watcher(host, id, pwdHash);
+            //Watcher watcher = new Watcher(host, id, pwdHash);
+            Watcher watcher = new Watcher("202.202.1.41", id, pwdHash);
+            // TODO: Fix anti-scraper
             bool isCorrect = false;
             try
             {

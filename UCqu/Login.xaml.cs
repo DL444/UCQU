@@ -37,7 +37,9 @@ namespace UCqu
             LoadingRing.IsActive = true;
             string pwdHash = Watcher.GetPasswordHash(IdBox.Text, PswBox.Password);
             string host = (HostBox.SelectedItem as ComboBoxItem).Content as string;
-            Watcher watcher = new Watcher(host, IdBox.Text, pwdHash, 0);
+            //Watcher watcher = new Watcher(host, IdBox.Text, pwdHash, 0);
+            Watcher watcher = new Watcher("202.202.1.41", IdBox.Text, pwdHash, 0);
+            // TODO: Fix anti-scraper
             bool isCorrect = false;
             try
             {
@@ -159,7 +161,9 @@ namespace UCqu
             {
                 LoadingRingGrid.Visibility = Visibility.Visible;
                 LoadingRing.IsActive = true;
-                Watcher watcher = new Watcher(host, id, pwdHash, 0);
+                //Watcher watcher = new Watcher(host, id, pwdHash, 0);
+                Watcher watcher = new Watcher("202.202.1.41", id, pwdHash, 0);
+                // TODO: Fix anti-scraper
                 bool isCorrect = false;
                 try
                 {
