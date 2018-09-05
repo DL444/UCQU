@@ -53,6 +53,13 @@ namespace UCqu
         void Draw()
         {
             WeekText.Text = $"第{Week}周";
+            //foreach(var item in SchedGrid.Children)
+            //{
+            //    if(item is ScheduleItem e)
+            //    {
+            //        SchedGrid.Children.Remove(e);
+            //    }
+            //}
             //SchedGrid.Children.Clear();
             List<ScheduleEntry> entries = Schedule[Week];
             bool showWeekend = false;

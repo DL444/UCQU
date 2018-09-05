@@ -58,8 +58,8 @@ namespace UCqu
                 for (int i = 1; i <= schedule.Count; i++)
                 {
                     ScheduleFrame frame = new ScheduleFrame();
-                    frame.Schedule = schedule;
                     frame.Week = i;
+                    frame.Schedule = schedule;
                     WeekFlip.Items.Add(frame);
                 }
             }
