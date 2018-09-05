@@ -35,7 +35,7 @@
     <Grid>
         <Grid x:Name="BackgroundGrid" Margin="2,10,2,0" Padding="10">
             <StackPanel>
-                <TextBlock x:Name="CourseNameBox" TextWrapping="Wrap" Foreground="White" FontWeight="Bold"/>
+                <TextBlock x:Name="CourseNameBox" TextWrapping="Wrap" Foreground="White" FontWeight="Bold" MaxLines="3" TextTrimming="CharacterEllipsis"/>
                 <TextBlock x:Name="RoomBox" Foreground="White" TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>
