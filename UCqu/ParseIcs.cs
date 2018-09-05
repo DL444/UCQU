@@ -30,6 +30,7 @@ namespace UCqu
                         DtEnd = new CalDateTime(new DateTime(date.Year, date.Month, date.Day, end.Hour, end.Minute, 0)),
                         Location = e.Room,
                         Summary = e.Name,
+                        Description = $"教师: {e.Lecturer}",
                         Alarms = 
                         {
                             new Alarm()
