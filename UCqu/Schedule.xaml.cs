@@ -62,6 +62,15 @@ namespace UCqu
                     frame.Schedule = schedule;
                     WeekFlip.Items.Add(frame);
                 }
+                int elapsedWeeks = (DateTime.Today - CommonResources.StartDate).Days / 7;
+                if(elapsedWeeks > schedule.Count - 1)
+                {
+                    WeekFlip.SelectedIndex = schedule.Count - 1;
+                }
+                else
+                {
+                    WeekFlip.SelectedIndex = elapsedWeeks;
+                }
             }
 
         }
