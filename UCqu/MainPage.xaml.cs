@@ -26,6 +26,14 @@ namespace UCqu
     public sealed partial class MainPage : Page
     {
         Watcher watcher = null;
+
+        public string StuName { get; private set; }
+        public string Year { get; private set; }
+        public string Major { get; private set; }
+        public string Class { get; private set; }
+        public string Id { get; private set; }
+        // TODO: This is not notifying! Consider move to new class.
+
         //bool firstNavigate = true;
         //bool isCampusD = false;
         public MainPage()
@@ -95,8 +103,9 @@ namespace UCqu
             if (e.Parameter is Watcher w)
             {
                 watcher = w;
+                Id = watcher.UserName;
                 //HomeBtn.IsChecked = true;
-                HeaderControl.Content = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
+                HeaderControl.Content = watcher;
                 ContentFrame.Navigate(typeof(Home), watcher);
             }
 

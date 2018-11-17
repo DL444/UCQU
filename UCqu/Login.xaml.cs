@@ -74,8 +74,10 @@ namespace UCqu
                 if (CommonResources.LoadSetting("imgToastSwitch", out string _switch) == false) { CommonResources.SaveSetting("imgToastSwitch", "on"); }
 
                 watcher.Workload = new SingleWorkload(IdBox.Text);
+
                 try
                 {
+                    await watcher.PerformInfo();
                     await watcher.Perform();
                     await watcher.PerformSchedule(CommonResources.CurrentTerm);
                 }
@@ -91,9 +93,11 @@ namespace UCqu
                 {
                     SaveCredentials("", "", "", true);
                 }
+
+                
+
                 LoadingRing.IsActive = false;
                 LoadingRingGrid.Visibility = Visibility.Collapsed;
-                (Window.Current.Content as Frame).Navigate(typeof(MainPage), watcher);
             }
             else
             {
@@ -199,6 +203,7 @@ namespace UCqu
                     watcher.Workload = new SingleWorkload(id);
                     try
                     {
+                        await watcher.PerformInfo();
                         await watcher.Perform();
                         await watcher.PerformSchedule(CommonResources.CurrentTerm);
                     }

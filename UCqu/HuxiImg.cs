@@ -63,7 +63,19 @@ namespace UCqu
                 localRegex = new Regex(@"<span class=\\""name\\"">.*?</span>");
                 localMatch = localRegex.Match(matchValue);
                 string author = localMatch.Value.Split('>')[1];
-                author = author.Remove(author.IndexOf("（"));
+                int parenthesisIndex = author.IndexOf("（");
+                if(parenthesisIndex != -1)
+                {
+                    author = author.Remove(parenthesisIndex);
+                }
+                else
+                {
+                    parenthesisIndex = author.IndexOf("<");
+                    if(parenthesisIndex != 0)
+                    {
+                        author = author.Remove(parenthesisIndex);
+                    }
+                }
                 //author = author.Replace("（图片版权归作者所有）</span", "");
                 author = author.Replace("摄影:", "");
                 entries.Add(new HuxiImgEntry(title, imgUri, content, author));
