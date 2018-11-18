@@ -98,6 +98,7 @@ namespace UCqu
 
                 LoadingRing.IsActive = false;
                 LoadingRingGrid.Visibility = Visibility.Collapsed;
+                (Window.Current.Content as Frame).Navigate(typeof(MainPage), watcher);
             }
             else
             {
