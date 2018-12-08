@@ -150,7 +150,7 @@
             </xamlLib:NavigationView.PaneFooter>
         </xamlLib:NavigationView>--><!--
     </Grid>-->
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
         
         <xamlLib:NavigationView x:Name="NavPane" HorizontalAlignment="Stretch" IsBackButtonVisible="Collapsed" SelectionFollowsFocus="Enabled" VerticalAlignment="Stretch" IsSettingsVisible="False" PaneDisplayMode="Top" SelectionChanged="NavPane_SelectionChanged">
             <Grid>

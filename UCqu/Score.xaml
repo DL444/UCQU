@@ -12,7 +12,8 @@
     xmlns:xamlLib="using:Microsoft.UI.Xaml.Controls"
     xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)"
     xmlns:contract6NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,6)"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.Content>
@@ -42,7 +43,7 @@
     <Grid>
         <!--{ThemeResource ApplicationPageBackgroundThemeBrush}-->
         <contract6Present:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
-            <ListView x:Name="MainList" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <ListView x:Name="MainList" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <!--<ListView.HeaderTemplate>
                     <DataTemplate x:DataType="scoreLib:ScoreSet">
                         <controls:ScrollHeader IsTabStop="True" Mode="None">
@@ -212,7 +213,7 @@
                 </ListView.ItemContainerStyle>
             </ListView>
         </contract6Present:RefreshContainer>
-        <contract6NotPresent:ListView x:Name="MainListFallback" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+        <contract6NotPresent:ListView x:Name="MainListFallback" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="scoreLib:Term">
                     <UserControl>
