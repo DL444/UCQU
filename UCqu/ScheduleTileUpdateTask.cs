@@ -50,9 +50,9 @@ namespace UCqu
 
                 entries.RemoveAll((ScheduleEntry x) =>
                 {
-                    (DateTime startTime, _) = SessionTimeConverter.Convert(x.SessionSpan);
-                    DateTime now = DateTime.Now; /* new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year, )*/
-                    return (startTime.Hour < now.Hour || (startTime.Hour == now.Hour && startTime.Minute < now.Minute));
+                    (_, DateTime endTime) = SessionTimeConverter.Convert(x.SessionSpan);
+                    DateTime now = DateTime.Now;
+                    return endTime < now;
                 });
 
                 //lc.LogMessage("Constructing Tile Content.");

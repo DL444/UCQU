@@ -123,7 +123,7 @@ namespace UCqu
 
             public DateTime GetDateTime()
             {
-                return DateTime.Now + ts;
+                return DateTime.Today + ts;
             }
 
             public override string ToString()
