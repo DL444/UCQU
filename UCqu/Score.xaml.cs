@@ -47,6 +47,7 @@ namespace UCqu
 
         private void PopulateList(ScoreSet set)
         {
+            set.Reverse();
             if (uiFallback)
             {
                 MainListFallback.ItemsSource = set;
