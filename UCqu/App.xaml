@@ -9,8 +9,8 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <contract5Present:AcrylicBrush x:Key="SystemControlAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.85" FallbackColor="{StaticResource SystemChromeMediumColor}" />
-            <contract5NotPresent:SolidColorBrush x:Key="SystemControlAcrylicWindowBrush" Color="{StaticResource SystemChromeMediumColor}" />
+            <contract5Present:AcrylicBrush x:Key="SystemControlAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemChromeAltHighColor}" TintOpacity="0.85" FallbackColor="{ThemeResource SystemChromeMediumColor}" />
+            <contract5NotPresent:SolidColorBrush x:Key="SystemControlAcrylicWindowBrush" Color="{ThemeResource SystemChromeMediumColor}" />
 
             <SolidColorBrush x:Key="AlternateRowBackgroundBrush" Color="{ThemeResource SystemBaseLowColor}" Opacity="0.5"/>
             <local:GPAStarConverter x:Key="GPAStarConverter"/>

@@ -5,8 +5,7 @@
     xmlns:local="using:UCqu"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    mc:Ignorable="d">
 
     <Grid>
         <ScrollViewer>
@@ -19,12 +18,12 @@
                         <ComboBox.Header>
                             <StackPanel>
                                 <TextBlock Text="校区" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                                <TextBlock Text="我们将据此调整课表作息时间" Foreground="{ThemeResource SystemControlForegroundChromeGrayBrush}" Margin="0,4,0,0"/>
+                                <TextBlock Text="我们将据此调整课表作息时间" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="0,4,0,0"/>
                             </StackPanel>
                         </ComboBox.Header>
                     </ComboBox>
                     <TextBlock Text="通知" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,20,0,0"/>
-                    <TextBlock Text="打开或关闭弹出通知" Foreground="{ThemeResource SystemControlForegroundChromeGrayBrush}" Margin="0,4,0,0"/>
+                    <TextBlock Text="打开或关闭弹出通知" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="0,4,0,0"/>
                     <ToggleSwitch x:Name="CourseToastToggle" Margin="0,8,0,0" Header="课程" OnContent="打开" OffContent="关闭" Tag="courseToastSwitch" Toggled="ToastToggle_Toggled"/>
                     <ToggleSwitch x:Name="DailyToastToggle" Margin="0,8,0,0" Header="每日概览" OnContent="打开" OffContent="关闭" Tag="dailyToastSwitch" Toggled="ToastToggle_Toggled"/>
                     <ToggleSwitch x:Name="HuxiImgToastToggle" Margin="0,8,0,0" Header="图说虎溪" OnContent="打开" OffContent="关闭" Tag="imgToastSwitch" Toggled="ToastToggle_Toggled"/>
