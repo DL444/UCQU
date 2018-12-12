@@ -38,6 +38,7 @@ namespace UCqu
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             EnvironmentApiCheck();
+
         }
 
         private static void EnvironmentApiCheck()
@@ -83,6 +84,11 @@ namespace UCqu
                     //rootFrame.Navigate(typeof(MainPage), e.Arguments);
                     rootFrame.Navigate(typeof(Login), e.Arguments);
                 }
+
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonForegroundColor = Colors.White;
+                //titleBar.ButtonInactiveBackgroundColor = (Color)Application.Current.Resources["SystemAccentColor"];
+                titleBar.ButtonInactiveForegroundColor = Colors.White;
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
