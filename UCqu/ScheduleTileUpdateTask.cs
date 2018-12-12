@@ -55,6 +55,8 @@ namespace UCqu
                     return endTime < now;
                 });
 
+                entries.Sort((x, y) => x.StartSlot - y.StartSlot);
+
                 //lc.LogMessage("Constructing Tile Content.");
                 TileBindingContentAdaptive midTileContent = new TileBindingContentAdaptive();
                 TileBindingContentAdaptive wideTileContent = new TileBindingContentAdaptive();
