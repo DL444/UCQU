@@ -27,6 +27,7 @@ namespace UCqu
     {
         Watcher watcher = null;
         bool uiFallback = !ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6);
+        bool secondMajor = false;
 
         public Score()
         {
@@ -61,6 +62,12 @@ namespace UCqu
         private async void RefreshBtn_Click(object sender, RoutedEventArgs e)
         {
             RefreshIconRotation.Begin();
+            await Refresh();
+            RefreshIconRotation.Stop();
+        }
+
+        private async System.Threading.Tasks.Task Refresh()
+        {
             watcher.Reset();
             ScoreSet set = null;
             try
@@ -71,9 +78,8 @@ namespace UCqu
             {
                 RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
             }
-            set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
+            set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + (secondMajor ? "_1" : "_0"));
             PopulateList(set);
-            RefreshIconRotation.Stop();
         }
 
         private async void SecondSwitchBtn_Click(object sender, RoutedEventArgs e)
@@ -92,11 +98,13 @@ namespace UCqu
                 }
                 else
                 {
+                    secondMajor = true;
                     PopulateList(set);
                 }
             }
             else
             {
+                secondMajor = false;
                 ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
                 if (set == null) { }
                 else
@@ -110,18 +118,7 @@ namespace UCqu
         {
             using (var RefreshCompletionDeferral = args.GetDeferral())
             {
-                watcher.Reset();
-                ScoreSet set = null;
-                try
-                {
-                    await watcher.Perform();
-                }
-                catch (WebException)
-                {
-                    RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
-                }
-                set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
-                PopulateList(set);
+                await Refresh();
             }
         }
     }
