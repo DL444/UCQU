@@ -38,7 +38,7 @@ namespace UCqu
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter as Watcher != null)
+            if (e.Parameter is Watcher)
             {
                 watcher = e.Parameter as Watcher;
                 ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
@@ -127,12 +127,14 @@ namespace UCqu
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return (double)value + 1;
+            if((double)value < 1.0) { return -1.0; }
+            return (double)value / 4.0 * 5.0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return (double)value - 1;
+            if((double)value == -1.0) { return 0.0; }
+            return (double)value * 4.0 / 5.0;
         }
     }
 
