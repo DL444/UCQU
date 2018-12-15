@@ -80,8 +80,8 @@ The above copyright notice and this permission notice shall be included in all c
                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">作者免责声明</TextBlock>
                 <TextBlock TextWrapping="Wrap" Text="本应用程序与重庆大学官方无任何关联，亦未经重庆大学官方认可；应用程序作者与重庆大学官方无商业或技术联系。本应用程序按 &quot;原样&quot; 提供。应用程序的缺陷若为用户带来任何损失，应用程序作者不负任何直接，间接或连带责任，用户应自行权衡，决定是否使用任何应用程序功能。" Margin="0,10,0,0" FontFamily="Segoe UI"/>
                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,30,0,0">隐私声明</TextBlock>
-                <TextBlock TextWrapping="Wrap" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="最后更新时间 2018/7/24" Margin="0,10,0,0" FontFamily="Segoe UI"/>
-                <TextBlock TextWrapping="Wrap" Text="为完成通知等应用程序功能，本应用程序需要收集并存储部分用户数据。用户登录应用程序时，应用程序将在设备本地存储用户的 a) 教务网登录用户名; b) 以教务平台规范方法加密的密码哈希; c) 用户所选择的登录服务器. 用户可以随时通过退出登录来清除这些数据。" Margin="0,10,0,0" FontFamily="Segoe UI"/>
+                <TextBlock TextWrapping="Wrap" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="最后更新时间 2018/12/15" Margin="0,10,0,0" FontFamily="Segoe UI"/>
+                <TextBlock TextWrapping="Wrap" Text="为完成通知等应用程序功能，本应用程序需要收集并存储部分用户数据。用户登录应用程序时，应用程序将在设备本地存储用户的 a) 教务网登录用户名; b) 以教务平台规范方法加密的密码哈希; c) 您的行政班级、课程与成绩信息。数据托管服务由 Microsoft Azure 提供。这些数据将被严格保密。您可以随时通过退出登录，并向本页上方所述的技术支持电子邮箱发送数据清除请求，来彻底清除这些数据。" Margin="0,10,0,0" FontFamily="Segoe UI"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
