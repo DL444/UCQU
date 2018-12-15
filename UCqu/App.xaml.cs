@@ -37,33 +37,32 @@ namespace UCqu
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            EnvironmentApiCheck();
-
+            //EnvironmentApiCheck();
         }
 
-        private static void EnvironmentApiCheck()
-        {
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6))
-            {
-                CommonResources.ApiContract = 6;
-                // RS4 - RefreshContainer
-            }
-            else if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5))
-            {
-                CommonResources.ApiContract = 5;
-                // RS3 - AcrylicBrush
-            }
-            else if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4))
-            {
-                CommonResources.ApiContract = 4;
-                // RS2 - Conditional XAML
-            }
-            else
-            {
-                CommonResources.ApiContract = 3;
-                // RS1 - Windows Phone
-            }
-        }
+        //private static void EnvironmentApiCheck()
+        //{
+        //    if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6))
+        //    {
+        //        CommonResources.ApiContract = 6;
+        //        // RS4 - RefreshContainer
+        //    }
+        //    else if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5))
+        //    {
+        //        CommonResources.ApiContract = 5;
+        //        // RS3 - AcrylicBrush
+        //    }
+        //    else if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4))
+        //    {
+        //        CommonResources.ApiContract = 4;
+        //        // RS2 - Conditional XAML
+        //    }
+        //    else
+        //    {
+        //        CommonResources.ApiContract = 3;
+        //        // RS1 - Windows Phone
+        //    }
+        //}
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

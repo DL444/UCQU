@@ -15,26 +15,7 @@
             <!--<RowDefinition Height="176"/>-->
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <!--<Grid Grid.Row="0">
-            <ContentControl x:Name="HeaderControl" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <ContentControl.ContentTemplate>
-                    <DataTemplate x:DataType="scoreLib:ScoreSet">
-                        <Grid Background="{ThemeResource NavigationViewTopPaneBackground}" >
-                            <StackPanel Padding="40,0,0,20" VerticalAlignment="Center">
-                                <TextBlock Text="{x:Bind Name}"  Style="{ThemeResource HeaderTextBlockStyle}" Margin="0,0,0,5"/>
-                                <TextBlock Text="{x:Bind Id}"  Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,20"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Library" Margin="0,0,10,0"/>
-                                    <TextBlock Text="{x:Bind Major}" Margin="0,0,50,0"/>
-                                    <SymbolIcon Symbol="OutlineStar" Margin="0,0,10,0"/>
-                                    <TextBlock Text="{x:Bind GPA, Converter={StaticResource GrandGPAConverter}}" />
-                                </StackPanel>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ContentControl.ContentTemplate>
-            </ContentControl>
-        </Grid>-->
+
         <ScrollViewer Grid.Row="1" Padding="40,0,40,0">
             <StackPanel Margin="0,20,0,0">
                 <ListView x:Name="TodayScheduleList" Visibility="Collapsed" ScrollViewer.VerticalScrollMode="Disabled" extensions:ListViewExtensions.AlternateColor="{StaticResource AlternateRowBackgroundBrush}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" IsItemClickEnabled="False" SelectionMode="None">

@@ -12,8 +12,6 @@ namespace UCqu
     {
         public static bool LaunchState { get; set; } = true;
 
-        public static int ApiContract { get; set; } = 6;
-
         public const string CurrentTerm = "20180";
         public static DateTime StartDate => new DateTime(2018, 9, 3);
 #if DEBUG

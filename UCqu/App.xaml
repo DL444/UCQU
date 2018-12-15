@@ -3,14 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:UCqu"
-    xmlns:contract5Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
-    xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
     >
 
     <Application.Resources>
         <ResourceDictionary>
-            <contract5Present:AcrylicBrush x:Key="SystemControlAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemChromeAltHighColor}" TintOpacity="0.85" FallbackColor="{ThemeResource SystemChromeMediumColor}" />
-            <contract5NotPresent:SolidColorBrush x:Key="SystemControlAcrylicWindowBrush" Color="{ThemeResource SystemChromeMediumColor}" />
+            <AcrylicBrush x:Key="SystemControlAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemChromeAltHighColor}" TintOpacity="0.85" FallbackColor="{ThemeResource SystemChromeMediumColor}" />
 
             <SolidColorBrush x:Key="AlternateRowBackgroundBrush" Color="{ThemeResource SystemBaseLowColor}" Opacity="0.5"/>
             <local:GPAStarConverter x:Key="GPAStarConverter"/>
@@ -20,8 +17,7 @@
             <local:SessionTimeConverter x:Key="SessionTimeConverter"/>
 
             <!--<AcrylicBrush x:Key="NavigationViewTopPaneBackground" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColorLight1}" TintOpacity=".7" FallbackColor="{ThemeResource SystemAccentColorLight1}"/>-->
-            <contract5Present:AcrylicBrush x:Key="NavigationViewTopPaneBackground" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColor}" TintOpacity=".8" FallbackColor="{ThemeResource SystemAccentColor}"/>
-            <contract5NotPresent:SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="{ThemeResource SystemAccentColor}"/>
+            <AcrylicBrush x:Key="NavigationViewTopPaneBackground" BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemAccentColor}" TintOpacity=".8" FallbackColor="{ThemeResource SystemAccentColor}"/>
             <!--<AcrylicBrush x:Key="ChromeAcrylicBrush" BackgroundSource="Backdrop" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity=".5" FallbackColor="{ThemeResource SystemAltHighColor}"/>-->
             <!--<SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="{ThemeResource SystemAccentColor}"/>-->
 

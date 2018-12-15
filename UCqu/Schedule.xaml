@@ -9,19 +9,7 @@
     
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="ExportCalendarBtn" Label="导出到日历" Icon="CalendarReply" Click="ExportCalendarBtn_Click">
-                <!--<AppBarButton.Flyout>
-                    <MenuFlyout>
-                        --><!--<MenuFlyout.MenuFlyoutPresenterStyle>
-                            <Style TargetType="MenuFlyoutPresenter">
-                                <Setter Property="Background" Value="{ThemeResource ChromeAcrylicBrush}"/>
-                            </Style>
-                        </MenuFlyout.MenuFlyoutPresenterStyle>--><!--
-                        <MenuFlyoutItem Text="当前系统日历"/>
-                        <MenuFlyoutItem Text="日历文件"/>--><!--ICS--><!--
-                    </MenuFlyout>
-                </AppBarButton.Flyout>-->
-            </AppBarButton>
+            <AppBarButton x:Name="ExportCalendarBtn" Label="导出到日历" Icon="CalendarReply" Click="ExportCalendarBtn_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
     <Grid>

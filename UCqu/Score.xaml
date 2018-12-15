@@ -10,8 +10,6 @@
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:scoreLib="using:CquScoreLib"
     xmlns:xamlLib="using:Microsoft.UI.Xaml.Controls"
-    xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)"
-    xmlns:contract6NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,6)"
     mc:Ignorable="d">
     <Page.BottomAppBar>
         <CommandBar>
@@ -40,27 +38,8 @@
     </Page.Resources>
 
     <Grid>
-        <!--{ThemeResource ApplicationPageBackgroundThemeBrush}-->
-        <contract6Present:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+        <xamlLib:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
             <ListView x:Name="MainList" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                <!--<ListView.HeaderTemplate>
-                    <DataTemplate x:DataType="scoreLib:ScoreSet">
-                        <controls:ScrollHeader IsTabStop="True" Mode="None">
-                            <Grid Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}" MinHeight="250">
-                                <StackPanel Padding="50,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Text="{x:Bind Name}"  Style="{ThemeResource HeaderTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}" Margin="0,0,0,5"/>
-                                    <TextBlock Text="{x:Bind Id}"  Style="{ThemeResource SubheaderTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}" Margin="0,0,0,20"/>
-                                    <StackPanel Orientation="Horizontal">
-                                        <SymbolIcon Symbol="Library" Margin="0,0,10,0"/>
-                                        <TextBlock Text="{x:Bind Major}" Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}" Margin="0,0,50,0"/>
-                                        <SymbolIcon Symbol="OutlineStar" Margin="0,0,10,0"/>
-                                        <TextBlock Text="{x:Bind GPA, Converter={StaticResource GrandGPAConverter}}"  Foreground="{ThemeResource SystemControlHighlightChromeWhiteBrush}"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                        </controls:ScrollHeader>
-                    </DataTemplate>
-                </ListView.HeaderTemplate>-->
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="scoreLib:Term">
                         <UserControl>
@@ -211,170 +190,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-        </contract6Present:RefreshContainer>
-        <contract6NotPresent:ListView x:Name="MainListFallback" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="scoreLib:Term">
-                    <UserControl>
-                        <Grid HorizontalAlignment="Stretch">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState x:Name="Normal">
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="1008"/>
-                                        </VisualState.StateTriggers>
-                                        <VisualState.Setters/>
-                                    </VisualState>
-                                    <VisualState x:Name="Compact">
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="640"/>
-                                        </VisualState.StateTriggers>
-                                        <VisualState.Setters>
-                                            <Setter Target="StarHeader.Width" Value="0"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Minimal">
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="450"/>
-                                        </VisualState.StateTriggers>
-                                        <VisualState.Setters>
-                                            <Setter Target="HeaderPanel.Orientation" Value="Vertical"/>
-                                            <Setter Target="CommentHeader.Width" Value="0"/>
-                                            <Setter Target="LecturerHeader.Width" Value="0"/>
-                                            <Setter Target="StarHeader.Width" Value="0"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Phone">
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowWidth="0"/>
-                                        </VisualState.StateTriggers>
-                                        <VisualState.Setters>
-                                            <Setter Target="TermHeader.FontSize" Value="24"/>
-                                            <Setter Target="HeaderPanel.Orientation" Value="Vertical"/>
-                                            <Setter Target="CommentHeader.Width" Value="0"/>
-                                            <Setter Target="LecturerHeader.Width" Value="0"/>
-                                            <Setter Target="StarHeader.Width" Value="0"/>
-                                            <Setter Target="ItemBody.Margin" Value="30,20,30,20"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <StackPanel x:Name="ItemBody" Margin="50,20,50,20" HorizontalAlignment="Stretch">
-                                <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Stretch" Orientation="Horizontal"  Margin="0,0,0,20">
-                                    <TextBlock x:Name="TermHeader" Style="{ThemeResource SubheaderTextBlockStyle}" Text="{x:Bind}" VerticalAlignment="Bottom" Margin="0,0,30,0" MinWidth="200"/>
-                                    <TextBlock Text="{x:Bind GPA, Converter={StaticResource TermGPAConverter}}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,2">
-                                        <animation:Implicit.Animations>
-                                            <animation:OffsetAnimation Duration="0:0:0.3"/>
-                                        </animation:Implicit.Animations>
-                                    </TextBlock>
-                                </StackPanel>
-                                <ListView ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" IsItemClickEnabled="False" ScrollViewer.BringIntoViewOnFocusChange="False" FocusVisualPrimaryBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Stretch" ItemsSource="{x:Bind}" HorizontalContentAlignment="Stretch" extensions:ListViewExtensions.AlternateColor="{StaticResource AlternateRowBackgroundBrush}">
-                                    <!--extensions:ListViewExtensions.AlternateColor="{ThemeResource SystemControlBackgroundBaseLowBrush}"-->
-                                    <animation:Implicit.Animations>
-                                        <animation:OffsetAnimation Duration="0:0:0.3"/>
-                                    </animation:Implicit.Animations>
-                                    <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                            <Setter Property="Margin" Value="0,1,0,1"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </ListView.ItemContainerStyle>
-                                    <ListView.Header>
-                                        <Grid HorizontalAlignment="Stretch" Margin="10,0,10,5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="4*"/>
-                                                <!--Name-->
-                                                <ColumnDefinition Width="1*"/>
-                                                <!--Credit-->
-                                                <ColumnDefinition x:Name="CommentHeader" Width="1*"/>
-                                                <!--Comment (Optional)-->
-                                                <ColumnDefinition Width="1*"/>
-                                                <!--Score-->
-                                                <ColumnDefinition Width="1*"/>
-                                                <!--GPA-->
-                                                <ColumnDefinition x:Name="StarHeader" Width="2*"/>
-                                                <ColumnDefinition x:Name="LecturerHeader" Width="2*"/>
-                                                <!--Lecturer (Optional)-->
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock FontWeight="SemiBold" Text="课程" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="0" Margin="0,0,30,0"/>
-                                            <TextBlock Text="学分" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0"/>
-                                            <TextBlock Text="成绩" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="3" Margin="0,0,10,0"/>
-                                            <TextBlock Text="绩点" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="4" Margin="0,0,10,0"/>
-                                            <TextBlock Text="教师" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="6" Margin="0,0,0,0"/>
-                                        </Grid>
-                                    </ListView.Header>
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate x:DataType="scoreLib:Course">
-                                            <UserControl>
-                                                <Grid HorizontalAlignment="Stretch" Padding="10,0,10,0">
-                                                    <VisualStateManager.VisualStateGroups>
-                                                        <VisualStateGroup>
-                                                            <VisualState x:Name="Normal">
-                                                                <VisualState.StateTriggers>
-                                                                    <AdaptiveTrigger MinWindowWidth="1008"/>
-                                                                </VisualState.StateTriggers>
-                                                                <VisualState.Setters/>
-                                                            </VisualState>
-                                                            <VisualState x:Name="Compact">
-                                                                <VisualState.StateTriggers>
-                                                                    <AdaptiveTrigger MinWindowWidth="640"/>
-                                                                </VisualState.StateTriggers>
-                                                                <VisualState.Setters>
-                                                                    <Setter Target="StarField.Width" Value="0"/>
-                                                                </VisualState.Setters>
-                                                            </VisualState>
-                                                            <VisualState x:Name="Minimal">
-                                                                <VisualState.StateTriggers>
-                                                                    <AdaptiveTrigger MinWindowWidth="0"/>
-                                                                </VisualState.StateTriggers>
-                                                                <VisualState.Setters>
-                                                                    <Setter Target="CommentField.Width" Value="0"/>
-                                                                    <Setter Target="LecturerField.Width" Value="0"/>
-                                                                    <Setter Target="StarField.Width" Value="0"/>
-                                                                </VisualState.Setters>
-                                                            </VisualState>
-                                                        </VisualStateGroup>
-                                                    </VisualStateManager.VisualStateGroups>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="4*"/>
-                                                        <!--Name-->
-                                                        <ColumnDefinition Width="1*"/>
-                                                        <!--Credit-->
-                                                        <ColumnDefinition x:Name="CommentField" Width="1*"/>
-                                                        <!--Comment (Optional)-->
-                                                        <ColumnDefinition Width="1*"/>
-                                                        <!--Score-->
-                                                        <ColumnDefinition Width="1*"/>
-                                                        <!--GPA-->
-                                                        <ColumnDefinition x:Name="StarField" Width="2*"/>
-                                                        <ColumnDefinition x:Name="LecturerField" Width="2*"/>
-                                                        <!--Lecturer (Optional)-->
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock FontWeight="SemiBold" Text="{x:Bind SimplifiedName}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="0" Margin="0,0,30,0" TextTrimming="CharacterEllipsis"/>
-                                                    <TextBlock Text="{x:Bind Credit}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0"/>
-                                                    <TextBlock Text="{x:Bind Comment}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="2" Margin="0,0,10,0"/>
-                                                    <TextBlock Text="{x:Bind Score}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="3" Margin="0,0,10,0"/>
-                                                    <TextBlock Text="{x:Bind GPA, Converter={StaticResource CourseGPAConverter}}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="4" Margin="0,0,10,0"/>
-                                                    <xamlLib:RatingControl Value="{x:Bind GPA, Converter={StaticResource GPAStarConverter}}" IsTabStop="False" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="5" Margin="0,0,10,0"/>
-                                                    <TextBlock Text="{x:Bind SimplifiedLecturer}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="6" Margin="0,0,0,0" TextTrimming="CharacterEllipsis"/>
-                                                </Grid>
-                                            </UserControl>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </StackPanel>
-                        </Grid>
-                    </UserControl>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="Padding" Value="0"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </contract6NotPresent:ListView>
+        </xamlLib:RefreshContainer>
         <controls:InAppNotification x:Name="RefreshFailedNotification" AnimationDuration="00:00:00.1" HorizontalOffset="0" VerticalOffset="100" ShowDismissButton="True"/>
     </Grid>
 </Page>
