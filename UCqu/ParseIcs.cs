@@ -7,12 +7,13 @@ using CquScoreLib;
 using Ical.Net;
 using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
+using Model = DL444.UcquLibrary.Models;
 
 namespace UCqu
 {
     public static class IcsHelper
     {
-        public static string GenerateIcs(CquScoreLib.Schedule schedule)
+        public static string GenerateIcs(Model.Schedule schedule)
         {
             int dayCount = schedule.Count * 7;
             DateTime firstDay = CommonResources.StartDate;
@@ -20,8 +21,7 @@ namespace UCqu
             for(int i = 0; i < dayCount; i++)
             {
                 DateTime date = firstDay.AddDays(i);
-                List<CquScoreLib.ScheduleEntry> dayEntries = schedule.GetDaySchedule(i);
-                foreach(CquScoreLib.ScheduleEntry e in dayEntries)
+                foreach(Model.ScheduleEntry e in schedule.GetDaySchedule(i))
                 {
                     (var start, var end) = SessionTimeConverter.ConvertShort(e.SessionSpan);
                     CalendarEvent calEvent = new CalendarEvent()

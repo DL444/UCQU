@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CquScoreLib;
+using Model = DL444.UcquLibrary.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -37,9 +38,10 @@ namespace UCqu
             if (e.Parameter as Watcher != null)
             {
                 watcher = e.Parameter as Watcher;
-                CquScoreLib.Schedule schedule = watcher.Schedule;
+                //CquScoreLib.Schedule schedule = watcher.Schedule;
 
-
+                Model.Schedule schedule = new Model.Schedule();
+                // TODO: Get model and populate frame.
 
                 //await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
                 //    () =>
@@ -55,15 +57,32 @@ namespace UCqu
                 //    );
 
 
-                for (int i = 1; i <= schedule.Count; i++)
+                //for (int i = 1; i <= schedule.Count; i++)
+                //{
+                //    ScheduleFrame frame = new ScheduleFrame();
+                //    frame.Week = i;
+                //    frame.Schedule = schedule;
+                //    WeekFlip.Items.Add(frame);
+                //}
+                //int elapsedWeeks = (DateTime.Today - CommonResources.StartDate).Days / 7;
+                //if(elapsedWeeks > schedule.Count - 1)
+                //{
+                //    WeekFlip.SelectedIndex = schedule.Count - 1;
+                //}
+                //else
+                //{
+                //    WeekFlip.SelectedIndex = elapsedWeeks;
+                //}
+
+                for (int i = 0; i < schedule.Count; i++)
                 {
                     ScheduleFrame frame = new ScheduleFrame();
-                    frame.Week = i;
-                    frame.Schedule = schedule;
+                    frame.Week = schedule.Weeks[i].WeekNumber;
+                    frame.WeekSchedule = schedule.Weeks[i];
                     WeekFlip.Items.Add(frame);
                 }
                 int elapsedWeeks = (DateTime.Today - CommonResources.StartDate).Days / 7;
-                if(elapsedWeeks > schedule.Count - 1)
+                if (elapsedWeeks > schedule.Count - 1)
                 {
                     WeekFlip.SelectedIndex = schedule.Count - 1;
                 }
@@ -71,13 +90,15 @@ namespace UCqu
                 {
                     WeekFlip.SelectedIndex = elapsedWeeks;
                 }
+
             }
 
         }
 
         private async void ExportCalendarBtn_Click(object sender, RoutedEventArgs e)
         {
-            string icsString = IcsHelper.GenerateIcs(watcher.Schedule);
+            // TODO: Change this! 
+            string icsString = /*IcsHelper.GenerateIcs(watcher.Schedule);*/ "";
             var savePicker = new Windows.Storage.Pickers.FileSavePicker();
             savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
             savePicker.FileTypeChoices.Add("ICS 文件", new List<string>() { ".ics" });

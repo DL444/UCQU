@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CquScoreLib;
+using Model = DL444.UcquLibrary.Models;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -21,19 +22,19 @@ namespace UCqu
     public sealed partial class ScheduleFrame : UserControl
     {
         private int _week = 1;
-        private CquScoreLib.Schedule _schedule;
+        private Model.ScheduleWeek _weekSchedule;
 
         public ScheduleFrame()
         {
             this.InitializeComponent();
         }
 
-        public CquScoreLib.Schedule Schedule
+        public Model.ScheduleWeek WeekSchedule
         {
-            get => _schedule;
+            get => _weekSchedule;
             set
             {
-                _schedule = value;
+                _weekSchedule = value;
                 Draw();
             }
         }
@@ -44,15 +45,11 @@ namespace UCqu
             set
             {
                 _week = value;
-                if(_schedule != null)
-                {
-                    Draw();
-                }
+                WeekText.Text = $"第{value}周";
             }
         }
         void Draw()
         {
-            WeekText.Text = $"第{Week}周";
             //foreach(var item in SchedGrid.Children)
             //{
             //    if(item is ScheduleItem e)
@@ -61,10 +58,10 @@ namespace UCqu
             //    }
             //}
             //SchedGrid.Children.Clear();
-            List<ScheduleEntry> entries = Schedule[Week];
+            //List<Model.ScheduleEntry> entries = WeekSchedule.Entries;
             bool showWeekend = false;
             bool showNightSession = false;
-            foreach(ScheduleEntry entry in entries)
+            foreach(Model.ScheduleEntry entry in WeekSchedule.Entries)
             {
                 ScheduleItem item = new ScheduleItem();
                 item.Entry = entry;
@@ -125,19 +122,6 @@ namespace UCqu
             }
         }
 
-
-        public bool NextWeek()
-        {
-            if(Week > Schedule.Count) { return false; }
-            Week++;
-            return Week >= Schedule.Count;
-        }
-        public bool LastWeek()
-        {
-            if (Week > Schedule.Count) { return false; }
-            Week--;
-            return Week >= Schedule.Count;
-        }
 
         //private void WeekFlip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{

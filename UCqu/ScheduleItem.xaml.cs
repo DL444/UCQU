@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using CquScoreLib;
 using Windows.Foundation.Metadata;
 using System.Collections.Immutable;
+using Model = DL444.UcquLibrary.Models;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -27,8 +28,8 @@ namespace UCqu
             this.InitializeComponent();
         }
 
-        ScheduleEntry entry;
-        public ScheduleEntry Entry
+        Model.ScheduleEntry entry;
+        public Model.ScheduleEntry Entry
         {
             get => entry;
             set

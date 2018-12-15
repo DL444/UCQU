@@ -16,6 +16,7 @@ using CquScoreLib;
 using Windows.Foundation.Metadata;
 using System.Net;
 using Controls = Microsoft.UI.Xaml.Controls;
+using Model = DL444.UcquLibrary.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,7 +28,6 @@ namespace UCqu
     public sealed partial class Score : Page
     {
         Watcher watcher = null;
-        //bool uiFallback = !ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6);
         bool secondMajor = false;
 
         public Score()
@@ -43,22 +43,15 @@ namespace UCqu
             {
                 watcher = e.Parameter as Watcher;
                 ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
-                PopulateList(set);
+                //MainList.ItemsSource = set;
+                // TODO: Get the model and populate list.
             }
         }
 
         private void PopulateList(ScoreSet set)
         {
             set.Reverse();
-            MainList.ItemsSource = set;
-            //if (uiFallback)
-            //{
-            //    MainListFallback.ItemsSource = set;
-            //}
-            //else
-            //{
-            //    MainList.ItemsSource = set;
-            //}
+            //MainList.ItemsSource = set;
         }
 
         private async void RefreshBtn_Click(object sender, RoutedEventArgs e)
