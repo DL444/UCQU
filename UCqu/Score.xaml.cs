@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using CquScoreLib;
 using Windows.Foundation.Metadata;
 using System.Net;
 using Controls = Microsoft.UI.Xaml.Controls;
