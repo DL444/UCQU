@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using CquScoreLib;
+using Model = DL444.UcquLibrary.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,36 +23,29 @@ namespace UCqu
     /// </summary>
     public sealed partial class Home : Page
     {
-        Watcher watcher = null;
-        List<ScheduleEntry> dayEntries = null;
+        Model.Schedule schedule;
+        List<Model.ScheduleEntry> dayEntries = null;
         List<HuxiImgEntry> huxiImgEntries = null;
-        Random randomizer = new Random(DateTime.Now.Millisecond);
-
-        DateTime startDate = CommonResources.StartDate;
-        DateTime testDate = new DateTime(2018, 9, 3);
 
         public Home()
         {
             this.InitializeComponent();
-            //NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter as Watcher != null)
+            if (e.Parameter is Model.Schedule schedule)
             {
-                watcher = e.Parameter as Watcher;
-                ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
-                //HeaderControl.Content = set;
+                this.schedule = schedule;
 
-                dayEntries = watcher.Schedule.GetDaySchedule((DateTime.Today/*testDate*/ - startDate).Days);
+                dayEntries = schedule.GetDaySchedule((DateTime.Today - CommonResources.StartDate).Days).ToList();
                 if (dayEntries.Count != 0)
                 {
                     dayEntries.Sort();
-                    TodayScheduleList.Visibility = Visibility.Visible;
                     TodayScheduleList.ItemsSource = dayEntries;
+                    TodayScheduleList.Visibility = Visibility.Visible;
                 }
             }
 

@@ -105,7 +105,7 @@
                         <animations:OpacityAnimation From="0" To="2" Duration="0:0:0.75"/>
                     </animations:Implicit.ShowAnimations>
                     <ContentControl.ContentTemplate>
-                        <DataTemplate x:DataType="scoreLib:Watcher">
+                        <DataTemplate x:DataType="local:HeaderInfo">
                             <UserControl>
                                 <Grid Background="{ThemeResource NavigationViewTopPaneBackground}" >
                                     <VisualStateManager.VisualStateGroups>
@@ -134,7 +134,7 @@
                                                 <animations:OffsetAnimation Duration="0:0:0.3"/>
                                             </animations:Implicit.Animations>
                                             <TextBlock x:Name="NameHeaderBox" Text="{Binding Name}"  Style="{ThemeResource HeaderTextBlockStyle}" Margin="0,0,0,5" VerticalAlignment="Bottom"/>
-                                            <TextBlock x:Name="IdHeaderBox" Text="{Binding UserName}"  Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,20" VerticalAlignment="Bottom">
+                                            <TextBlock x:Name="IdHeaderBox" Text="{Binding UserId}"  Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,20" VerticalAlignment="Bottom">
                                                 <animations:Implicit.Animations>
                                                     <animations:OffsetAnimation Duration="0:0:0.3"/>
                                                 </animations:Implicit.Animations>

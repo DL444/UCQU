@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using CquScoreLib;
 using Windows.Foundation.Metadata;
 using System.Collections.Immutable;
 using Model = DL444.UcquLibrary.Models;

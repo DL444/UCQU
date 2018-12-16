@@ -19,19 +19,7 @@
                         <TextBox x:Name="IdBox" PlaceholderText="账户" Margin="0,0,0,20" KeyDown="Enter_KeyDown"/>
                         <PasswordBox x:Name="PswBox" PlaceholderText="密码" KeyDown="Enter_KeyDown" />
                         <!--<TextBlock x:Name="PwdIncorrectHint" Text="用户名与密码不匹配, 请重试" Foreground="Red" Visibility="Collapsed" Margin="0,5,0,0"/>-->
-                        <CheckBox x:Name="SavePwdBox" Content="保持登录状态" Margin="0,20,0,0" IsChecked="True" Visibility="Collapsed" KeyDown="Enter_KeyDown"/>
                         <Button x:Name="LoginBtn" Content="登录" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}" HorizontalAlignment="Center" MinWidth="100" Margin="0,20,0,20" Click="LoginBtn_Click"/>
-                        <controls:Expander Header="更多设置" Margin="0,0,0,20" HorizontalContentAlignment="Stretch" Visibility="Collapsed">
-                            <Grid Padding="20,10,20,20" HorizontalAlignment="Stretch">
-                                <StackPanel HorizontalAlignment="Stretch">
-                                    <TextBlock Text="服务器" Margin="0,0,0,10"/>
-                                    <ComboBox x:Name="HostBox" SelectedIndex="0" HorizontalAlignment="Stretch">
-                                        <ComboBoxItem Content="jxgl.cqu.edu.cn"/>
-                                        <ComboBoxItem Content="202.202.1.41"/>
-                                    </ComboBox>
-                                </StackPanel>
-                            </Grid>
-                        </controls:Expander>
 
                         <!--<HyperlinkButton Grid.Row="1" HorizontalAlignment="Center">
                             <HyperlinkButton.Foreground>

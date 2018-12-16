@@ -16,6 +16,8 @@ using CquScoreLib;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using System.Net;
+using Model = DL444.UcquLibrary.Models;
+using System.Collections.Immutable;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,79 +35,130 @@ namespace UCqu
 
         private async void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
+            if(PswBox.Password == "" || IdBox.Text == "")
+            {
+                ShowErrorMessage("请输入用户名及密码");
+                return;
+            }
+            string pwdHash = Watcher.GetPasswordHash(IdBox.Text, PswBox.Password);
+            string userId = IdBox.Text;
+
+            await LoginAsync(userId, pwdHash);
+        }
+
+        private async Task LoginAsync(string userId, string pwdHash)
+        {
             LoadingRingGrid.Visibility = Visibility.Visible;
             LoadingRing.IsActive = true;
-            string pwdHash = Watcher.GetPasswordHash(IdBox.Text, PswBox.Password);
-            string host = (HostBox.SelectedItem as ComboBoxItem).Content as string;
-            //Watcher watcher = new Watcher(host, IdBox.Text, pwdHash, 0);
-            Watcher watcher = new Watcher("202.202.1.41", IdBox.Text, pwdHash, 0);
-            // TODO: Fix anti-scraper
-            bool isCorrect = false;
+
+            string token;
             try
             {
-                string sid = await watcher.LoginAsync();
-                if(sid == "PRE_REG")
-                {
-                    LoginFailedNotification.Show("教务系统尚未开放，请确认已缴纳学费后等待教务系统开放", 5000);
-                    LoadingRing.IsActive = false;
-                    LoadingRingGrid.Visibility = Visibility.Collapsed;
-                    return;
-                }
-                if (sid == "UNKNOWN_ERROR")
-                {
-                    LoginFailedNotification.Show("未知错误，请您提交反馈，以便我们排除故障", 5000);
-                    LoadingRing.IsActive = false;
-                    LoadingRingGrid.Visibility = Visibility.Collapsed;
-                    return;
-                }
-                isCorrect = await watcher.ValidateLoginAsync();
+                token = await WebClient.LoginAsync(userId, pwdHash);
             }
             catch (WebException)
             {
-                LoginFailedNotification.Show("登录失败, 请检查网络连接", 5000);
-                LoadingRing.IsActive = false;
-                LoadingRingGrid.Visibility = Visibility.Collapsed;
+                ShowErrorMessage("数据获取失败, 请检查网络连接");
                 return;
             }
-            if (isCorrect)
+
+            if (token.Length > 1)
             {
                 if (CommonResources.LoadSetting("courseToastSwitch", out string _cSwitch) == false) { CommonResources.SaveSetting("courseToastSwitch", "on"); }
                 if (CommonResources.LoadSetting("dailyToastSwitch", out string _dSwitch) == false) { CommonResources.SaveSetting("dailyToastSwitch", "on"); }
                 if (CommonResources.LoadSetting("imgToastSwitch", out string _switch) == false) { CommonResources.SaveSetting("imgToastSwitch", "on"); }
+                SaveCredentials(userId, pwdHash);
 
-                watcher.Workload = new SingleWorkload(IdBox.Text);
-
+                // Get static data.
                 try
                 {
-                    await watcher.PerformInfo();
-                    await watcher.Perform();
-                    await watcher.PerformSchedule(CommonResources.CurrentTerm);
+                    Model.StaticDataModel staticData = await WebClient.GetStaticDataAsync();
+                    CommonResources.StartDate = staticData.StartDate;
+                    CommonResources.StartTimeABC = ImmutableArray.Create(staticData.StartTimeABC.ToArray());
+                    CommonResources.StartTimeD = ImmutableArray.Create(staticData.StartTimeD.ToArray());
+                    CommonResources.EndTimeABC = ImmutableArray.Create(staticData.EndTimeABC.ToArray());
+                    CommonResources.EndTimeD = ImmutableArray.Create(staticData.EndTimeD.ToArray());
                 }
                 catch (WebException)
                 {
-                    LoginFailedNotification.Show("数据获取失败, 请检查网络连接", 5000);
-                }
-                if (SavePwdBox.IsChecked == true)
-                {
-                    SaveCredentials(IdBox.Text, pwdHash, host);
-                }
-                else
-                {
-                    SaveCredentials("", "", "", true);
+                    ShowErrorMessage("数据获取失败, 请检查网络连接");
+                    return;
                 }
 
-                
+                Model.StudentInfo studentInfo;
+                try
+                {
+                    studentInfo = await WebClient.GetStudentInfoAsync(token);
+                }
+                catch (WebException)
+                {
+                    ShowErrorMessage("数据获取失败, 请检查网络连接");
+                    return;
+                }
+                catch (RequestFailedException ex)
+                {
+                    ShowErrorMessage($"服务器未知错误，请稍后再试 (1.{ex.Status})");
+                    return;
+                }
+
+                Model.Score score;
+                try
+                {
+                    score = await WebClient.GetScoreAsync(token);
+                }
+                catch (WebException)
+                {
+                    ShowErrorMessage("数据获取失败, 请检查网络连接");
+                    return;
+                }
+                catch (RequestFailedException ex)
+                {
+                    ShowErrorMessage($"服务器未知错误，请稍后再试 (2.{ex.Status})");
+                    return;
+                }
+
+                Model.Schedule schedule;
+                try
+                {
+                    schedule = await WebClient.GetScheduleAsync(token);
+                }
+                catch (WebException)
+                {
+                    ShowErrorMessage("数据获取失败, 请检查网络连接");
+                    return;
+                }
+                catch (RequestFailedException ex)
+                {
+                    ShowErrorMessage($"服务器未知错误，请稍后再试 (3.{ex.Status})");
+                    return;
+                }
 
                 LoadingRing.IsActive = false;
                 LoadingRingGrid.Visibility = Visibility.Collapsed;
-                (Window.Current.Content as Frame).Navigate(typeof(MainPage), watcher);
+                (Window.Current.Content as Frame).Navigate(typeof(MainPage), new MainPageNavigationParameter(userId, token, studentInfo, score, schedule));
+            }
+            else if (token == "1")
+            {
+                ShowErrorMessage("用户名与密码不匹配, 请重试");
+                return;
+            }
+            else if (token == "4")
+            {
+                ShowErrorMessage("教务系统尚未开放，请确认已缴纳学费后等待教务系统开放");
+                return;
             }
             else
             {
-                LoginFailedNotification.Show("用户名与密码不匹配, 请重试", 5000);
-                LoadingRing.IsActive = false;
-                LoadingRingGrid.Visibility = Visibility.Collapsed;
+                ShowErrorMessage($"服务器未知错误，请稍后再试 (0.{token})");
+                return;
             }
+        }
+
+        private void ShowErrorMessage(string message)
+        {
+            LoginFailedNotification.Show(message, 5000);
+            LoadingRing.IsActive = false;
+            LoadingRingGrid.Visibility = Visibility.Collapsed;
         }
 
         private void Enter_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -116,34 +169,32 @@ namespace UCqu
             }
         }
 
-        void SaveCredentials(string id, string pwdHash, string host)
+        void SaveCredentials(string id, string pwdHash)
         {
-            SaveCredentials(id, pwdHash, host, false);
+            SaveCredentials(id, pwdHash, false);
         }
-        void SaveCredentials(string id, string pwdHash, string host, bool clear)
+        void SaveCredentials(string id, string pwdHash, bool clear)
         {
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             if (!clear)
             {
                 localSettings.Values["id"] = id;
                 localSettings.Values["pwdHash"] = pwdHash;
-                localSettings.Values["host"] = host;
             }
             else
             {
                 localSettings.Values["id"] = null;
                 localSettings.Values["pwdHash"] = null;
-                localSettings.Values["host"] = null;
             }
         }
-        bool LoadCredentials(out string id, out string pwdHash, out string host)
+        bool LoadCredentials(out string id, out string pwdHash)
         {
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             string uid = localSettings.Values["id"] as string;
-            if (uid == null) { id = ""; pwdHash = ""; host = ""; return false; }
+            if (uid == null) { id = ""; pwdHash = ""; return false; }
             else
             {
-                id = uid; pwdHash = localSettings.Values["pwdHash"] as string; host = localSettings.Values["host"] as string;
+                id = uid; pwdHash = localSettings.Values["pwdHash"] as string;
                 return true;
             }
         }
@@ -156,75 +207,15 @@ namespace UCqu
             {
                 if(e.Parameter as string == "logout")
                 {
-                    SaveCredentials("", "", "",true);
+                    SaveCredentials("", "", true);
                     CommonResources.SaveSetting("campus", null);
                     return;
                 }
             }
 
-            if (LoadCredentials(out string id, out string pwdHash, out string host) == true)
+            if (LoadCredentials(out string id, out string pwdHash) == true)
             {
-                LoadingRingGrid.Visibility = Visibility.Visible;
-                LoadingRing.IsActive = true;
-                //Watcher watcher = new Watcher(host, id, pwdHash, 0);
-                Watcher watcher = new Watcher("202.202.1.41", id, pwdHash, 0);
-                // TODO: Fix anti-scraper
-                bool isCorrect = false;
-                try
-                {
-                    string sid = await watcher.LoginAsync();
-                    if (sid == "PRE_REG")
-                    {
-                        LoginFailedNotification.Show("教务系统尚未开放，请确认已缴纳学费后等待教务系统开放", 5000);
-                        IdBox.Text = id;
-                        LoadingRing.IsActive = false;
-                        LoadingRingGrid.Visibility = Visibility.Collapsed;
-                        return;
-                    }
-                    if(sid == "UNKNOWN_ERROR")
-                    {
-                        LoginFailedNotification.Show("未知错误，请您提交反馈，以便我们排除故障", 5000);
-                        IdBox.Text = id;
-                        LoadingRing.IsActive = false;
-                        LoadingRingGrid.Visibility = Visibility.Collapsed;
-                        return;
-                    }
-                    isCorrect = await watcher.ValidateLoginAsync();
-                }
-                catch(WebException)
-                {
-                    LoginFailedNotification.Show("登录失败, 请检查网络连接", 5000);
-                    IdBox.Text = id;
-                    LoadingRing.IsActive = false;
-                    LoadingRingGrid.Visibility = Visibility.Collapsed;
-                    return;
-                }
-                if (isCorrect)
-                {
-                    watcher.Workload = new SingleWorkload(id);
-                    try
-                    {
-                        await watcher.PerformInfo();
-                        await watcher.Perform();
-                        await watcher.PerformSchedule(CommonResources.CurrentTerm);
-                    }
-                    catch (WebException)
-                    {
-                        LoginFailedNotification.Show("数据获取失败, 请检查网络连接", 5000);
-                    }
-                    LoadingRing.IsActive = false;
-                    LoadingRingGrid.Visibility = Visibility.Collapsed;
-                    (Window.Current.Content as Frame).Navigate(typeof(MainPage), watcher);
-                }
-                else
-                {
-                    IdBox.Text = id;
-                    //SavePwdBox.IsChecked = false;
-                    LoginFailedNotification.Show("用户名与密码不匹配, 请重试", 5000);
-                    LoadingRing.IsActive = false;
-                    LoadingRingGrid.Visibility = Visibility.Collapsed;
-                }
-
+                await LoginAsync(id, pwdHash);
             }
         }
     }

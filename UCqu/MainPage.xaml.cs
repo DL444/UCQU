@@ -13,8 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using CquScoreLib;
 using Windows.ApplicationModel.Background;
+using Model = DL444.UcquLibrary.Models;
+using System.ComponentModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -25,17 +26,12 @@ namespace UCqu
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        Watcher watcher = null;
+        string userId;
+        string token;
+        Model.StudentInfo info;
+        Model.Score score;
+        Model.Schedule schedule;
 
-        public string StuName { get; private set; }
-        public string Year { get; private set; }
-        public string Major { get; private set; }
-        public string Class { get; private set; }
-        public string Id { get; private set; }
-        // TODO: This is not notifying! Consider move to new class.
-
-        //bool firstNavigate = true;
-        //bool isCampusD = false;
         public MainPage()
         {
             this.InitializeComponent();
@@ -53,9 +49,6 @@ namespace UCqu
         private void AboutBtn_Click(object sender, RoutedEventArgs e)
         {
             NavPane.SelectedItem = null;
-            //HomeBtn.IsChecked = false;
-            //ScheduleBtn.IsChecked = false;
-            //ScoreBtn.IsChecked = false;
 
             if (!(ContentFrame.Content is About))
             {
@@ -70,27 +63,28 @@ namespace UCqu
                 HeaderControl.Visibility = Visibility.Collapsed;
                 return;
             }
+
             string selectionTag = (args.SelectedItem as NewControls.NavigationViewItem).Tag.ToString();
-            if (watcher == null) { return; }
+
             HeaderControl.Visibility = selectionTag == "Home" ? Visibility.Visible : Visibility.Collapsed;
             switch (selectionTag)
             {
                 case "Home":
                     if (!(ContentFrame.Content is Home))
                     {
-                        ContentFrame.Navigate(typeof(Home), watcher);
+                        ContentFrame.Navigate(typeof(Home), schedule);
                     }
                     break;
                 case "Schedule":
                     if (!(ContentFrame.Content is Schedule))
                     {
-                        ContentFrame.Navigate(typeof(Schedule), watcher);
+                        ContentFrame.Navigate(typeof(Schedule), schedule); 
                     }
                     break;
                 case "Score":
                     if (!(ContentFrame.Content is Score))
                     {
-                        ContentFrame.Navigate(typeof(Score), watcher);
+                        ContentFrame.Navigate(typeof(Score), score); // TODO: Change accordingly.
                     }
                     break;
             }
@@ -100,13 +94,17 @@ namespace UCqu
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is Watcher w)
+            if (e.Parameter is MainPageNavigationParameter p)
             {
-                watcher = w;
-                Id = watcher.UserName;
-                //HomeBtn.IsChecked = true;
-                HeaderControl.Content = watcher;
-                ContentFrame.Navigate(typeof(Home), watcher);
+                userId = p.UserId;
+                token = p.Token;
+                info = p.StudentInfo;
+                score = p.Score;
+                schedule = p.Schedule;
+
+                HeaderControl.DataContext = new HeaderInfo(p.StudentInfo, p.UserId, p.Score.GPA);
+
+                ContentFrame.Navigate(typeof(Home), schedule); 
             }
 
             if(CommonResources.LaunchState)
@@ -152,57 +150,69 @@ namespace UCqu
                 builder.Name = "Login Tile Update Task";
                 builder.SetTrigger(new SystemTrigger(SystemTriggerType.UserPresent, false));
                 builder.Register();
-            }
+            } // TODO: What the heck is this?
 
-            await ScheduleNotificationUpdateTasks.UpdateTile();
+            await ScheduleNotificationUpdateTasks.UpdateTile(); // TODO: An overload that just takes schedule?
 
         }
 
         private async void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(Login), "logout");
+            CommonResources.LaunchState = false;
             await ScheduleNotificationUpdateTasks.UpdateTile();
         }
 
         private void SettingsBtn_Click(object sender, RoutedEventArgs e)
         {
             NavPane.SelectedItem = null;
-            //HomeBtn.IsChecked = false;
-            //ScheduleBtn.IsChecked = false;
-            //ScoreBtn.IsChecked = false;
 
             if (!(ContentFrame.Content is Settings))
             {
                 ContentFrame.Navigate(typeof(Settings));
             }
         }
+    }
 
-        //private void NavBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    string selectionTag = (sender as RadioButton).Tag.ToString();
-        //    if (watcher == null) { return; }
-        //    switch (selectionTag)
-        //    {
-        //        case "Home":
-        //            if (!(ContentFrame.Content is Home))
-        //            {
-        //                ContentFrame.Navigate(typeof(Home), watcher);
-        //            }
-        //            break;
-        //        case "Schedule":
-        //            if (!(ContentFrame.Content is Schedule))
-        //            {
-        //                ContentFrame.Navigate(typeof(Schedule), watcher);
-        //            }
-        //            break;
-        //        case "Score":
-        //            if (!(ContentFrame.Content is Score))
-        //            {
-        //                ContentFrame.Navigate(typeof(Score), watcher);
-        //            }
-        //            break;
-        //    }
+    class HeaderInfo : INotifyPropertyChanged
+    {
+        public string UserId { get; set; }
+        public string Name { get; set; }
+        public string Major { get; set; }
+        public string Class { get; set; }
+        public string Year { get; set; }
+        public double GPA { get; set; }
 
-        //}
+        public HeaderInfo() { }
+        public HeaderInfo(Model.StudentInfo info, string userId, double gpa)
+        {
+            UserId = userId;
+            Name = info.Name;
+            Major = info.Major;
+            Class = info.Class;
+            Year = info.Year;
+            GPA = gpa;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
+
+    class MainPageNavigationParameter
+    {
+        public MainPageNavigationParameter(string userId, string token, Model.StudentInfo studentInfo, Model.Score score, Model.Schedule schedule)
+        {
+            UserId = userId;
+            Token = token;
+            StudentInfo = studentInfo;
+            Score = score;
+            Schedule = schedule;
+        }
+
+        public string UserId { get; set; }
+        public string Token { get; set; }
+        public Model.StudentInfo StudentInfo { get; set; }
+        public Model.Score Score { get; set; }
+        public Model.Schedule Schedule { get; set; }
     }
 }

@@ -8,6 +8,7 @@
     xmlns:scoreLib="using:CquScoreLib"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:model="using:DL444.UcquLibrary.Models"
     mc:Ignorable="d">
 
     <Grid>
@@ -29,7 +30,7 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="scoreLib:ScheduleEntry">
+                        <DataTemplate x:DataType="model:ScheduleEntry">
                             <UserControl HorizontalAlignment="Stretch">
                                 <Grid HorizontalAlignment="Stretch">
                                     <VisualStateManager.VisualStateGroups>
