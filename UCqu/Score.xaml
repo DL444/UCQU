@@ -9,7 +9,7 @@
     xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:scoreLib="using:CquScoreLib"
-    xmlns:ucquLib="using:DL444.UcquLibrary.Models"
+    xmlns:model="using:DL444.UcquLibrary.Models"
     xmlns:xamlLib="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
     <Page.BottomAppBar>
@@ -194,9 +194,9 @@
         </xamlLib:RefreshContainer>-->
         
         <xamlLib:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
-            <ListView x:Name="UcquMainList" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <ListView x:Name="MainList" SelectionMode="None" ScrollViewer.BringIntoViewOnFocusChange="False" IsItemClickEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="ucquLib:Term">
+                    <DataTemplate x:DataType="model:Term">
                         <UserControl>
                             <Grid HorizontalAlignment="Stretch">
                                 <VisualStateManager.VisualStateGroups>
@@ -274,7 +274,7 @@
                                             </Grid>
                                         </ListView.Header>
                                         <ListView.ItemTemplate>
-                                            <DataTemplate x:DataType="ucquLib:Course">
+                                            <DataTemplate x:DataType="model:Course">
                                                 <UserControl>
                                                     <Grid HorizontalAlignment="Stretch" Padding="10,0,10,0">
                                                         <VisualStateManager.VisualStateGroups>

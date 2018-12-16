@@ -5,83 +5,70 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Notifications;
 using Microsoft.Toolkit.Uwp.Notifications;
-using CquScoreLib;
+using Model = DL444.UcquLibrary.Models;
 
 namespace UCqu
 {
     static class ScheduleNotificationUpdateTasks
     {
-        public static async Task UpdateTile()
+        public static async Task UpdateTile(Model.Schedule schedule)
         {
+            TileUpdater updater = TileUpdateManager.CreateTileUpdaterForApplication();
+            if (schedule == null)
+            {
+                updater.Clear();
+                return;
+            }
             //Windows.Foundation.Diagnostics.LoggingChannel lc = new Windows.Foundation.Diagnostics.LoggingChannel("UCQU_BackgroundTaskPayload", null, new Guid("4bd2826e-54a1-4ba9-bf63-92b73ea1ac4a"));
             //lc.LogMessage("Entered Payload Method.");
-            TileUpdater updater = TileUpdateManager.CreateTileUpdaterForApplication();
             //lc.LogMessage("Tile Updated Created.");
-            string id = "", pwdHash = "", host = "";
-            if(LoadCredentials(out id, out pwdHash, out host) == false)
+            string id = "", pwdHash = "";
+            if(Login.LoadCredentials(out id, out pwdHash) == false)
             {
                 //lc.LogMessage("Credential Load Failed. Clearing tile and exiting...");
                 updater.Clear();
                 return;
             }
-            //lc.LogMessage("Constructing Watcher...");
-            //Watcher watcher = new Watcher(host, id, pwdHash);
-            Watcher watcher = new Watcher("202.202.1.41", id, pwdHash);
-            // TODO: Fix anti-scraper
-            bool isCorrect = false;
-            try
-            {
-                //lc.LogMessage("Attempting Login.");
-                await watcher.LoginAsync();
-                isCorrect = await watcher.ValidateLoginAsync();
-            }
-            catch(System.Net.WebException ex)
-            {
-                //lc.LogMessage($"Network Exception thrown attempting to login.\n\n{ex.Message}\n\n{ex.StackTrace}");
-                return;
-            }
+
             TileContent content = null;
-            if (isCorrect)
+            //lc.LogMessage("Obtaining Schedule.");
+            //lc.LogMessage("Getting Schedule of Today.");
+            List<Model.ScheduleEntry> entries = schedule.GetDaySchedule((DateTime.Today /*CommonResources.TestDate*/ - CommonResources.StartDate).Days).ToList();
+
+            entries.RemoveAll(x =>
             {
-                //lc.LogMessage("Obtaining Schedule.");
-                await watcher.PerformSchedule(CommonResources.CurrentTerm);
-                //lc.LogMessage("Getting Schedule of Today.");
-                List<ScheduleEntry> entries = watcher.Schedule.GetDaySchedule((DateTime.Today /*CommonResources.TestDate*/ - CommonResources.StartDate).Days);
+                (_, DateTime endTime) = SessionTimeConverter.Convert(x.SessionSpan);
+                DateTime now = DateTime.Now;
+                return endTime < now;
+            });
 
-                entries.RemoveAll((ScheduleEntry x) =>
+            entries.Sort((x, y) => x.StartSlot - y.StartSlot);
+
+            //lc.LogMessage("Constructing Tile Content.");
+            TileBindingContentAdaptive midTileContent = new TileBindingContentAdaptive();
+            TileBindingContentAdaptive wideTileContent = new TileBindingContentAdaptive();
+            TileBindingContentAdaptive largeTileContent = new TileBindingContentAdaptive();
+
+            if (entries.Count > 0)
+            {
+                if (!IsToastScheduled)
                 {
-                    (_, DateTime endTime) = SessionTimeConverter.Convert(x.SessionSpan);
-                    DateTime now = DateTime.Now;
-                    return endTime < now;
-                });
-
-                entries.Sort((x, y) => x.StartSlot - y.StartSlot);
-
-                //lc.LogMessage("Constructing Tile Content.");
-                TileBindingContentAdaptive midTileContent = new TileBindingContentAdaptive();
-                TileBindingContentAdaptive wideTileContent = new TileBindingContentAdaptive();
-                TileBindingContentAdaptive largeTileContent = new TileBindingContentAdaptive();
-
-                if (entries.Count > 0)
-                {
-                    if (!IsToastScheduled)
+                    try
                     {
-                        try
-                        {
-                            ScheduleToast(entries);
-                        }
-                        catch (Exception ex) { }
-                        IsToastScheduled = true;
+                        ScheduleToast(entries);
                     }
+                    catch (Exception ex) { }
+                    IsToastScheduled = true;
+                }
 
-                    //lc.LogMessage("Course Detected. Creating daily schedule tile.");
-                    foreach (ScheduleEntry e in entries)
+                //lc.LogMessage("Course Detected. Creating daily schedule tile.");
+                foreach (Model.ScheduleEntry e in entries)
+                {
+                    (var start, var end) = SessionTimeConverter.ConvertShort(e.SessionSpan);
+
+                    AdaptiveGroup midGroup = new AdaptiveGroup()
                     {
-                        (var start, var end) = SessionTimeConverter.ConvertShort(e.SessionSpan);
-
-                        AdaptiveGroup midGroup = new AdaptiveGroup()
-                        {
-                            Children =
+                        Children =
                             {
                                 new AdaptiveSubgroup()
                                 {
@@ -101,10 +88,10 @@ namespace UCqu
                                     }
                                 }
                             }
-                        };
-                        AdaptiveGroup wideGroup = new AdaptiveGroup()
-                        {
-                            Children =
+                    };
+                    AdaptiveGroup wideGroup = new AdaptiveGroup()
+                    {
+                        Children =
                             {
                                 new AdaptiveSubgroup()
                                 {
@@ -123,10 +110,10 @@ namespace UCqu
                                     }
                                 }
                             }
-                        };
-                        AdaptiveGroup largeGroup = new AdaptiveGroup()
-                        {
-                            Children =
+                    };
+                    AdaptiveGroup largeGroup = new AdaptiveGroup()
+                    {
+                        Children =
                             {
                                 new AdaptiveSubgroup()
                                 {
@@ -150,100 +137,93 @@ namespace UCqu
                                     }
                                 }
                             }
-                        };
-                        midTileContent.Children.Add(midGroup);
-                        wideTileContent.Children.Add(wideGroup);
-                        largeTileContent.Children.Add(largeGroup);
-                    }
-                    //lc.LogMessage("Assigning Tile Content.");
-                    content = new TileContent()
-                    {
-                        Visual = new TileVisual()
-                        {
-                            Branding = TileBranding.Name,
-                            TileLarge = new TileBinding()
-                            {
-                                Content = largeTileContent
-                            },
-                            TileMedium = new TileBinding()
-                            {
-                                Content = midTileContent
-                            },
-                            TileWide = new TileBinding()
-                            {
-                                Content = wideTileContent
-                            },
-                        }
                     };
+                    midTileContent.Children.Add(midGroup);
+                    wideTileContent.Children.Add(wideGroup);
+                    largeTileContent.Children.Add(largeGroup);
                 }
-                else
+                //lc.LogMessage("Assigning Tile Content.");
+                content = new TileContent()
                 {
-                    //lc.LogMessage("No Course Detected. Creating image tile.");
-                    //lc.LogMessage("Getting Image Entries Metadata.");
-                    List<HuxiImgEntry> huxiImgEntries = await HuxiImg.GetEntries();
-                    //lc.LogMessage("Creating Randomizer.");
-                    Random randomizer = new Random((int)DateTime.Now.Ticks);
-                    int index = randomizer.Next(0, huxiImgEntries.Count);
-
-                    if(!IsToastScheduled)
+                    Visual = new TileVisual()
                     {
-                        try
+                        Branding = TileBranding.Name,
+                        TileLarge = new TileBinding()
                         {
-                            ScheduleToast(huxiImgEntries[index]);
-                        }
-                        catch(Exception ex) { }
-                        IsToastScheduled = true;
+                            Content = largeTileContent
+                        },
+                        TileMedium = new TileBinding()
+                        {
+                            Content = midTileContent
+                        },
+                        TileWide = new TileBinding()
+                        {
+                            Content = wideTileContent
+                        },
                     }
-                    //lc.LogMessage("Randomly Selected Index: " + index);
-                    //lc.LogMessage("Constructing Image Tile.");
-                    largeTileContent.BackgroundImage = new TileBackgroundImage()
-                    {
-                        Source = huxiImgEntries[index].Uri,
-                        HintOverlay = 40
-                    };
-                    largeTileContent.Children.Add
-                    (
-                        new AdaptiveText()
-                        {
-                            Text = huxiImgEntries[index].Title,
-                            HintStyle = AdaptiveTextStyle.Base
-                        }
-                    );
-                    largeTileContent.Children.Add
-                    (
-                        new AdaptiveText()
-                        {
-                            Text = huxiImgEntries[index].Author,
-                            HintStyle = AdaptiveTextStyle.CaptionSubtle
-                        }
-                    );
-                    //lc.LogMessage("Assigning Tile Content.");
-                    content = new TileContent()
-                    {
-                        Visual = new TileVisual()
-                        {
-                            Branding = TileBranding.Name,
-                            TileLarge = new TileBinding()
-                            {
-                                Content = largeTileContent
-                            },
-                            TileMedium = new TileBinding()
-                            {
-                                Content = largeTileContent
-                            },
-                            TileWide = new TileBinding()
-                            {
-                                Content = largeTileContent
-                            },
-                        }
-                    };
-                }
+                };
             }
             else
             {
-                //lc.LogMessage("Credential Invalid. Clearing tile and exiting...");
-                updater.Clear();
-                return;
+                //lc.LogMessage("No Course Detected. Creating image tile.");
+                //lc.LogMessage("Getting Image Entries Metadata.");
+                List<HuxiImgEntry> huxiImgEntries = await HuxiImg.GetEntries();
+                //lc.LogMessage("Creating Randomizer.");
+                Random randomizer = new Random((int)DateTime.Now.Ticks);
+                int index = randomizer.Next(0, huxiImgEntries.Count);
+
+                if (!IsToastScheduled)
+                {
+                    try
+                    {
+                        ScheduleToast(huxiImgEntries[index]);
+                    }
+                    catch (Exception ex) { }
+                    IsToastScheduled = true;
+                }
+                //lc.LogMessage("Randomly Selected Index: " + index);
+                //lc.LogMessage("Constructing Image Tile.");
+                largeTileContent.BackgroundImage = new TileBackgroundImage()
+                {
+                    Source = huxiImgEntries[index].Uri,
+                    HintOverlay = 40
+                };
+                largeTileContent.Children.Add
+                (
+                    new AdaptiveText()
+                    {
+                        Text = huxiImgEntries[index].Title,
+                        HintStyle = AdaptiveTextStyle.Base
+                    }
+                );
+                largeTileContent.Children.Add
+                (
+                    new AdaptiveText()
+                    {
+                        Text = huxiImgEntries[index].Author,
+                        HintStyle = AdaptiveTextStyle.CaptionSubtle
+                    }
+                );
+                //lc.LogMessage("Assigning Tile Content.");
+                content = new TileContent()
+                {
+                    Visual = new TileVisual()
+                    {
+                        Branding = TileBranding.Name,
+                        TileLarge = new TileBinding()
+                        {
+                            Content = largeTileContent
+                        },
+                        TileMedium = new TileBinding()
+                        {
+                            Content = largeTileContent
+                        },
+                        TileWide = new TileBinding()
+                        {
+                            Content = largeTileContent
+                        },
+                    }
+                };
             }
             //lc.LogMessage("Creating Tile Notification.");
             var notification = new TileNotification(content.GetXml());
@@ -256,7 +236,7 @@ namespace UCqu
             //lc.LogMessage("Payload Method Complete.");
         }
 
-        public static void ScheduleToast(List<ScheduleEntry> entries)
+        public static void ScheduleToast(List<Model.ScheduleEntry> entries)
         {
             bool courseSwitch = true;
             bool dailySwitch = true;
@@ -386,18 +366,6 @@ namespace UCqu
             toast.SuppressPopup = true;
             toast.ExpirationTime = DateTime.Now.AddDays(1);
             ToastNotificationManager.CreateToastNotifier().Show(toast);
-        }
-
-        static bool LoadCredentials(out string id, out string pwdHash, out string host)
-        {
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            string uid = localSettings.Values["id"] as string;
-            if (uid == null) { id = ""; pwdHash = ""; host = ""; return false; }
-            else
-            {
-                id = uid; pwdHash = localSettings.Values["pwdHash"] as string; host = localSettings.Values["host"] as string;
-                return true;
-            }
         }
 
         static bool IsToastScheduled

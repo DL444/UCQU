@@ -27,7 +27,10 @@ namespace UCqu
     /// </summary>
     public sealed partial class Score : Page
     {
-        Watcher watcher = null;
+        string token;
+        Model.Score majorScore;
+        Model.Score secondMajorScore;
+
         bool secondMajor = false;
 
         public Score()
@@ -35,23 +38,29 @@ namespace UCqu
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is Watcher)
+            if (e.Parameter is ScorePageNavigationParameter p)
             {
-                watcher = e.Parameter as Watcher;
-                ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
-                //MainList.ItemsSource = set;
-                // TODO: Get the model and populate list.
+                majorScore = p.MajorScore;
+                PopulateList(majorScore);
+                token = p.Token;
+                try
+                {
+                    secondMajorScore = await WebClient.GetScoreAsync(token, false);
+                }
+                catch (WebException) { }
+                catch (RequestFailedException) { }
             }
         }
 
-        private void PopulateList(ScoreSet set)
+        private void PopulateList(Model.Score score)
         {
-            set.Reverse();
-            //MainList.ItemsSource = set;
+            score.Terms.Sort();
+            score.Terms.Reverse();
+            MainList.ItemsSource = score.Terms;
         }
 
         private async void RefreshBtn_Click(object sender, RoutedEventArgs e)
@@ -63,49 +72,98 @@ namespace UCqu
 
         private async System.Threading.Tasks.Task Refresh()
         {
-            watcher.Reset();
-            ScoreSet set = null;
-            try
+            if(!secondMajor)
             {
-                await watcher.Perform();
+                try
+                {
+                    majorScore = await WebClient.GetScoreAsync(token);
+                    PopulateList(majorScore);
+                }
+                catch(WebException)
+                {
+                    RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
+                }
+                catch(RequestFailedException ex)
+                {
+                    RefreshFailedNotification.Show($"服务器未知错误，请稍后再试 (2.{ex.Status})", 5000);
+                }
             }
-            catch (WebException)
+            else
             {
-                RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
+                try
+                {
+                    secondMajorScore = await WebClient.GetScoreAsync(token, false);
+                    PopulateList(secondMajorScore);
+                }
+                catch (WebException)
+                {
+                    RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
+                }
+                catch (RequestFailedException ex)
+                {
+                    RefreshFailedNotification.Show($"服务器未知错误，请稍后再试 (2.{ex.Status})", 5000);
+                }
             }
-            set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + (secondMajor ? "_1" : "_0"));
-            PopulateList(set);
         }
 
         private async void SecondSwitchBtn_Click(object sender, RoutedEventArgs e)
         {
             if (SecondSwitchBtn.IsChecked == true)
             {
-                ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_1");
-                if (set == null)
+                if (secondMajorScore == null)
                 {
-                    SecondSwitchBtn.IsChecked = false;
-                    ContentDialog dialog = new ContentDialog();
-                    dialog.Title = "无辅修数据";
-                    dialog.Content = "未找到任何辅修成绩";
-                    dialog.CloseButtonText = "确定";
-                    await dialog.ShowAsync();
+                    try
+                    {
+                        secondMajorScore = await WebClient.GetScoreAsync(token, false);
+                    }
+                    catch (WebException)
+                    {
+                        SecondSwitchBtn.IsChecked = false;
+                        RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
+                    }
+                    catch (RequestFailedException ex)
+                    {
+                        SecondSwitchBtn.IsChecked = false;
+                        RefreshFailedNotification.Show($"服务器未知错误，请稍后再试 (2.{ex.Status})", 5000);
+                    }
+
+                    if(secondMajorScore.Terms.Count == 0)
+                    {
+                        SecondSwitchBtn.IsChecked = false;
+                        ContentDialog dialog = new ContentDialog();
+                        dialog.Title = "无辅修数据";
+                        dialog.Content = "未找到任何辅修成绩";
+                        dialog.CloseButtonText = "确定";
+                        await dialog.ShowAsync();
+                    }
+                    else
+                    {
+                        secondMajor = true;
+                        PopulateList(secondMajorScore);
+                    }
                 }
                 else
                 {
-                    secondMajor = true;
-                    PopulateList(set);
+                    if(secondMajorScore.Terms.Count == 0)
+                    {
+                        SecondSwitchBtn.IsChecked = false;
+                        ContentDialog dialog = new ContentDialog();
+                        dialog.Title = "无辅修数据";
+                        dialog.Content = "未找到任何辅修成绩";
+                        dialog.CloseButtonText = "确定";
+                        await dialog.ShowAsync();
+                    }
+                    else
+                    {
+                        secondMajor = true;
+                        PopulateList(secondMajorScore);
+                    }
                 }
             }
             else
             {
                 secondMajor = false;
-                ScoreSet set = watcher.GetSet((watcher.Workload as SingleWorkload).Workload + "_0");
-                if (set == null) { }
-                else
-                {
-                    PopulateList(set);
-                }
+                PopulateList(majorScore);
             }
         }
 
@@ -116,6 +174,18 @@ namespace UCqu
                 await Refresh();
             }
         }
+    }
+
+    class ScorePageNavigationParameter
+    {
+        public ScorePageNavigationParameter(string token, Model.Score majorScore)
+        {
+            Token = token;
+            MajorScore = majorScore;
+        }
+
+        public string Token { get; set; }
+        public Model.Score MajorScore { get; set; }
     }
 
     public class GPAStarConverter : IValueConverter
@@ -132,7 +202,6 @@ namespace UCqu
             return (double)value * 4.0 / 5.0;
         }
     }
-
     public class GrandGPAConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

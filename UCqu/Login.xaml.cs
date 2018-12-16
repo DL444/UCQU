@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using CquScoreLib;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using System.Net;
@@ -40,7 +39,7 @@ namespace UCqu
                 ShowErrorMessage("请输入用户名及密码");
                 return;
             }
-            string pwdHash = Watcher.GetPasswordHash(IdBox.Text, PswBox.Password);
+            string pwdHash = GetPasswordHash(IdBox.Text, PswBox.Password);
             string userId = IdBox.Text;
 
             await LoginAsync(userId, pwdHash);
@@ -187,7 +186,7 @@ namespace UCqu
                 localSettings.Values["pwdHash"] = null;
             }
         }
-        bool LoadCredentials(out string id, out string pwdHash)
+        internal static bool LoadCredentials(out string id, out string pwdHash)
         {
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             string uid = localSettings.Values["id"] as string;
@@ -218,5 +217,30 @@ namespace UCqu
                 await LoginAsync(id, pwdHash);
             }
         }
+
+        public static string GetPasswordHash(string userId, string pwd)
+        {
+            string schoolCode = "10611";
+            string encrypted = "";
+            System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] pwdArray = System.Text.Encoding.ASCII.GetBytes(pwd);
+            byte[] hash = md5.ComputeHash(pwdArray);
+            string hashStr = "";
+            foreach (byte b in hash)
+            {
+                hashStr += b.ToString("X2");
+            }
+            hashStr = userId + hashStr.Substring(0, 30).ToUpper() + schoolCode;
+            pwdArray = System.Text.Encoding.ASCII.GetBytes(hashStr);
+            hash = md5.ComputeHash(pwdArray);
+            hashStr = "";
+            foreach (byte b in hash)
+            {
+                hashStr += b.ToString("X2");
+            }
+            encrypted = hashStr.Substring(0, 30).ToUpper();
+            return encrypted;
+        }
+
     }
 }

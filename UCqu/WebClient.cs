@@ -46,16 +46,20 @@ namespace UCqu
             }
             return JsonConvert.DeserializeObject<Model.StudentInfo>(responseString);
         }
-        public static async Task<Model.Score> GetScoreAsync(string token)
+        public static async Task<Model.Score> GetScoreAsync(string token, bool isMajor = true)
         {
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "/api/Score");
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, $"/api/Score?isMajor={(isMajor ? "true" : "false")}");
             message.Headers.Add("Cookie", $"token={token}");
             var response = await client.SendAsync(message);
             string responseString = await response.Content.ReadAsStringAsync();
-            if (responseString == "1" || responseString == "2" || responseString == "3" || responseString == "4")
+            if (responseString == "1" || responseString == "2" ||  responseString == "4")
             {
                 // 1: UserNotFound, 2: ServerNetworkError, 3: NoData, 4: SessionInvalid
                 throw new RequestFailedException("Request failed.", null, int.Parse(responseString));
+            }
+            else if(responseString == "3")
+            {
+                return new Model.Score("", "", 0, "", "", isMajor);
             }
             return JsonConvert.DeserializeObject<Model.Score>(responseString);
         }

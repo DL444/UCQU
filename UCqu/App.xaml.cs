@@ -134,7 +134,18 @@ namespace UCqu
                 case "Login Tile Update Task":
                     try
                     {
-                        await ScheduleNotificationUpdateTasks.UpdateTile();
+                        string id, pwdHash;
+                        Login.LoadCredentials(out id, out pwdHash);
+                        if(id == null) { return; }
+
+                        try
+                        {
+                            string token = await WebClient.LoginAsync(id, pwdHash);
+                            DL444.UcquLibrary.Models.Schedule schedule = await WebClient.GetScheduleAsync(token);
+                            await ScheduleNotificationUpdateTasks.UpdateTile(schedule);
+                        }
+                        catch (Exception) { }
+
                     }
                     catch (Exception e)
                     {
@@ -163,19 +174,6 @@ namespace UCqu
 
         Frame InitializeWindow(IActivatedEventArgs e)
         {
-            //if (CommonResources.ApiContract > 4)
-            //{
-            //    AcrylicBrush navViewTopPaneBackgroundBrush = new AcrylicBrush
-            //    {
-            //        BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
-            //        TintColor = (Color)Resources["SystemAccentColor"],
-            //        TintOpacity = 0.7,
-            //        FallbackColor = (Color)this.Resources["SystemAccentColor"]
-            //    };
-            //    this.Resources["NavigationViewTopPaneBackground"] = navViewTopPaneBackgroundBrush;
-            //}
-
-
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
             var viewTitleBar = ApplicationView.GetForCurrentView().TitleBar;

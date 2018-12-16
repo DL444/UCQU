@@ -84,7 +84,7 @@ namespace UCqu
                 case "Score":
                     if (!(ContentFrame.Content is Score))
                     {
-                        ContentFrame.Navigate(typeof(Score), score); // TODO: Change accordingly.
+                        ContentFrame.Navigate(typeof(Score), new ScorePageNavigationParameter(token, score)); 
                     }
                     break;
             }
@@ -107,29 +107,21 @@ namespace UCqu
                 ContentFrame.Navigate(typeof(Home), schedule); 
             }
 
+            // Reselect campus and reschedule tasks.
             if(CommonResources.LaunchState)
             {
                 CommonResources.LaunchState = false;
-                //string campus = "";
                 if(CommonResources.LoadSetting("campus", out _) == false)
                 {
                     CampusSelect campusSelect = new CampusSelect();
                     await campusSelect.ShowAsync();
                     CommonResources.LoadSetting("campus", out _);
-                    //if (campus == "D") { isCampusD = true; }
                 }
-                //else
-                //{
-                //    if(campus == "D")
-                //    {
-                //        isCampusD = true;
-                //    }
-                //}
 
                 var tasks = BackgroundTaskRegistration.AllTasks;
                 foreach (var task in tasks)
                 {
-                    task.Value.Unregister(false);
+                    task.Value.Unregister(true);
                 }
                 BackgroundExecutionManager.RemoveAccess();
 
@@ -150,17 +142,17 @@ namespace UCqu
                 builder.Name = "Login Tile Update Task";
                 builder.SetTrigger(new SystemTrigger(SystemTriggerType.UserPresent, false));
                 builder.Register();
-            } // TODO: What the heck is this?
+            } 
 
-            await ScheduleNotificationUpdateTasks.UpdateTile(); // TODO: An overload that just takes schedule?
+            await ScheduleNotificationUpdateTasks.UpdateTile(schedule);
 
         }
 
         private async void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(Login), "logout");
-            CommonResources.LaunchState = false;
-            await ScheduleNotificationUpdateTasks.UpdateTile();
+            CommonResources.LaunchState = true;
+            await ScheduleNotificationUpdateTasks.UpdateTile(null);
         }
 
         private void SettingsBtn_Click(object sender, RoutedEventArgs e)

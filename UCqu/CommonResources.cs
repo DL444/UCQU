@@ -9,11 +9,9 @@ using Model = DL444.UcquLibrary.Models;
 
 namespace UCqu
 {
-    public class CommonResources
+    public static class CommonResources
     {
         public static bool LaunchState { get; set; } = true;
-
-        public static string CurrentTerm { get; set; } // TODO: Remove this after port.
         public static DateTime StartDate { get; set; }
 #if DEBUG
         public static DateTime TestDate => new DateTime(2018, 9, 3);

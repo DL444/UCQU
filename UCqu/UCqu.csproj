@@ -287,12 +287,6 @@
       <Version>1.5.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CquScoreLibUwp\CquScoreLibUwp.csproj">
-      <Project>{4f61edbd-cf95-454d-b2e5-2497c513faa3}</Project>
-      <Name>CquScoreLibUwp</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
