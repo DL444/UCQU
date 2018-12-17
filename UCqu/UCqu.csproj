@@ -109,7 +109,7 @@
     <Compile Include="CampusSelect.xaml.cs">
       <DependentUpon>CampusSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CommonResources.cs" />
+    <Compile Include="RuntimeData.cs" />
     <Compile Include="ExportIcsHint.xaml.cs">
       <DependentUpon>ExportIcsHint.xaml</DependentUpon>
     </Compile>

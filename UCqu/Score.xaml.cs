@@ -26,10 +26,6 @@ namespace UCqu
     /// </summary>
     public sealed partial class Score : Page
     {
-        string token;
-        Model.Score majorScore;
-        Model.Score secondMajorScore;
-
         bool secondMajor = false;
 
         public Score()
@@ -40,15 +36,31 @@ namespace UCqu
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            if (e.Parameter is ScorePageNavigationParameter p)
+            if(RuntimeData.Score == null)
             {
-                majorScore = p.MajorScore;
-                PopulateList(majorScore);
-                token = p.Token;
                 try
                 {
-                    secondMajorScore = await WebClient.GetScoreAsync(token, false);
+                    RuntimeData.Score = await WebClient.GetScoreAsync(RuntimeData.Token);
+                }
+                catch (WebException)
+                {
+                    RefreshFailedNotification.Show("请求失败, 请检查网络连接", 5000);
+                    return;
+                }
+                catch (RequestFailedException ex)
+                {
+                    RefreshFailedNotification.Show($"服务器未知错误，请稍后再试 (2.{ex.Status})", 5000);
+                    return;
+                }
+            }
+
+            PopulateList(RuntimeData.Score);
+
+            if (RuntimeData.SecondMajorScore == null)
+            {
+                try
+                {
+                    RuntimeData.SecondMajorScore = await WebClient.GetScoreAsync(RuntimeData.Token, false);
                 }
                 catch (WebException) { }
                 catch (RequestFailedException) { }
@@ -75,15 +87,33 @@ namespace UCqu
             {
                 try
                 {
-                    majorScore = await WebClient.GetScoreAsync(token);
-                    PopulateList(majorScore);
+                    RuntimeData.Score = await WebClient.GetScoreAsync(RuntimeData.Token);
+                    PopulateList(RuntimeData.Score);
                 }
                 catch(WebException)
                 {
                     RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
                 }
-                catch(RequestFailedException ex)
+                catch (RequestFailedException ex)
                 {
+                    if (ex.Status == 1)
+                    {
+                        string id, pwdHash;
+                        Login.LoadCredentials(out id, out pwdHash);
+                        try
+                        {
+                            string t = await WebClient.LoginAsync(id, pwdHash);
+                            if (t.Length > 1)
+                            {
+                                RuntimeData.Token = t;
+                                await Refresh();
+                            }
+                        }
+                        catch (WebException)
+                        {
+                            RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
+                        }
+                    }
                     RefreshFailedNotification.Show($"服务器未知错误，请稍后再试 (2.{ex.Status})", 5000);
                 }
             }
@@ -91,8 +121,8 @@ namespace UCqu
             {
                 try
                 {
-                    secondMajorScore = await WebClient.GetScoreAsync(token, false);
-                    PopulateList(secondMajorScore);
+                    RuntimeData.SecondMajorScore = await WebClient.GetScoreAsync(RuntimeData.Token, false);
+                    PopulateList(RuntimeData.SecondMajorScore);
                 }
                 catch (WebException)
                 {
@@ -100,6 +130,24 @@ namespace UCqu
                 }
                 catch (RequestFailedException ex)
                 {
+                    if (ex.Status == 1)
+                    {
+                        string id, pwdHash;
+                        Login.LoadCredentials(out id, out pwdHash);
+                        try
+                        {
+                            string t = await WebClient.LoginAsync(id, pwdHash);
+                            if (t.Length > 1)
+                            {
+                                RuntimeData.Token = t;
+                                await Refresh();
+                            }
+                        }
+                        catch (WebException)
+                        {
+                            RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
+                        }
+                    }
                     RefreshFailedNotification.Show($"服务器未知错误，请稍后再试 (2.{ex.Status})", 5000);
                 }
             }
@@ -109,41 +157,48 @@ namespace UCqu
         {
             if (SecondSwitchBtn.IsChecked == true)
             {
-                if (secondMajorScore == null)
+                if (RuntimeData.SecondMajorScore == null)
                 {
                     try
                     {
-                        secondMajorScore = await WebClient.GetScoreAsync(token, false);
+                        RuntimeData.SecondMajorScore = await WebClient.GetScoreAsync(RuntimeData.Token, false);
+                        SecondSwitchBtn_Click(null, null);
                     }
                     catch (WebException)
                     {
                         SecondSwitchBtn.IsChecked = false;
-                        RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
+                        RefreshFailedNotification.Show("请求失败, 请检查网络连接", 5000);
                     }
                     catch (RequestFailedException ex)
                     {
+                        if(ex.Status == 1)
+                        {
+                            string id, pwdHash;
+                            Login.LoadCredentials(out id, out pwdHash);
+                            try
+                            {
+                                string token = await WebClient.LoginAsync(id, pwdHash);
+                                if(token.Length > 1)
+                                {
+                                    RuntimeData.Token = token;
+                                    SecondSwitchBtn_Click(null, null);
+                                    return;
+                                }
+                            }
+                            catch(WebException)
+                            {
+                                SecondSwitchBtn.IsChecked = false;
+                                RefreshFailedNotification.Show("请求失败, 请检查网络连接", 5000);
+                                return;
+                            }
+                        }
                         SecondSwitchBtn.IsChecked = false;
                         RefreshFailedNotification.Show($"服务器未知错误，请稍后再试 (2.{ex.Status})", 5000);
-                    }
-
-                    if(secondMajorScore.Terms.Count == 0)
-                    {
-                        SecondSwitchBtn.IsChecked = false;
-                        ContentDialog dialog = new ContentDialog();
-                        dialog.Title = "无辅修数据";
-                        dialog.Content = "未找到任何辅修成绩";
-                        dialog.CloseButtonText = "确定";
-                        await dialog.ShowAsync();
-                    }
-                    else
-                    {
-                        secondMajor = true;
-                        PopulateList(secondMajorScore);
                     }
                 }
                 else
                 {
-                    if(secondMajorScore.Terms.Count == 0)
+                    if(RuntimeData.SecondMajorScore.Terms.Count == 0)
                     {
                         SecondSwitchBtn.IsChecked = false;
                         ContentDialog dialog = new ContentDialog();
@@ -155,14 +210,14 @@ namespace UCqu
                     else
                     {
                         secondMajor = true;
-                        PopulateList(secondMajorScore);
+                        PopulateList(RuntimeData.SecondMajorScore);
                     }
                 }
             }
             else
             {
                 secondMajor = false;
-                PopulateList(majorScore);
+                PopulateList(RuntimeData.Score);
             }
         }
 
@@ -173,18 +228,6 @@ namespace UCqu
                 await Refresh();
             }
         }
-    }
-
-    class ScorePageNavigationParameter
-    {
-        public ScorePageNavigationParameter(string token, Model.Score majorScore)
-        {
-            Token = token;
-            MajorScore = majorScore;
-        }
-
-        public string Token { get; set; }
-        public Model.Score MajorScore { get; set; }
     }
 
     public class GPAStarConverter : IValueConverter

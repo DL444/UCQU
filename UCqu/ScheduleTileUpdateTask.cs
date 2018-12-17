@@ -33,7 +33,7 @@ namespace UCqu
             TileContent content = null;
             //lc.LogMessage("Obtaining Schedule.");
             //lc.LogMessage("Getting Schedule of Today.");
-            List<Model.ScheduleEntry> entries = schedule.GetDaySchedule((DateTime.Today /*CommonResources.TestDate*/ - CommonResources.StartDate).Days).ToList();
+            List<Model.ScheduleEntry> entries = schedule.GetDaySchedule((DateTime.Today /*CommonResources.TestDate*/ - RuntimeData.StartDate).Days).ToList();
 
             entries.RemoveAll(x =>
             {
@@ -240,9 +240,9 @@ namespace UCqu
         {
             bool courseSwitch = true;
             bool dailySwitch = true;
-            if (CommonResources.LoadSetting("courseToastSwitch", out string _cSwitch) == false) { CommonResources.SaveSetting("courseToastSwitch", "on"); }
+            if (RuntimeData.LoadSetting("courseToastSwitch", out string _cSwitch) == false) { RuntimeData.SaveSetting("courseToastSwitch", "on"); }
             else { if (_cSwitch == "off") { courseSwitch = false; } }
-            if (CommonResources.LoadSetting("dailyToastSwitch", out string _dSwitch) == false) { CommonResources.SaveSetting("dailyToastSwitch", "on"); }
+            if (RuntimeData.LoadSetting("dailyToastSwitch", out string _dSwitch) == false) { RuntimeData.SaveSetting("dailyToastSwitch", "on"); }
             else { if (_dSwitch == "off") { dailySwitch = false; } }
 
 
@@ -329,7 +329,7 @@ namespace UCqu
         }
         public static void ScheduleToast(HuxiImgEntry entry)
         {
-            if(CommonResources.LoadSetting("imgToastSwitch", out string _switch) == false) { CommonResources.SaveSetting("imgToastSwitch", "on"); }
+            if(RuntimeData.LoadSetting("imgToastSwitch", out string _switch) == false) { RuntimeData.SaveSetting("imgToastSwitch", "on"); }
             else { if(_switch == "off") { return; } }
 
             ToastContent imageToast = new ToastContent()
@@ -372,7 +372,7 @@ namespace UCqu
         {
             get
             {
-                bool valid = CommonResources.LoadSetting("toastLastSchedule", out string dateStr);
+                bool valid = RuntimeData.LoadSetting("toastLastSchedule", out string dateStr);
                 if(dateStr == "") { return false; }
                 string[] segments = dateStr.Split('.');
                 DateTime lastScheduled = new DateTime(int.Parse(segments[0]), int.Parse(segments[1]), int.Parse(segments[2]));
@@ -387,11 +387,11 @@ namespace UCqu
                 if(value == true)
                 {
                     DateTime today = DateTime.Today;
-                    CommonResources.SaveSetting("toastLastSchedule", $"{today.Year}.{today.Month}.{today.Day}");
+                    RuntimeData.SaveSetting("toastLastSchedule", $"{today.Year}.{today.Month}.{today.Day}");
                 }
                 else
                 {
-                    CommonResources.SaveSetting("toastLastSchedule", $"1.1.1");
+                    RuntimeData.SaveSetting("toastLastSchedule", $"1.1.1");
                 }
             }
         }

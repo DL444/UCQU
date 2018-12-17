@@ -36,7 +36,7 @@ namespace UCqu
         {
             if(PswBox.Password == "" || IdBox.Text == "")
             {
-                ShowErrorMessage("请输入用户名及密码");
+                LoginFailedNotification.Show("请输入用户名及密码", 5000);
                 return;
             }
             string pwdHash = GetPasswordHash(IdBox.Text, PswBox.Password);
@@ -63,20 +63,23 @@ namespace UCqu
 
             if (token.Length > 1)
             {
-                if (CommonResources.LoadSetting("courseToastSwitch", out string _cSwitch) == false) { CommonResources.SaveSetting("courseToastSwitch", "on"); }
-                if (CommonResources.LoadSetting("dailyToastSwitch", out string _dSwitch) == false) { CommonResources.SaveSetting("dailyToastSwitch", "on"); }
-                if (CommonResources.LoadSetting("imgToastSwitch", out string _switch) == false) { CommonResources.SaveSetting("imgToastSwitch", "on"); }
+                if (RuntimeData.LoadSetting("courseToastSwitch", out string _cSwitch) == false) { RuntimeData.SaveSetting("courseToastSwitch", "on"); }
+                if (RuntimeData.LoadSetting("dailyToastSwitch", out string _dSwitch) == false) { RuntimeData.SaveSetting("dailyToastSwitch", "on"); }
+                if (RuntimeData.LoadSetting("imgToastSwitch", out string _switch) == false) { RuntimeData.SaveSetting("imgToastSwitch", "on"); }
                 SaveCredentials(userId, pwdHash);
+
+                RuntimeData.Token = token;
+                RuntimeData.UserId = userId;
 
                 // Get static data.
                 try
                 {
                     Model.StaticDataModel staticData = await WebClient.GetStaticDataAsync();
-                    CommonResources.StartDate = staticData.StartDate;
-                    CommonResources.StartTimeABC = ImmutableArray.Create(staticData.StartTimeABC.ToArray());
-                    CommonResources.StartTimeD = ImmutableArray.Create(staticData.StartTimeD.ToArray());
-                    CommonResources.EndTimeABC = ImmutableArray.Create(staticData.EndTimeABC.ToArray());
-                    CommonResources.EndTimeD = ImmutableArray.Create(staticData.EndTimeD.ToArray());
+                    RuntimeData.StartDate = staticData.StartDate;
+                    RuntimeData.StartTimeABC = ImmutableArray.Create(staticData.StartTimeABC.ToArray());
+                    RuntimeData.StartTimeD = ImmutableArray.Create(staticData.StartTimeD.ToArray());
+                    RuntimeData.EndTimeABC = ImmutableArray.Create(staticData.EndTimeABC.ToArray());
+                    RuntimeData.EndTimeD = ImmutableArray.Create(staticData.EndTimeD.ToArray());
                 }
                 catch (WebException)
                 {
@@ -84,10 +87,10 @@ namespace UCqu
                     return;
                 }
 
-                Model.StudentInfo studentInfo;
+                // Get student info.
                 try
                 {
-                    studentInfo = await WebClient.GetStudentInfoAsync(token);
+                    RuntimeData.StudentInfo = await WebClient.GetStudentInfoAsync(token);
                 }
                 catch (WebException)
                 {
@@ -100,10 +103,10 @@ namespace UCqu
                     return;
                 }
 
-                Model.Score score;
+                // Get score.
                 try
                 {
-                    score = await WebClient.GetScoreAsync(token);
+                    RuntimeData.Score = await WebClient.GetScoreAsync(token);
                 }
                 catch (WebException)
                 {
@@ -116,10 +119,10 @@ namespace UCqu
                     return;
                 }
 
-                Model.Schedule schedule;
+                // Get schedule.
                 try
                 {
-                    schedule = await WebClient.GetScheduleAsync(token);
+                    RuntimeData.Schedule = await WebClient.GetScheduleAsync(token);
                 }
                 catch (WebException)
                 {
@@ -134,7 +137,7 @@ namespace UCqu
 
                 LoadingRing.IsActive = false;
                 LoadingRingGrid.Visibility = Visibility.Collapsed;
-                (Window.Current.Content as Frame).Navigate(typeof(MainPage), new MainPageNavigationParameter(userId, token, studentInfo, score, schedule));
+                (Window.Current.Content as Frame).Navigate(typeof(MainPage));
             }
             else if (token == "1")
             {
@@ -151,14 +154,15 @@ namespace UCqu
                 ShowErrorMessage($"服务器未知错误，请稍后再试 (0.{token})");
                 return;
             }
+
+            void ShowErrorMessage(string message)
+            {
+                LoginFailedNotification.Show(message, 5000);
+                LoadingRing.IsActive = false;
+                LoadingRingGrid.Visibility = Visibility.Collapsed;
+            }
         }
 
-        private void ShowErrorMessage(string message)
-        {
-            LoginFailedNotification.Show(message, 5000);
-            LoadingRing.IsActive = false;
-            LoadingRingGrid.Visibility = Visibility.Collapsed;
-        }
 
         private void Enter_KeyDown(object sender, KeyRoutedEventArgs e)
         {
@@ -207,7 +211,7 @@ namespace UCqu
                 if(e.Parameter as string == "logout")
                 {
                     SaveCredentials("", "", true);
-                    CommonResources.SaveSetting("campus", null);
+                    RuntimeData.SaveSetting("campus", null);
                     return;
                 }
             }

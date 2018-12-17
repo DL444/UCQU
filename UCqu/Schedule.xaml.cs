@@ -34,25 +34,22 @@ namespace UCqu
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is Model.Schedule schedule)
+            this.schedule = RuntimeData.Schedule;
+            for (int i = 0; i < schedule.Count; i++)
             {
-                this.schedule = schedule;
-                for (int i = 0; i < schedule.Count; i++)
-                {
-                    ScheduleFrame frame = new ScheduleFrame();
-                    frame.Week = schedule.Weeks[i].WeekNumber;
-                    frame.WeekSchedule = schedule.Weeks[i];
-                    WeekFlip.Items.Add(frame);
-                }
-                int elapsedWeeks = (DateTime.Today - CommonResources.StartDate).Days / 7;
-                if (elapsedWeeks > schedule.Count - 1)
-                {
-                    WeekFlip.SelectedIndex = schedule.Count - 1;
-                }
-                else
-                {
-                    WeekFlip.SelectedIndex = elapsedWeeks;
-                }
+                ScheduleFrame frame = new ScheduleFrame();
+                frame.Week = schedule.Weeks[i].WeekNumber;
+                frame.WeekSchedule = schedule.Weeks[i];
+                WeekFlip.Items.Add(frame);
+            }
+            int elapsedWeeks = (DateTime.Today - RuntimeData.StartDate).Days / 7;
+            if (elapsedWeeks > schedule.Count - 1)
+            {
+                WeekFlip.SelectedIndex = schedule.Count - 1;
+            }
+            else
+            {
+                WeekFlip.SelectedIndex = elapsedWeeks;
             }
         }
 

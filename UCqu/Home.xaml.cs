@@ -23,7 +23,6 @@ namespace UCqu
     /// </summary>
     public sealed partial class Home : Page
     {
-        Model.Schedule schedule;
         List<Model.ScheduleEntry> dayEntries = null;
         List<HuxiImgEntry> huxiImgEntries = null;
 
@@ -36,17 +35,12 @@ namespace UCqu
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is Model.Schedule schedule)
+            dayEntries = RuntimeData.Schedule.GetDaySchedule((DateTime.Today - RuntimeData.StartDate).Days).ToList();
+            if (dayEntries.Count != 0)
             {
-                this.schedule = schedule;
-
-                dayEntries = schedule.GetDaySchedule((DateTime.Today - CommonResources.StartDate).Days).ToList();
-                if (dayEntries.Count != 0)
-                {
-                    dayEntries.Sort();
-                    TodayScheduleList.ItemsSource = dayEntries;
-                    TodayScheduleList.Visibility = Visibility.Visible;
-                }
+                dayEntries.Sort();
+                TodayScheduleList.ItemsSource = dayEntries;
+                TodayScheduleList.Visibility = Visibility.Visible;
             }
 
             if (huxiImgEntries == null)

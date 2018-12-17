@@ -31,17 +31,17 @@ namespace UCqu
         {
             if(CampusCombo.SelectedIndex == 0)
             {
-                CommonResources.SaveSetting("campus", "ABC");
+                RuntimeData.SaveSetting("campus", "ABC");
             }
             else if(CampusCombo.SelectedIndex == 1)
             {
-                CommonResources.SaveSetting("campus", "D");
+                RuntimeData.SaveSetting("campus", "D");
             }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if(CommonResources.LoadSetting("campus", out string campus) == false)
+            if(RuntimeData.LoadSetting("campus", out string campus) == false)
             {
                 CampusCombo.SelectedIndex = 0;
             }
@@ -51,15 +51,15 @@ namespace UCqu
                 else if(campus == "D") { CampusCombo.SelectedIndex = 1; }
             }
 
-            if(CommonResources.LoadSetting("courseToastSwitch", out string courseSwitch) == true)
+            if(RuntimeData.LoadSetting("courseToastSwitch", out string courseSwitch) == true)
             {
                 CourseToastToggle.IsOn = courseSwitch == "on" ? true : false;
             }
-            if (CommonResources.LoadSetting("dailyToastSwitch", out string dailySwitch) == true)
+            if (RuntimeData.LoadSetting("dailyToastSwitch", out string dailySwitch) == true)
             {
                 DailyToastToggle.IsOn = dailySwitch == "on" ? true : false;
             }
-            if (CommonResources.LoadSetting("imgToastSwitch", out string imgSwitch) == true)
+            if (RuntimeData.LoadSetting("imgToastSwitch", out string imgSwitch) == true)
             {
                 HuxiImgToastToggle.IsOn = imgSwitch == "on" ? true : false;
             }
@@ -70,7 +70,7 @@ namespace UCqu
         {
             ToggleSwitch _switch = sender as ToggleSwitch;
             string str = _switch.IsOn ? "on" : "off";
-            CommonResources.SaveSetting(_switch.Tag as string, str);
+            RuntimeData.SaveSetting(_switch.Tag as string, str);
         }
     }
 }

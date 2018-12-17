@@ -9,7 +9,7 @@ using Model = DL444.UcquLibrary.Models;
 
 namespace UCqu
 {
-    public static class CommonResources
+    static class RuntimeData
     {
         public static bool LaunchState { get; set; } = true;
         public static DateTime StartDate { get; set; }
@@ -30,18 +30,26 @@ namespace UCqu
             else { value = val; return true; }
         }
 
-        public static ImmutableArray<Model.ScheduleTime> StartTimeABC { get; set; } 
+        public static ImmutableArray<Model.ScheduleTime> StartTimeABC { get; set; }
         public static ImmutableArray<Model.ScheduleTime> EndTimeABC { get; set; }
         public static ImmutableArray<Model.ScheduleTime> StartTimeD { get; set; }
         public static ImmutableArray<Model.ScheduleTime> EndTimeD { get; set; }
+
+        public static string UserId { get; set; }
+        public static string Token { get; set; }
+        public static Model.StudentInfo  StudentInfo { get; set; }
+        public static Model.Score Score { get; set; }
+        public static Model.Score SecondMajorScore { get; set; }
+        public static Model.Schedule Schedule { get; set; }
     }
+
     public class SessionTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (!(value is string valueStr)) { return ""; }
             string[] segements = valueStr.Split('-');
-            CommonResources.LoadSetting("campus", out string campus);
+            RuntimeData.LoadSetting("campus", out string campus);
             bool isCampusD = campus == "D" ? true : false;
 
             if (segements.Length == 2)
@@ -52,11 +60,11 @@ namespace UCqu
                 if(end > 11) { end = 11; }
                 if(isCampusD)
                 {
-                    return $"{CommonResources.StartTimeD[start - 1]}-{CommonResources.EndTimeD[end - 1]}";
+                    return $"{RuntimeData.StartTimeD[start - 1]}-{RuntimeData.EndTimeD[end - 1]}";
                 }
                 else
                 {
-                    return $"{CommonResources.StartTimeABC[start - 1]}-{CommonResources.EndTimeABC[end - 1]}";
+                    return $"{RuntimeData.StartTimeABC[start - 1]}-{RuntimeData.EndTimeABC[end - 1]}";
                 }
             }
             else if (segements.Length == 1)
@@ -65,11 +73,11 @@ namespace UCqu
                 if (session > 11) { session = 11; }
                 if (isCampusD)
                 {
-                    return $"{CommonResources.StartTimeD[session - 1]}-{CommonResources.EndTimeD[session - 1]}";
+                    return $"{RuntimeData.StartTimeD[session - 1]}-{RuntimeData.EndTimeD[session - 1]}";
                 }
                 else
                 {
-                    return $"{CommonResources.StartTimeABC[session - 1]}-{CommonResources.EndTimeABC[session - 1]}";
+                    return $"{RuntimeData.StartTimeABC[session - 1]}-{RuntimeData.EndTimeABC[session - 1]}";
                 }
             }
             else { return ""; }
@@ -88,7 +96,7 @@ namespace UCqu
         public static (Model.ScheduleTime start, Model.ScheduleTime end) ConvertShort(string value)
         {
             string[] segements = value.Split('-');
-            CommonResources.LoadSetting("campus", out string campus);
+            RuntimeData.LoadSetting("campus", out string campus);
             bool isCampusD = campus == "D" ? true : false;
 
             if (segements.Length == 2)
@@ -99,11 +107,11 @@ namespace UCqu
                 if (end > 11) { end = 11; }
                 if (isCampusD)
                 {
-                    return (CommonResources.StartTimeD[start - 1], CommonResources.EndTimeD[end - 1]);
+                    return (RuntimeData.StartTimeD[start - 1], RuntimeData.EndTimeD[end - 1]);
                 }
                 else
                 {
-                    return (CommonResources.StartTimeABC[start - 1], CommonResources.EndTimeABC[end - 1]);
+                    return (RuntimeData.StartTimeABC[start - 1], RuntimeData.EndTimeABC[end - 1]);
                 }
             }
             else if (segements.Length == 1)
@@ -112,11 +120,11 @@ namespace UCqu
                 if (session > 11) { session = 11; }
                 if (isCampusD)
                 {
-                    return (CommonResources.StartTimeD[session - 1], CommonResources.EndTimeD[session - 1]);
+                    return (RuntimeData.StartTimeD[session - 1], RuntimeData.EndTimeD[session - 1]);
                 }
                 else
                 {
-                    return (CommonResources.StartTimeABC[session - 1], CommonResources.EndTimeABC[session - 1]);
+                    return (RuntimeData.StartTimeABC[session - 1], RuntimeData.EndTimeABC[session - 1]);
                 }
             }
             else
@@ -125,6 +133,4 @@ namespace UCqu
             }
         }
     }
-
-
 }

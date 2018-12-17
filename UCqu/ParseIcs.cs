@@ -15,7 +15,7 @@ namespace UCqu
         public static string GenerateIcs(Model.Schedule schedule)
         {
             int dayCount = schedule.Count * 7;
-            DateTime firstDay = CommonResources.StartDate;
+            DateTime firstDay = RuntimeData.StartDate;
             Calendar calendar = new Calendar();
             for(int i = 0; i < dayCount; i++)
             {

@@ -26,12 +26,12 @@ namespace UCqu
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            CommonResources.SaveSetting("campus", "ABC");
+            RuntimeData.SaveSetting("campus", "ABC");
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            CommonResources.SaveSetting("campus", "D");
+            RuntimeData.SaveSetting("campus", "D");
         }
     }
 }

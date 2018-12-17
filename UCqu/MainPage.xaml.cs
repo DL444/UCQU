@@ -26,12 +26,6 @@ namespace UCqu
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        string userId;
-        string token;
-        Model.StudentInfo info;
-        Model.Score score;
-        Model.Schedule schedule;
-
         public MainPage()
         {
             this.InitializeComponent();
@@ -72,19 +66,19 @@ namespace UCqu
                 case "Home":
                     if (!(ContentFrame.Content is Home))
                     {
-                        ContentFrame.Navigate(typeof(Home), schedule);
+                        ContentFrame.Navigate(typeof(Home));
                     }
                     break;
                 case "Schedule":
                     if (!(ContentFrame.Content is Schedule))
                     {
-                        ContentFrame.Navigate(typeof(Schedule), schedule); 
+                        ContentFrame.Navigate(typeof(Schedule)); 
                     }
                     break;
                 case "Score":
                     if (!(ContentFrame.Content is Score))
                     {
-                        ContentFrame.Navigate(typeof(Score), new ScorePageNavigationParameter(token, score)); 
+                        ContentFrame.Navigate(typeof(Score)); 
                     }
                     break;
             }
@@ -94,28 +88,19 @@ namespace UCqu
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is MainPageNavigationParameter p)
-            {
-                userId = p.UserId;
-                token = p.Token;
-                info = p.StudentInfo;
-                score = p.Score;
-                schedule = p.Schedule;
+            HeaderControl.DataContext = new HeaderInfo(RuntimeData.StudentInfo, RuntimeData.UserId, RuntimeData.Score.GPA);
 
-                HeaderControl.DataContext = new HeaderInfo(p.StudentInfo, p.UserId, p.Score.GPA);
-
-                ContentFrame.Navigate(typeof(Home), schedule); 
-            }
+            ContentFrame.Navigate(typeof(Home));
 
             // Reselect campus and reschedule tasks.
-            if(CommonResources.LaunchState)
+            if (RuntimeData.LaunchState)
             {
-                CommonResources.LaunchState = false;
-                if(CommonResources.LoadSetting("campus", out _) == false)
+                RuntimeData.LaunchState = false;
+                if(RuntimeData.LoadSetting("campus", out _) == false)
                 {
                     CampusSelect campusSelect = new CampusSelect();
                     await campusSelect.ShowAsync();
-                    CommonResources.LoadSetting("campus", out _);
+                    RuntimeData.LoadSetting("campus", out _);
                 }
 
                 var tasks = BackgroundTaskRegistration.AllTasks;
@@ -144,14 +129,14 @@ namespace UCqu
                 builder.Register();
             } 
 
-            await ScheduleNotificationUpdateTasks.UpdateTile(schedule);
+            await ScheduleNotificationUpdateTasks.UpdateTile(RuntimeData.Schedule);
 
         }
 
         private async void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(Login), "logout");
-            CommonResources.LaunchState = true;
+            RuntimeData.LaunchState = true;
             await ScheduleNotificationUpdateTasks.UpdateTile(null);
         }
 
