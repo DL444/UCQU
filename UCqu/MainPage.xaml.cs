@@ -92,6 +92,14 @@ namespace UCqu
 
             ContentFrame.Navigate(typeof(Home));
 
+            var channel = await Windows.Networking.PushNotifications.
+                PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
+            try
+            {
+                await WebClient.PostWnsChannelAsync(RuntimeData.Token, channel.Uri);
+            }
+            catch (RequestFailedException) { }
+
             // Reselect campus and reschedule tasks.
             if (RuntimeData.LaunchState)
             {

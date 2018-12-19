@@ -76,6 +76,21 @@ namespace UCqu
             }
             return JsonConvert.DeserializeObject<Model.Schedule>(responseString);
         }
+        public static async Task PostWnsChannelAsync(string token, string channel)
+        {
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "/api/WnsChannel");
+            message.Headers.Add("Cookie", $"token={token}");
+            message.Content = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("channel", channel) });
+
+            try
+            {
+                var response = await client.SendAsync(message);
+            }
+            catch(Exception e)
+            {
+                throw new RequestFailedException("Wns channel post failed.", e);
+            }
+        }
     }
 
     class RequestFailedException : Exception

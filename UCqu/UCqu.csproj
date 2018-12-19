@@ -267,7 +267,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DL444.UcquLibrary.Models">
-      <Version>1.0.5</Version>
+      <Version>1.0.8</Version>
     </PackageReference>
     <PackageReference Include="Ical.Net">
       <Version>4.1.9</Version>
