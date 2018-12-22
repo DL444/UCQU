@@ -91,6 +91,24 @@ namespace UCqu
                 throw new RequestFailedException("Wns channel post failed.", e);
             }
         }
+        public static async Task ReportException(Exception ex)
+        {
+            try
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.AppendLine("Message:");
+                builder.AppendLine(ex.Message);
+                builder.AppendLine("Stack Trace:");
+                builder.AppendLine(ex.StackTrace);
+                builder.AppendLine("Source:");
+                builder.AppendLine(ex.Source);
+
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "/api/ExceptionReport");
+                message.Content = new StringContent(builder.ToString());
+                await client.SendAsync(message);
+            }
+            catch (Exception) { }
+        }
     }
 
     class RequestFailedException : Exception
