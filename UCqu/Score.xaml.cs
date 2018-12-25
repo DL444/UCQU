@@ -42,7 +42,7 @@ namespace UCqu
                 {
                     RuntimeData.Score = await WebClient.GetScoreAsync(RuntimeData.Token);
                 }
-                catch (WebException)
+                catch (System.Net.Http.HttpRequestException)
                 {
                     RefreshFailedNotification.Show("请求失败, 请检查网络连接", 5000);
                     return;
@@ -62,7 +62,7 @@ namespace UCqu
                 {
                     RuntimeData.SecondMajorScore = await WebClient.GetScoreAsync(RuntimeData.Token, false);
                 }
-                catch (WebException) { }
+                catch (System.Net.Http.HttpRequestException) { }
                 catch (RequestFailedException) { }
             }
         }
@@ -90,7 +90,7 @@ namespace UCqu
                     RuntimeData.Score = await WebClient.GetScoreAsync(RuntimeData.Token);
                     PopulateList(RuntimeData.Score);
                 }
-                catch(WebException)
+                catch(System.Net.Http.HttpRequestException)
                 {
                     RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
                 }
@@ -109,7 +109,7 @@ namespace UCqu
                                 await Refresh();
                             }
                         }
-                        catch (WebException)
+                        catch (System.Net.Http.HttpRequestException)
                         {
                             RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
                         }
@@ -124,7 +124,7 @@ namespace UCqu
                     RuntimeData.SecondMajorScore = await WebClient.GetScoreAsync(RuntimeData.Token, false);
                     PopulateList(RuntimeData.SecondMajorScore);
                 }
-                catch (WebException)
+                catch (System.Net.Http.HttpRequestException)
                 {
                     RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
                 }
@@ -143,7 +143,7 @@ namespace UCqu
                                 await Refresh();
                             }
                         }
-                        catch (WebException)
+                        catch (System.Net.Http.HttpRequestException)
                         {
                             RefreshFailedNotification.Show("刷新失败, 请检查网络连接", 5000);
                         }
@@ -164,7 +164,7 @@ namespace UCqu
                         RuntimeData.SecondMajorScore = await WebClient.GetScoreAsync(RuntimeData.Token, false);
                         SecondSwitchBtn_Click(null, null);
                     }
-                    catch (WebException)
+                    catch (System.Net.Http.HttpRequestException)
                     {
                         SecondSwitchBtn.IsChecked = false;
                         RefreshFailedNotification.Show("请求失败, 请检查网络连接", 5000);
@@ -185,7 +185,7 @@ namespace UCqu
                                     return;
                                 }
                             }
-                            catch(WebException)
+                            catch(System.Net.Http.HttpRequestException)
                             {
                                 SecondSwitchBtn.IsChecked = false;
                                 RefreshFailedNotification.Show("请求失败, 请检查网络连接", 5000);

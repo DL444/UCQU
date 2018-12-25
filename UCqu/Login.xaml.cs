@@ -17,6 +17,7 @@ using Windows.UI.Core;
 using System.Net;
 using Model = DL444.UcquLibrary.Models;
 using System.Collections.Immutable;
+using System.Net.Http;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -55,7 +56,7 @@ namespace UCqu
             {
                 token = await WebClient.LoginAsync(userId, pwdHash);
             }
-            catch (WebException)
+            catch (HttpRequestException)
             {
                 ShowErrorMessage("数据获取失败, 请检查网络连接");
                 return;
@@ -81,7 +82,7 @@ namespace UCqu
                     RuntimeData.EndTimeABC = ImmutableArray.Create(staticData.EndTimeABC.ToArray());
                     RuntimeData.EndTimeD = ImmutableArray.Create(staticData.EndTimeD.ToArray());
                 }
-                catch (WebException)
+                catch (HttpRequestException)
                 {
                     ShowErrorMessage("数据获取失败, 请检查网络连接");
                     return;
@@ -92,7 +93,7 @@ namespace UCqu
                 {
                     RuntimeData.StudentInfo = await WebClient.GetStudentInfoAsync(token);
                 }
-                catch (WebException)
+                catch (HttpRequestException)
                 {
                     ShowErrorMessage("数据获取失败, 请检查网络连接");
                     return;
@@ -108,7 +109,7 @@ namespace UCqu
                 {
                     RuntimeData.Score = await WebClient.GetScoreAsync(token);
                 }
-                catch (WebException)
+                catch (HttpRequestException)
                 {
                     ShowErrorMessage("数据获取失败, 请检查网络连接");
                     return;
@@ -124,7 +125,7 @@ namespace UCqu
                 {
                     RuntimeData.Schedule = await WebClient.GetScheduleAsync(token);
                 }
-                catch (WebException)
+                catch (HttpRequestException)
                 {
                     ShowErrorMessage("数据获取失败, 请检查网络连接");
                     return;
