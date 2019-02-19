@@ -45,6 +45,7 @@ namespace UCqu
             BackgroundGrid.Background = (AcrylicBrush)this.Resources[backgroundKey];
             CourseNameBox.Text = entry.Name;
             RoomBox.Text = entry.Room;
+            LecturerBox.Text = entry.Lecturer;
         }
     }
 }
