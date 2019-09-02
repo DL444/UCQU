@@ -28,7 +28,7 @@
                 <TextBlock x:Name="CourseNameBox" TextWrapping="Wrap" Foreground="White" FontWeight="Bold" MaxLines="3" TextTrimming="CharacterEllipsis"/>
                 <TextBlock x:Name="RoomBox" Foreground="White" TextWrapping="Wrap"/>
             </StackPanel>
-            <TextBlock x:Name="LecturerBox" VerticalAlignment="Center" Grid.Row="1" Style="{ThemeResource CaptionTextBlockStyle}"/>
+            <TextBlock x:Name="LecturerBox" VerticalAlignment="Center" Grid.Row="1" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="White"/>
         </Grid>
     </Grid>
 </UserControl>

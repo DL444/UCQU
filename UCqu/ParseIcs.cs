@@ -22,7 +22,7 @@ namespace UCqu
                 DateTime date = firstDay.AddDays(i);
                 foreach(Model.ScheduleEntry e in schedule.GetDaySchedule(i))
                 {
-                    (var start, var end) = SessionTimeConverter.ConvertShort(e.SessionSpan);
+                    (var start, var end) = SessionTimeConverter.ConvertShort(e.SessionSpan, CampusSelector.IsCampusD(e.Room));
                     CalendarEvent calEvent = new CalendarEvent()
                     {
                         DtStart = new CalDateTime(new DateTime(date.Year, date.Month, date.Day, start.Hour, start.Minute, 0)),

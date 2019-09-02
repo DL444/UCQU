@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Data;
 using Model = DL444.UcquLibrary.Models;
 
@@ -88,17 +90,20 @@ namespace UCqu
             throw new NotSupportedException();
         }
 
-        public static (DateTime start, DateTime end) Convert(string value)
-        {
-            (var start, var end) = ConvertShort(value);
-            return (start.GetDateTime(), end.GetDateTime());
-        }
+        //public static (DateTime start, DateTime end) Convert(string value)
+        //{
+        //    (var start, var end) = ConvertShort(value);
+        //    return (start.GetDateTime(), end.GetDateTime());
+        //}
         public static (Model.ScheduleTime start, Model.ScheduleTime end) ConvertShort(string value)
         {
-            string[] segements = value.Split('-');
             RuntimeData.LoadSetting("campus", out string campus);
             bool isCampusD = campus == "D" ? true : false;
-
+            return ConvertShort(value, isCampusD);
+        }
+        public static (Model.ScheduleTime start, Model.ScheduleTime end) ConvertShort(string value, bool isCampusD)
+        {
+            string[] segements = value.Split('-');
             if (segements.Length == 2)
             {
                 int start = int.Parse(segements[0]);
@@ -130,6 +135,30 @@ namespace UCqu
             else
             {
                 throw new ArgumentException($"Argument Format Not Valid. Argument: {value}");
+            }
+        }
+    }
+
+    public static class CampusSelector
+    {
+        public static bool IsCampusD(string room)
+        {
+            if(room == null)
+            {
+                room = "";
+            }
+            if(room.StartsWith("D"))
+            {
+                return true;
+            }
+            else if(room.StartsWith("A") || room.StartsWith("B") || room.StartsWith("C"))
+            {
+                return false;
+            }
+            else
+            {
+                RuntimeData.LoadSetting("campus", out string campus);
+                return campus == "D" ? true : false;
             }
         }
     }

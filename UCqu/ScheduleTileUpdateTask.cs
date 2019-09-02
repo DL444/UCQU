@@ -37,9 +37,8 @@ namespace UCqu
 
             entries.RemoveAll(x =>
             {
-                (_, DateTime endTime) = SessionTimeConverter.Convert(x.SessionSpan);
-                DateTime now = DateTime.Now;
-                return endTime < now;
+                (_, var endTime) = SessionTimeConverter.ConvertShort(x.SessionSpan, CampusSelector.IsCampusD(x.Room));
+                return endTime.GetDateTime() < DateTime.Now;
             });
 
             entries.Sort((x, y) => x.StartSlot - y.StartSlot);
@@ -64,7 +63,7 @@ namespace UCqu
                 //lc.LogMessage("Course Detected. Creating daily schedule tile.");
                 foreach (Model.ScheduleEntry e in entries)
                 {
-                    (var start, var end) = SessionTimeConverter.ConvertShort(e.SessionSpan);
+                    (var start, var end) = SessionTimeConverter.ConvertShort(e.SessionSpan, CampusSelector.IsCampusD(e.Room));
 
                     AdaptiveGroup midGroup = new AdaptiveGroup()
                     {
@@ -264,7 +263,8 @@ namespace UCqu
 
             for (int i = 0; i < entries.Count; i++)
             {
-                (DateTime startTime, _) = SessionTimeConverter.Convert(entries[i].SessionSpan);
+                (var startTimeSch, _) = SessionTimeConverter.ConvertShort(entries[i].SessionSpan, CampusSelector.IsCampusD(entries[i].Room));
+                DateTime startTime = startTimeSch.GetDateTime();
                 ToastContent courseNotification = new ToastContent()
                 {
                     Visual = new ToastVisual()
